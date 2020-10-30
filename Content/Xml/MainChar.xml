@@ -3,7 +3,7 @@
 <Character type="mc" name="Mial" hp="100" dmg="11">
 	<Animations>
 		<Animation name="Idle" path="Assets/Characters/Player/Sprites/">
-			<Frame>Ide</Frame>
+			<Frame>Idle</Frame>
 		</Animation>
 		<Animation name="Running" path="Assets/Characters/Player/Sprites/">
 			<Frame>Running1</Frame>
