@@ -1,0 +1,9 @@
+#Global:
+/platform:DesktopGL
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+
+#Files:
+/build:Assets\Characters\Player\Sprites\Idle.png
+/build:Assets\Characters\Player\Sprites\Running1.png
+/build:Assets\Characters\Player\Sprites\Running2.png

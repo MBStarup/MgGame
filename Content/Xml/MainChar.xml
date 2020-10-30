@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Character type="mc" name="Mial" hp="100" dmg="11">
+	<Animations>
+		<Animation name="Idle" path="Assets/Characters/Player/Sprites/">
+			<Frame>Ide</Frame>
+		</Animation>
+		<Animation name="Running" path="Assets/Characters/Player/Sprites/">
+			<Frame>Running1</Frame>
+			<Frame>Running2</Frame>
+		</Animation>
+	</Animations>
+	<Items>
+		<Equipped>
+			<Item name="SwordOfEpic" type="Weapon" ></Item>
+		</Equipped>
+		<Inventory>
+			<Item name="Ring." type="Jewlery" ></Item>
+		</Inventory>
+	</Items>
+</Character>

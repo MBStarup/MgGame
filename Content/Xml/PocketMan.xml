@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<PokeMan id="1">
+	<Moves>
+		<Move id="1" path="Assets/Characters/Player/Sprites/">
+			<Frame>Idle</Frame>
+		</Move>
+		<Move id="2" path="Assets/Characters/Player/Sprites/">
+			<Frame>Running1</Frame>
+			<Frame>Running2</Frame>
+		</Move>
+	</Moves>
+</PokeMan>
