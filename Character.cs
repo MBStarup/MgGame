@@ -9,15 +9,19 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Zel
+namespace PokeMan
 {
-    internal class Character
+    public class Character
     {
         public SpriteAnimation[] Animations;
 
         public Vector2 Position;
         public Quaternion Rotation;
         private string name;
+
+        private int health;
+
+        public ElementEnum Element;
 
         public Character(Vector2 position)
         {
@@ -48,6 +52,24 @@ namespace Zel
                 }
                 Animations[i++] = t;
             }
+        }
+
+        public void Attack(Character enemy, Move move)
+        {
+            move.DoMove(this, enemy);
+        }
+
+        internal void TakeDmg(int dmg)
+        {
+            health = Math.Clamp(health - dmg, 0, Int32.MaxValue);
+
+            if (health == 0)
+                this.Die();
+        }
+
+        private void Die()
+        {
+            throw new NotImplementedException("Your PokeMan died!");
         }
     }
 }

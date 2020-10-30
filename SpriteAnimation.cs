@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Zel
+namespace PokeMan
 {
-    internal class SpriteAnimation
+    public class SpriteAnimation
     {
         private Texture2D[] Frames;
         private ulong currIndex;

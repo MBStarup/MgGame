@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Elements>
+	<Element name="Normal">
+	</Element>
+
+	<Element name="Fire">
+		<Weakness name="Water" />
+	</Element>
+
+	<Element name="Water">
+		<Weakness name="Grass" />
+	</Element>
+
+	<Element name="Grass">
+		<Weakness name="Fire" />
+	</Element>
+</Elements>

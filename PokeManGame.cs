@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Reflection.PortableExecutable;
 
-namespace Zel
+namespace PokeMan
 {
-    public class Game1 : Game
+    public class PokeManGame : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -14,7 +14,7 @@ namespace Zel
         private Character mc;
         private int currAnimIndex = 0;
 
-        public Game1()
+        public PokeManGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
