@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,8 +15,6 @@ namespace PokeMan
         /// How many frames each texture is repeated, lover numbers means faster animantions
         /// </summary>
         public uint InverseSpeed = 10;
-
-        public Texture2D Texture => this;
 
         public SpriteAnimation(Texture2D[] frames)
         {
@@ -41,6 +40,11 @@ namespace PokeMan
         public Texture2D GetNextFrame()
         {
             return Frames[(++currIndex % ((ulong)Frames.Length * InverseSpeed)) / InverseSpeed];
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Camera camera)
+        {
+            spriteBatch.Draw(this, Vector2.Zero, Color.White);
         }
     }
 }

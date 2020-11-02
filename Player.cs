@@ -11,11 +11,17 @@ using System.Xml.Linq;
 
 namespace PokeMan
 {
-    public class Player
+    public class Player : IDisplayable
     {
         public SpriteAnimation[] Animations;
+        public int AnimationIndex;
         private PlayerData data = new PlayerData();
         public Vector2 Position { get => new Vector2(data.Position.x, data.Position.y); }
+
+        public void Draw(SpriteBatch spriteBatch, Camera camera)
+        {
+            spriteBatch.Draw(Animations[AnimationIndex], camera.WorldToScreen(Position), Color.White);
+        }
 
         public Player((int x, int y) position)
         {

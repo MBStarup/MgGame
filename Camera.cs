@@ -1,28 +1,29 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PokeMan
 {
-    internal class Camera
+    public class Camera
     {
-        private (int x, int y) position;
+        public Vector2 position;
+        public Vector2 offset;
 
-        public SpriteBatch SpriteBatch { get; }
-
-        public Camera(SpriteBatch spriteBatch)
+        public Camera(GraphicsDeviceManager g)
         {
-            SpriteBatch = spriteBatch;
+            offset = new Vector2(-g.GraphicsDevice.Viewport.Width, -g.GraphicsDevice.Viewport.Height);
         }
 
-        public void Draw()
+        public Vector2 WorldToScreen(Vector2 worldCoords)
         {
-            SpriteBatch.Begin();
-            {
-                //SpriteBatch.Draw();
-            }
-            SpriteBatch.End();
+            return worldCoords - position - offset / 2;
+        }
+
+        public Vector2 ScreenToWorld(Vector2 screenCoords)
+        {
+            return screenCoords + position + offset / 2;
         }
     }
 }

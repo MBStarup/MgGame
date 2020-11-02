@@ -7,6 +7,6 @@ namespace PokeMan
 {
     internal interface IDisplayable
     {
-        Texture2D Texture { get; }
+        public void Draw(SpriteBatch spriteBatch, Camera camera);
     }
 }

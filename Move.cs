@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Xml;
 
@@ -19,8 +20,6 @@ namespace PokeMan
         private int power;
 
         public SpriteAnimation Animation;
-
-        public Texture2D Texture => Animation;
 
         public void DoMove(PokeMan user, PokeMan enemy)
         {
@@ -62,6 +61,11 @@ namespace PokeMan
             }
 
             return result;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Camera camera)
+        {
+            spriteBatch.Draw(Animation, Vector2.Zero, Color.White);
         }
     }
 }

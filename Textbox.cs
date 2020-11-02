@@ -7,6 +7,9 @@ namespace PokeMan
 {
     internal class Textbox : IDisplayable
     {
-        public Texture2D Texture => throw new NotImplementedException();
+        public void Draw(SpriteBatch spriteBatch, Camera camera)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

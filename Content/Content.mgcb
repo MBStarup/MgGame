@@ -4,6 +4,7 @@
 /platform:DesktopGL
 
 #Files:
+/build:Assets\FontTextBox.spritefont
 /build:Assets\Characters\Player\Sprites\Idle.png
 /build:Assets\Characters\Player\Sprites\Running1.png
 /build:Assets\Characters\Player\Sprites\Running2.png

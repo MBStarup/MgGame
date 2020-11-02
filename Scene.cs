@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace PokeMan
 {
@@ -18,40 +19,36 @@ namespace PokeMan
 
         protected ContentManager Content = new ContentManager(PokeManGame.Services);
 
-        public Texture2D Texture => throw new NotImplementedException();
-
         public Scene()
         {
         }
 
-        public IEnumerable<T> LoadAssets<T>(IEnumerable<string> AssetPaths)
+        public async Task<IEnumerable<T>> LoadAssets<T>(IEnumerable<string> AssetPaths)
         {
             var count = AssetPaths.Count();
             T[] result = new T[count];
-
             void LoadAllAssets()
             {
-                lock (AssetPaths) //kinda redundant lock, since AssetPath only exists in this constructor
+                int i = 0;
+
+                foreach (string path in AssetPaths)
                 {
-                    int i = 0;
+                    T a = Content.Load<T>(path);
 
-                    foreach (string path in AssetPaths)
-                    {
-                        T a = Content.Load<T>(path);
+                    result[i++] = a;
 
-                        result[i++] = a;
-
-                        loadAmount = (float)i / (float)count; //Should be atomic, see earlier comment
-                    }
-                    loadAmount = 1;
+                    loadAmount = (float)i / (float)count; //Should be atomic, see earlier comment
                 }
+                loadAmount = 1;
+                return;
             }
-
-            new Thread(new ThreadStart(LoadAllAssets)).Start();
-
-            while (loadAmount < 1) { }
-
+            await Task.Run(LoadAllAssets);
             return result;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Camera camera)
+        {
+            throw new NotImplementedException();
         }
     }
 }
