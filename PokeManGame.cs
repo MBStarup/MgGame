@@ -17,6 +17,7 @@ namespace PokeMan
         private Area area;
         private Scene currentScene;
         private int currAnimIndex = 0;
+        private Camera cam;
 
         public PokeManGame()
         {
@@ -32,13 +33,16 @@ namespace PokeMan
             mc = new Player((0, _graphics.PreferredBackBufferHeight));
 
             base.Initialize();
+
+            cam = new Camera(_graphics);
+            cam.position = new Vector2(0, 0);
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            currentScene = area = new Area("Home");
+            currentScene = area = new Area("Home.xml");
             mc.LoadAssets(this.Content, "MainChar.xml");
         }
 
@@ -58,6 +62,8 @@ namespace PokeMan
                 currAnimIndex = 0;
             }
 
+            cam.Update();
+
             base.Update(gameTime);
         }
 
@@ -66,6 +72,8 @@ namespace PokeMan
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+
+            currentScene.Draw(_spriteBatch, cam);
 
             _spriteBatch.Draw(mc.Animations[currAnimIndex], mc.Position, null, Color.White, 0f, new Vector2(((Texture2D)mc.Animations[currAnimIndex]).Width / 2, ((Texture2D)mc.Animations[currAnimIndex]).Height), 0.5f, SpriteEffects.None, 0f);
 

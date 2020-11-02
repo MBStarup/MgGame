@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,43 +13,72 @@ namespace PokeMan
 {
     internal class Area : Scene
     {
-        new public float LoadAmount;
-        private SpriteAnimation[] Animations;
+        public byte[,,] Tiles = new byte[100, 100, 10];
+        private Texture2D[] Textures;
+        public int SpriteSize { get; private set; }
+        private SpriteFont font;
 
         public Area(string xmlPath)
         {
+            Content.RootDirectory = "Content";
+            font = Content.Load<SpriteFont>("Assets/FontTextBox");
+            LoadContent(xmlPath);
         }
 
-        public async Task LoadContent(string xmlPath)
+        public async void LoadContent(string xmlPath)
         {
-            //Loads sprites based off xml doc
+            //Loads tile sprites based off xml doc
             XmlDocument doc = new XmlDocument();
             doc.Load("../../../Content/Xml/Areas/" + xmlPath);
-
             var node = doc.DocumentElement.SelectSingleNode("/Tiles");
+            var rootPath = node.Attributes["rootPath"].Value;
+            SpriteSize = int.Parse(node.Attributes["size"].Value);
 
-            Animations = new SpriteAnimation[node.ChildNodes.Count];
+            int count = node.ChildNodes.Count;
+            Textures = new Texture2D[count + 1];
+            string[] paths = new string[count];
 
             int i = 0;
-            foreach (XmlNode n in node.SelectNodes("Animation"))
+            foreach (XmlNode tile in node)
             {
-                Task<SpriteAnimation> loading = LoadAnimation(n);
-                Animations[i++] = await loading;
+                paths[i++] = ($"{rootPath}{tile.InnerText}");
             }
+            IEnumerable<Texture2D> a = await LoadAssets<Texture2D>(paths);
+            Textures = a.ToArray();
         }
 
-        private async Task<SpriteAnimation> LoadAnimation(XmlNode n)
+        public override void Draw(SpriteBatch spriteBatch, Camera camera)
         {
-            int i = 0;
-            string[] paths = new string[n.ChildNodes.Count];
-
-            foreach (XmlNode m in n.SelectNodes("Frame"))
+            if (this.LoadAmount < 1)
             {
-                paths[i++] = ($"{n.Attributes["path"].Value}{m.InnerText}");
+                spriteBatch.DrawString(font, "Loading Assets: " + LoadAmount + "%", Vector2.Zero, Color.Black);
+            }
+            else
+            {
+                for (int y = 0; y < Tiles.GetLength(1); y++)
+                {
+                    for (int x = 0; x < Tiles.GetLength(0); x++)
+                    {
+                        for (int z = 0; z < Tiles.GetLength(2); z++)
+                        {
+                            if (Textures[Tiles[x, y, z]] != null)
+                                spriteBatch.Draw(Textures[Tiles[x, y, z]], camera.WorldToScreen(GridToWorld((x, y))), Color.White);
+                        }
+                    }
+                }
             }
 
-            IEnumerable<Texture2D> a = await LoadAssets<Texture2D>(paths);
-            return new SpriteAnimation(a.ToArray());
+            base.Draw(spriteBatch, camera);
+        }
+
+        public (int x, int y) WorldToGrid(Vector2 worldCoords)
+        {
+            return ((int)Math.Round(worldCoords.X / SpriteSize), (int)Math.Round(worldCoords.Y / SpriteSize));
+        }
+
+        public Vector2 GridToWorld((int x, int y) gridCoords)
+        {
+            return new Vector2(gridCoords.x * SpriteSize - SpriteSize / 2, gridCoords.y * SpriteSize - SpriteSize / 2);
         }
     }
 }

@@ -46,9 +46,8 @@ namespace PokeMan
             return result;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Camera camera)
+        public virtual void Draw(SpriteBatch spriteBatch, Camera camera)
         {
-            throw new NotImplementedException();
         }
     }
 }

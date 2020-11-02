@@ -8,3 +8,11 @@
 /build:Assets\Characters\Player\Sprites\Idle.png
 /build:Assets\Characters\Player\Sprites\Running1.png
 /build:Assets\Characters\Player\Sprites\Running2.png
+/build:Assets\World\Sprites\PlayerSprite0.png
+/build:Assets\World\Sprites\PlayerSprite1.png
+/build:Assets\World\Sprites\TestTile0.png
+/build:Assets\World\Sprites\TestTile1.png
+/build:Assets\World\Sprites\TestTile2.png
+/build:Assets\World\Sprites\TestTile3.png
+/build:Assets\World\Sprites\TestTile4.png
+/build:Assets\World\Sprites\TestTile5.png
