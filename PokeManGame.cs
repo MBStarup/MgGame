@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using System.Reflection.PortableExecutable;
 using System.Runtime.CompilerServices;
 
@@ -19,6 +20,11 @@ namespace PokeMan
         private int currAnimIndex = 0;
         private Camera cam;
 
+        SpriteFont font;
+
+        
+        private List<Component> _GameComponents;
+
         public PokeManGame()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -34,6 +40,14 @@ namespace PokeMan
 
             base.Initialize();
 
+
+            // window size
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1080;
+            _graphics.ApplyChanges();
+            //_graphics.IsFullScreen = true;
+
+
             cam = new Camera(_graphics);
             cam.position = new Vector2(0, 0);
         }
@@ -44,6 +58,52 @@ namespace PokeMan
 
             currentScene = area = new Area("Home.xml");
             mc.LoadAssets(this.Content, "MainChar.xml");
+
+
+            // loads font FontTextBox
+            font = Content.Load<SpriteFont>("Assets/FontTextBox");
+
+
+            // Creates a new button 
+            var testButton = new Button(Content.Load<Texture2D>("Button"), font)
+            {
+                Position = new Vector2(200, 950),
+                Text = "Test",
+
+            };
+            // links the button to the code, (auto creates the method)
+            testButton.Click += RandomButton_Click;
+            // example example.Click +=
+
+
+            // Creates a new button 
+            var quitButton = new Button(Content.Load<Texture2D>("Button"), font)
+            {
+                Position = new Vector2(1700, 950),
+                Text = "quit",
+
+            };
+
+            quitButton.Click += QuitButton_Click;
+
+
+            // adds buttons to list
+            _GameComponents = new List<Component>()
+            {
+               testButton,
+               quitButton
+            };
+        }
+
+        private void QuitButton_Click(object sender, System.EventArgs e)
+        {
+            Exit();
+        }
+
+        private void RandomButton_Click(object sender, System.EventArgs e)
+        {
+
+            //do stuff
         }
 
         protected override void Update(GameTime gameTime)
@@ -62,6 +122,9 @@ namespace PokeMan
                 currAnimIndex = 0;
             }
 
+            foreach (var component in _GameComponents)
+                component.Update(gameTime);
+
             cam.Update();
 
             base.Update(gameTime);
@@ -76,6 +139,18 @@ namespace PokeMan
             currentScene.Draw(_spriteBatch, cam);
 
             _spriteBatch.Draw(mc.Animations[currAnimIndex], mc.Position, null, Color.White, 0f, new Vector2(((Texture2D)mc.Animations[currAnimIndex]).Width / 2, ((Texture2D)mc.Animations[currAnimIndex]).Height), 0.5f, SpriteEffects.None, 0f);
+
+
+            // 
+            _spriteBatch.DrawString(font, "Welcome", new Vector2(50, 50), Color.White);
+
+
+
+            foreach (var component in _GameComponents)
+                component.Draw(gameTime, _spriteBatch);
+
+
+
 
             _spriteBatch.End();
 
