@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Tiles rootPath="Assets/Characters/World/Sprites/">
+	<Tile>Floor1</Tile>
+	<Tile>Floor4</Tile>
+	<Tile>Wall2</Tile>
+	<Tile>Chair1</Tile>
+	<Tile>Chair2</Tile>
+</Tiles>

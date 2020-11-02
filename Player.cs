@@ -11,30 +11,24 @@ using System.Xml.Linq;
 
 namespace PokeMan
 {
-    public class Character
+    public class Player
     {
         public SpriteAnimation[] Animations;
+        private PlayerData data = new PlayerData();
+        public Vector2 Position { get => new Vector2(data.Position.x, data.Position.y); }
 
-        public Vector2 Position;
-        public Quaternion Rotation;
-        private string name;
-
-        private int health;
-
-        public ElementEnum Element;
-
-        public Character(Vector2 position)
+        public Player((int x, int y) position)
         {
-            Position = position;
+            data.Position = position;
         }
 
-        public void LoadContent(ContentManager contMan, string xmlPath)
+        public void LoadAssets(ContentManager contMan, string xmlPath)
         {
             //Loads animations sprites based off xml doc
             XmlDocument doc = new XmlDocument();
             doc.Load("../../../Content/Xml/" + xmlPath);
 
-            name = doc.SelectSingleNode("/Character")?.Attributes["name"].Value;
+            data.Name = doc.SelectSingleNode("/Character")?.Attributes["name"].Value;
 
             var node = doc.DocumentElement.SelectSingleNode("/Character/Animations");
 
@@ -53,23 +47,13 @@ namespace PokeMan
                 Animations[i++] = t;
             }
         }
+    }
 
-        public void Attack(Character enemy, Move move)
-        {
-            move.DoMove(this, enemy);
-        }
-
-        internal void TakeDmg(int dmg)
-        {
-            health = Math.Clamp(health - dmg, 0, Int32.MaxValue);
-
-            if (health == 0)
-                this.Die();
-        }
-
-        private void Die()
-        {
-            throw new NotImplementedException("Your PokeMan died!");
-        }
+    [Serializable]
+    public class PlayerData
+    {
+        public (int x, int y) Position;
+        public string Name;
+        public PokeMan[] Party;
     }
 }

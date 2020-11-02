@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PokeMan
 {
-    public class SpriteAnimation
+    public class SpriteAnimation : IDisplayable
     {
         private Texture2D[] Frames;
         private ulong currIndex;
@@ -14,6 +14,8 @@ namespace PokeMan
         /// How many frames each texture is repeated, lover numbers means faster animantions
         /// </summary>
         public uint InverseSpeed = 10;
+
+        public Texture2D Texture => this;
 
         public SpriteAnimation(Texture2D[] frames)
         {

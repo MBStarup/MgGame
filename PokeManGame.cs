@@ -2,16 +2,20 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Reflection.PortableExecutable;
+using System.Runtime.CompilerServices;
 
 namespace PokeMan
 {
     public class PokeManGame : Game
     {
+        new public static GameServiceContainer Services;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
         private Texture2D texture;
-        private Character mc;
+        private Player mc;
+        private Area area;
+        private Scene currentScene;
         private int currAnimIndex = 0;
 
         public PokeManGame()
@@ -19,12 +23,13 @@ namespace PokeMan
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            Services = base.Services;
         }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            mc = new Character(new Vector2(0f, _graphics.PreferredBackBufferHeight));
+            mc = new Player((0, _graphics.PreferredBackBufferHeight));
 
             base.Initialize();
         }
@@ -33,8 +38,8 @@ namespace PokeMan
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-            mc.LoadContent(this.Content, "MainChar.xml");
+            currentScene = area = new Area("Home");
+            mc.LoadAssets(this.Content, "MainChar.xml");
         }
 
         protected override void Update(GameTime gameTime)
@@ -44,7 +49,6 @@ namespace PokeMan
 
             KeyboardState state = Keyboard.GetState();
 
-            // TODO: Add your update logic here
             if (state.IsKeyDown(Keys.Right))
             {
                 currAnimIndex = 1;
@@ -61,7 +65,6 @@ namespace PokeMan
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
             _spriteBatch.Draw(mc.Animations[currAnimIndex], mc.Position, null, Color.White, 0f, new Vector2(((Texture2D)mc.Animations[currAnimIndex]).Width / 2, ((Texture2D)mc.Animations[currAnimIndex]).Height), 0.5f, SpriteEffects.None, 0f);

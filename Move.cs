@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Xml;
 
 namespace PokeMan
@@ -11,12 +12,17 @@ namespace PokeMan
         Grass
     }
 
-    public class Move
+    [Serializable]
+    public class Move : IDisplayable
     {
         private ElementEnum element;
         private int power;
 
-        public void DoMove(Character user, Character enemy)
+        public SpriteAnimation Animation;
+
+        public Texture2D Texture => Animation;
+
+        public void DoMove(PokeMan user, PokeMan enemy)
         {
             enemy.TakeDmg((int)(power * GetElementMultiplier(user.Element, element, enemy.Element)));
         }

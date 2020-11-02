@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--DON'T USE, JUST DEMOSTRATION OF WHAT WE WANT TO SAVE-->
+<Save time="1604277595132" timePlayed="14431332" location="200,123" name="EpicGamer">
+	<Team>
+		<PokeMan id="2" nickName="AssMon" lvl="3" xp="14" hpIv="12" attackIv="10" defenseIv="12" speedIv="7">
+			<Moves>
+				<Move id="1" />
+			</Moves>
+		</PokeMan>
+		<PokeMan id="4" nickName="Rat" lvl="10" xp="123" hpIv="13" attackIv="2" defenseIv="16" speedIv="12">
+			<Moves>
+				<Move id="1" />
+				<Move id="4" />
+				<Move id="5" />
+			</Moves>
+		</PokeMan>
+	</Team>
+	<Items>
+		<Item id="1" amount="2" />
+		<Item id="4" amount="1" />
+	</Items>
+</Save>

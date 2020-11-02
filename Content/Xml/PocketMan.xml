@@ -1,13 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<PokeMan id="1">
-	<Moves>
-		<Move id="1" path="Assets/Characters/Player/Sprites/">
-			<Frame>Idle</Frame>
-		</Move>
-		<Move id="2" path="Assets/Characters/Player/Sprites/">
-			<Frame>Running1</Frame>
-			<Frame>Running2</Frame>
-		</Move>
-	</Moves>
-</PokeMan>
+<PokeMans>
+	<PokeMan id="1" name="Bulbasur" sprite="Assets/Characters/PokeMans/1/Sprites" baseHp="12" baseAttack="10" baseDefense="12" baseSpeed="7">
+		<Moves>
+			<Move id="1" lvl="1" />
+			<Move id="2" lvl="5" />
+		</Moves>
+	</PokeMan>
+
+	<PokeMan id="2" name="Charmonder" sprite="Assets/Characters/PokeMans/2/Sprites" baseHp="10" baseAttack="15" baseDefense="9" baseSpeed="10">
+		<Moves>
+			<Move id="1" lvl="1" />
+			<Move id="3" lvl="5" />
+		</Moves>
+	</PokeMan>
+
+	<PokeMan id="3"  name="Squrtle" sprite="Assets/Characters/PokeMans/3/Sprites" baseHp="15" baseAttack="5" baseDefense="15" baseSpeed="5">
+		<Moves>
+			<Move id="1" lvl="1" />
+			<Move id="3" lvl="5" />
+			<Move id="4" lvl="7" />
+		</Moves>
+	</PokeMan>
+
+	<PokeMan id="4" name="Pokachu" sprite="Assets/Characters/PokeMans/4/Sprites" baseHp="5" baseAttack="15" baseDefense="5" baseSpeed="15">
+		<Moves>
+			<Move id="1" lvl="1" />
+			<Move id="4" lvl="4" />
+			<Move id="5" lvl="5" />
+		</Moves>
+	</PokeMan>
+</PokeMans>
