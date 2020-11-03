@@ -12,10 +12,14 @@ namespace PokeMan
     {
         public Vector2 position;
         public Vector2 offset;
+        public int Width { get; private set; }
+        public int Height { get; private set; }
 
         public Camera(GraphicsDeviceManager g)
         {
-            offset = new Vector2(-g.GraphicsDevice.Viewport.Width, -g.GraphicsDevice.Viewport.Height);
+            Width = g.GraphicsDevice.Viewport.Width;
+            Height = g.GraphicsDevice.Viewport.Height;
+            offset = new Vector2(-Width, -Height);
         }
 
         public Vector2 WorldToScreen(Vector2 worldCoords)

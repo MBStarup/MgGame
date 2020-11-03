@@ -2,6 +2,14 @@
 
 <PokeMans>
 	<PokeMan id="1" name="Bulbasur" sprite="Assets/Characters/PokeMans/1/Sprites" baseHp="12" baseAttack="10" baseDefense="12" baseSpeed="7">
+		<Animations>
+			<Animation name="Front" path="Assets/Characters/Pokeman/Sprites/">
+				<Frame>Flamer</Frame>
+			</Animation>
+			<Animation name="Back" path="Assets/Characters/Pokeman/Sprites/">
+				<Frame>FlamerBack</Frame>
+			</Animation>
+		</Animations>
 		<Moves>
 			<Move id="1" lvl="1" />
 			<Move id="2" lvl="5" />
@@ -9,6 +17,14 @@
 	</PokeMan>
 
 	<PokeMan id="2" name="Charmonder" sprite="Assets/Characters/PokeMans/2/Sprites" baseHp="10" baseAttack="15" baseDefense="9" baseSpeed="10">
+		<Animations>
+			<Animation name="Front" path="Assets/Characters/Pokeman/Sprites/">
+				<Frame>Test2</Frame>
+			</Animation>
+			<Animation name="Back" path="Assets/Characters/Pokeman/Sprites/">
+				<Frame>Test2B</Frame>
+			</Animation>
+		</Animations>
 		<Moves>
 			<Move id="1" lvl="1" />
 			<Move id="3" lvl="5" />
