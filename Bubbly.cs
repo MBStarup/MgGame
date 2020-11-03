@@ -8,9 +8,9 @@ namespace PokeMan
     class Bubbly : PokeMan
     {
 
-        public Bubbly(string nickname, int level,ContentManager content)
+        public Bubbly(string nickname, int level)
         {
-            LoadSprite(content, "Bubbly");
+            LoadSprite("Bubbly");
             rnd = new Random();
             base.nickname = nickname;
             lvl = level;

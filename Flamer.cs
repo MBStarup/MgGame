@@ -7,9 +7,9 @@ namespace PokeMan
 {
     class Flamer : PokeMan
     {
-        public Flamer(string nickname, int level,ContentManager content)
+        public Flamer(string nickname, int level)
         {
-            LoadSprite(content, "Flamer");
+            LoadSprite("Flamer");
             rnd = new Random();
             base.nickname = nickname;
             lvl = level;

@@ -9,9 +9,10 @@ namespace PokeMan
     class Leaflutter : PokeMan
     {
 
-        public Leaflutter(string nickname, int level,ContentManager content)
+        public Leaflutter(string nickname, int level)
         {
-            LoadSprite(content, "Leaflutter");
+
+            LoadSprite("Leaflutter");
             rnd = new Random();
             base.nickname = nickname;
             lvl = level;

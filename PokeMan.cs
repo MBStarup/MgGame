@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,8 @@ namespace PokeMan
         public Texture2D SpriteFront { get => spriteFront; protected set => spriteFront = value; }
         public Texture2D SpriteBack { get => spriteBack; protected set => spriteBack = value; }
 
+        protected ContentManager Content = new ContentManager(PokeManGame.Services);
+
         public void Attack(PokeMan enemy, Move move)
         {
             move.DoMove(this, enemy);
@@ -74,7 +77,10 @@ namespace PokeMan
 
         }
 
-
+        /// <summary>
+        /// Generates a Random Nature, that will effect statgrowth
+        /// if both the positive and negative are the same stat it should cancel eachother out leving us with a neutral nature
+        /// </summary>
         protected void DetermineNature()
         {
             nature = new float[4][];
@@ -94,11 +100,10 @@ namespace PokeMan
             int neg = rnd.Next(0, 4);
             nature[neg][0] -= 1;
             nature[neg][1] *= 0.5f;
-
-
-
-
         }
+        /// <summary>
+        /// Calculates the Pokemans Current Stats Based on Base stats, Level and Nature
+        /// </summary>
         protected void CalculateStats()
         {
             float[] stats = new float[4];
@@ -115,12 +120,26 @@ namespace PokeMan
             SpeedStat = (int)Math.Floor(stats[3]);
 
         }
-        protected void LoadSprite(ContentManager content,string pokeman)
+        /// <summary>
+        /// Probably Wont be here long
+        /// 
+        /// Loads the pokemons sprites so that they can be used.
+        /// </summary>
+        /// <param name="content">to get a reference to the correct ContentManager</param>
+        /// <param name="pokeman">The Pokeman whose sprites are being loaded  REMEMBER first letter has to be Upper case</param>
+        protected void LoadSprite(string pokeman)
         {
-            SpriteFront = content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/"+pokeman + ".png");
-            SpriteBack = content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/" + pokeman + "Back.png");
+            Content.RootDirectory="Content";
+            SpriteFront = Content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/"+pokeman);
+            SpriteBack = Content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/" + pokeman + "Back");
         }
 
+        public void DrawTest(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(SpriteFront, Vector2.Zero,Color.White);
+            spriteBatch.Draw(SpriteBack, new Vector2(220,230), Color.White);
+
+        }
 
 
     }
