@@ -5,32 +5,19 @@ using System.Text;
 
 namespace PokeMan
 {
-   
-    class Leaflutter : PokeMan
+    class Bubbly : PokeMan
     {
 
-        public Leaflutter(string nickname, int level,ContentManager content)
+        public Bubbly(string nickname, int level,ContentManager content)
         {
-            LoadSprite(content, "Leaflutter");
+            LoadSprite(content, "Bubbly");
             rnd = new Random();
             base.nickname = nickname;
             lvl = level;
 
-
-
-            //baseHp=50;
-            //baseAttack = 10;
-            //baseDefence = 10;
-            //baseSpeed = 10;
-
             baseStats = new int[4] { 50, 10, 10, 10 };
             DetermineNature();
             CalculateStats();
-
-
-
-
-
         }
 
     }

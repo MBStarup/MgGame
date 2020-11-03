@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -25,6 +27,9 @@ namespace PokeMan
         private int defence;
         private int speed;
 
+        private Texture2D spriteFront;
+        private Texture2D spriteBack;
+
         //protected int baseHp;
         //protected int baseAttack;
         //protected int baseDefence;
@@ -40,11 +45,8 @@ namespace PokeMan
         public int AttackStat { get => attack; protected set => attack = value; }
         public int DefenceStat { get => defence; protected set => defence = value; }
         public int SpeedStat { get => speed; protected set => speed = value; }
-
-
-
-
-
+        public Texture2D SpriteFront { get => spriteFront; protected set => spriteFront = value; }
+        public Texture2D SpriteBack { get => spriteBack; protected set => spriteBack = value; }
 
         public void Attack(PokeMan enemy, Move move)
         {
@@ -113,7 +115,11 @@ namespace PokeMan
             SpeedStat = (int)Math.Floor(stats[3]);
 
         }
-
+        protected void LoadSprite(ContentManager content,string pokeman)
+        {
+            SpriteFront = content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/"+pokeman + ".png");
+            SpriteBack = content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/" + pokeman + "Back.png");
+        }
 
 
 
