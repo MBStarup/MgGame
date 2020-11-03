@@ -126,9 +126,9 @@ namespace PokeMan
         /// <param name="pokeman">The Pokeman whose sprites are being loaded  REMEMBER first letter has to be Upper case</param>
         protected void LoadSprite(string pokeman)
         {
-            Content.RootDirectory="Content";
-            SpriteFront = Content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/"+pokeman);
-            SpriteBack = Content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/" + pokeman + "Back");
+            //Content.RootDirectory="Content";
+            //SpriteFront = Content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/"+pokeman);
+            //SpriteBack = Content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/" + pokeman + "Back");
         }
 
         public void DrawTest(SpriteBatch spriteBatch)
