@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,9 @@ namespace PokeMan
         private int defence;
         private int speed;
 
+        private Texture2D spriteFront;
+        private Texture2D spriteBack;
+
         //protected int baseHp;
         //protected int baseAttack;
         //protected int baseDefence;
@@ -41,6 +46,8 @@ namespace PokeMan
         public int AttackStat { get => attack; protected set => attack = value; }
         public int DefenceStat { get => defence; protected set => defence = value; }
         public int SpeedStat { get => speed; protected set => speed = value; }
+        public Texture2D SpriteFront { get => spriteFront; protected set => spriteFront = value; }
+        public Texture2D SpriteBack { get => spriteBack; protected set => spriteBack = value; }
 
         public void Load()
         {
@@ -70,6 +77,10 @@ namespace PokeMan
             CalculateStats();
         }
 
+        /// <summary>
+        /// Generates a Random Nature, that will effect statgrowth
+        /// if both the positive and negative are the same stat it should cancel eachother out leving us with a neutral nature
+        /// </summary>
         protected void DetermineNature()
         {
             nature = new float[4][];
@@ -90,7 +101,9 @@ namespace PokeMan
             nature[neg][0] -= 1;
             nature[neg][1] *= 0.5f;
         }
-
+        /// <summary>
+        /// Calculates the Pokemans Current Stats Based on Base stats, Level and Nature
+        /// </summary>
         protected void CalculateStats()
         {
             float[] stats = new float[4];
@@ -103,6 +116,25 @@ namespace PokeMan
             AttackStat = (int)Math.Floor(stats[1]);
             DefenceStat = (int)Math.Floor(stats[2]);
             SpeedStat = (int)Math.Floor(stats[3]);
+        }
+        /// <summary>
+        /// Probably Wont be here long
+        ///
+        /// Loads the pokemons sprites so that they can be used.
+        /// </summary>
+        /// <param name="content">to get a reference to the correct ContentManager</param>
+        /// <param name="pokeman">The Pokeman whose sprites are being loaded  REMEMBER first letter has to be Upper case</param>
+        protected void LoadSprite(string pokeman)
+        {
+            Content.RootDirectory="Content";
+            SpriteFront = Content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/"+pokeman);
+            SpriteBack = Content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/" + pokeman + "Back");
+        }
+
+        public void DrawTest(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(SpriteFront, Vector2.Zero,Color.White);
+            spriteBatch.Draw(SpriteBack, new Vector2(220,230), Color.White);
         }
     }
 }
