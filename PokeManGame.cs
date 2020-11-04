@@ -69,7 +69,7 @@ namespace PokeMan
                 Text = "Test",
             };
             // links the button to the code, (auto creates the method)
-            testButton.Click += RandomButton_Click;
+            testButton.Click += TestButton_Click;
             // example example.Click +=
 
             // Creates a new button
@@ -81,12 +81,34 @@ namespace PokeMan
 
             quitButton.Click += QuitButton_Click;
 
+
+
+            var startGameButton = new Button(Content.Load<Texture2D>("Assets/EmptyButton"), font)
+            {
+                Position = new Vector2(400, 950),
+                Text = "Start Game",
+            };
+            // links the button to the code, (auto creates the method)
+            startGameButton.Click += StartGameButton_Click;
+
+
+
+
+
             // adds buttons to list
             _GameComponents = new List<Component>()
             {
                testButton,
-               quitButton
+               quitButton,
+               startGameButton
             };
+        }
+
+        private void StartGameButton_Click(object sender, System.EventArgs e)
+        {
+            toDraw.Remove(currentScene);
+            currentScene = new PickScene("Battle1.xml");
+            toDraw.Add(currentScene);
         }
 
         private void QuitButton_Click(object sender, System.EventArgs e)
@@ -94,7 +116,7 @@ namespace PokeMan
             Exit();
         }
 
-        private void RandomButton_Click(object sender, System.EventArgs e)
+        private void TestButton_Click(object sender, System.EventArgs e)
         {
             toDraw.Remove(currentScene);
             currentScene = new Battle("Battle1.xml");
