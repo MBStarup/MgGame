@@ -49,6 +49,28 @@ namespace PokeMan
         public Texture2D SpriteFront { get => spriteFront; protected set => spriteFront = value; }
         public Texture2D SpriteBack { get => spriteBack; protected set => spriteBack = value; }
 
+        XmlDocument doc = new XmlDocument();
+
+        public PokeMan()
+        {
+
+        }
+        public PokeMan(int id, int level)
+        {
+            this.id = id;
+            lvl = level;
+            doc.Load("../../../Content/Xml/PocketMan.xml");
+            var node = doc.DocumentElement.SelectSingleNode("/PokeMans");
+            node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == this.id).SelectSingleNode("PokeMan");
+
+            baseStats[0] = int.Parse(node.Attributes["baseHp"].Value);
+            baseStats[1] = int.Parse(node.Attributes["baseAttack"].Value);
+            baseStats[2] = int.Parse(node.Attributes["baseDefence"].Value);
+            baseStats[3] = int.Parse(node.Attributes["baseSpeed"].Value);
+
+            GenerateStats();
+        }
+
         public void Load()
         {
         }
@@ -74,7 +96,7 @@ namespace PokeMan
         public void LevelUp()
         {
             lvl++;
-            CalculateStats();
+            UpdateStats();
         }
 
         /// <summary>
@@ -102,9 +124,9 @@ namespace PokeMan
             nature[neg][1] *= 0.5f;
         }
         /// <summary>
-        /// Calculates the Pokemans Current Stats Based on Base stats, Level and Nature
+        /// Updates the Pokemans Current Stats Based on Base stats, Level and Nature
         /// </summary>
-        protected void CalculateStats()
+        public void UpdateStats()
         {
             float[] stats = new float[4];
             for (int i = 0; i < 4; i++)
@@ -117,6 +139,17 @@ namespace PokeMan
             DefenceStat = (int)Math.Floor(stats[2]);
             SpeedStat = (int)Math.Floor(stats[3]);
         }
+        /// <summary>
+        /// Generates Nature and updates stats
+        /// Only for use when first generating the pokemon
+        /// </summary>
+        protected void GenerateStats()
+        {
+            DetermineNature();
+            UpdateStats();
+        }
+
+
         /// <summary>
         /// Probably Wont be here long
         ///
