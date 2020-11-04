@@ -88,10 +88,11 @@ namespace PokeMan
             {
                 _isHovering = true;
                 // all works somehow, executes the buttons code when pressed, code is in Main private void QuitButton_Click(object sender, System.EventArgs e)
-                //  Original  if(_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
-                //if (_currentMouse.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released)
+                if(_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
+                //theese are wonky and causes dobbelt clicks
+                    //if (_currentMouse.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released)
                 //if (_previousMouse.LeftButton == ButtonState.Pressed)
-                if (_currentMouse.LeftButton == ButtonState.Pressed)
+               // if (_currentMouse.LeftButton == ButtonState.Pressed)
 
 
                 {

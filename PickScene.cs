@@ -9,32 +9,36 @@ using System.Xml;
 
 namespace PokeMan
 {
-    class PickScene : Scene
+   internal class PickScene : Scene
     {
 
         new public float LoadAmount { get => base.LoadAmount * localLoadAmount; }
         private float localLoadAmount;
         private PokeMan firePokeman;
+        private Rectangle firePos;
         private PokeMan waterPokeman;
+        private Rectangle waterPos;
         private PokeMan grassPokeman;
+        private Rectangle grassPos;
         private Texture2D Background;
         private Textbox textbox;
+        private List<Component> _GameComponents;
+        private SpriteBatch _spriteBatch;
 
-        private Rectangle Friendly;
 
         private SpriteFont font;
 
         public PickScene(string xmlPath)
         {
             firePokeman = new PokeMan();
-            firePokeman.id = 1;
+            firePokeman.id = 2;
 
 
             waterPokeman = new PokeMan();
-            waterPokeman.id = 2;
+            waterPokeman.id = 3;
 
             grassPokeman = new PokeMan();
-            grassPokeman.id = 3;
+            grassPokeman.id = 1;
 
 
 
@@ -68,7 +72,6 @@ namespace PokeMan
             localLoadAmount = 1f / 3;
 
             //firePokeman
-            doc = new XmlDocument();
             doc.Load("../../../Content/Xml/PocketMan.xml");
             node = doc.DocumentElement.SelectSingleNode("/PokeMans");
 
@@ -92,8 +95,6 @@ namespace PokeMan
 
             //waterPokeman
             
-            doc = new XmlDocument();
-            doc.Load("../../../Content/Xml/PocketMan.xml");
             node = doc.DocumentElement.SelectSingleNode("/PokeMans");
 
             node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == waterPokeman.id).SelectSingleNode("Animations");
@@ -115,8 +116,6 @@ namespace PokeMan
 
             //grassPokeman
 
-            doc = new XmlDocument();
-            doc.Load("../../../Content/Xml/PocketMan.xml");
             node = doc.DocumentElement.SelectSingleNode("/PokeMans");
 
             node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == grassPokeman.id).SelectSingleNode("Animations");
@@ -135,8 +134,78 @@ namespace PokeMan
             LoadedTextures = await LoadAssets<Texture2D>(paths);
             grassPokeman.Sprite = LoadedTextures.ToArray();
 
+
+
+
+
+
+
+
+
+
+            var pickFireButton = new Button(Content.Load<Texture2D>("Assets/EmptyButton"), font)
+            {
+                Position = new Vector2(400, 950),
+                Text = "Pick Flamer",
+            };
+            // links the button to the code, (auto creates the method)
+            pickFireButton.Click += PickFireButton_Click;
+
+            var pickWaterButton = new Button(Content.Load<Texture2D>("Assets/EmptyButton"), font)
+            {
+                Position = new Vector2(400, 950),
+                Text = "Pick Bubbly",
+            };
+            // links the button to the code, (auto creates the method)
+            pickWaterButton.Click += PickWaterButton_Click;
+
+            var pickGrassButton = new Button(Content.Load<Texture2D>("Assets/EmptyButton"), font)
+            {
+                Position = new Vector2(400, 950),
+                Text = "Pick Leaflutter",
+            };
+            // links the button to the code, (auto creates the method)
+            pickGrassButton.Click += PickGrassButton_Click;
+
+
+
+            // adds buttons to list
+            _GameComponents = new List<Component>()
+            {
+               
+               pickFireButton
+            };
+
+
+
+
+
+
+
             localLoadAmount = 1f;
         }
+
+        private void PickGrassButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void PickWaterButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void PickFireButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        //protected override void Update(GameTime gameTime)
+        //{
+        //    foreach (var component in _GameComponents)
+        //        component.Update(gameTime);
+        //}
+
 
         public override void Draw(SpriteBatch spriteBatch, Camera camera)
         {
@@ -146,14 +215,23 @@ namespace PokeMan
             }
             else
             {
-                Friendly = new Rectangle(0, camera.Height * 2 / 3, camera.Width / 3, camera.Height / 3);
-              
+                firePos = new Rectangle(camera.Width * 2 / 6, camera.Height * 2 / 3-600, 500, 500);
+                waterPos = new Rectangle(camera.Width * 2 / 6+500, camera.Height * 2 / 3 - 600, 500, 500);
+
+                grassPos = new Rectangle(camera.Width * 2 / 6-500, camera.Height * 2 / 3 - 600, 500, 500);
+
+
 
                 spriteBatch.Draw(Background, new Rectangle(0, 0, camera.Width, camera.Height), Color.Black);
 
-                spriteBatch.Draw(firePokeman.Sprite, Friendly, Color.White);
-               spriteBatch.Draw(waterPokeman.Sprite, Friendly, Color.White);
-                spriteBatch.Draw(grassPokeman.Sprite, Friendly, Color.White);
+                spriteBatch.Draw(firePokeman.Sprite, firePos, Color.White);
+               spriteBatch.Draw(waterPokeman.Sprite, waterPos, Color.White);
+                spriteBatch.Draw(grassPokeman.Sprite, grassPos, Color.White);
+
+
+
+                //foreach (var component in _GameComponents)
+                //    component.Draw(gameTime, _spriteBatch);
 
             }
             base.Draw(spriteBatch, camera);
