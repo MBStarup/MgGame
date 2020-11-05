@@ -9,61 +9,66 @@ namespace PokeMan
 {
     public class Button : Component
     {
-        private MouseState _currentMouse;
-        private SpriteFont _font;
-        private bool _isHovering;
-        private MouseState _previousMouse;
         private Texture2D _texture;
+        private SpriteFont _font;
+
+        private MouseState _previousMouse;
+        private MouseState _currentMouse;
+
+        private bool _isHovering;
 
         public event EventHandler Click;
 
-        public bool Clicked { get; private set; }
-        public Color PenColour { get; set; }
-        public Vector2 Position { get; set; }
+        public Color PenColor { get; set; }
+        public Color SpriteColor { get; set; }
+        public Color HoverColor { get; set; }
         public string Text { get; set; }
 
-        public Rectangle Rectangle
-        {
-            get
-            {
-                // Sets Button size
-                // Original   return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
-                return new Rectangle((int)Position.X, (int)Position.Y, 100, 50);
-            }
-        }
+        public Rectangle Rectangle;
 
         // Constructor for button
-        public Button(Texture2D texture, SpriteFont font)
+        public Button(Texture2D texture, SpriteFont font, string text = "", Point? position = null, int width = 100, int height = 50, Color? penColour = null, Color? spriteColor = null, Color? hoverColor = null)
         {
+            Text = text;
             _texture = texture;
             _font = font;
-            PenColour = Color.White;
+            PenColor = penColour ?? Color.White;
+            SpriteColor = spriteColor ?? Color.White;
+            HoverColor = hoverColor ?? Color.Gray;
+
+            Rectangle = new Rectangle(position ?? Point.Zero, new Point(width, height));
+        }
+
+        public Button(Texture2D texture, SpriteFont font, Rectangle rectangle, string text = "", Color? penColour = null, Color? spriteColor = null, Color? hoverColor = null)
+        {
+            Text = text;
+            _texture = texture;
+            _font = font;
+            PenColor = penColour ?? Color.White;
+            SpriteColor = spriteColor ?? Color.White;
+            HoverColor = hoverColor ?? Color.Gray;
+
+            Rectangle = rectangle;
         }
 
         public override void Draw(SpriteBatch spriteBatch, Camera camera)
         {
             // Resets from hover colour
-            var colour = Color.Green;
+            var colour = SpriteColor;
             // changes colour when mouse is hovering
             if (_isHovering)
-                colour = Color.Gray;
+                colour = HoverColor;
 
             // draws the button outline
             spriteBatch.Draw(_texture, Rectangle, colour);
 
-            // Draws the buttons label and sets it in the middle of the button
-            var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
-            var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2);
-            spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColour);
-
-            // no idea ???????????
-            // Original
-            //if (!string.IsNullOrEmpty(Text))
-            //{
-            //    var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
-            //    var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2);
-            //    spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColour);
-            //}
+            // Draws the buttons label and sets it in the middle of the button, if the string is not empty or null
+            if (!string.IsNullOrEmpty(Text))
+            {
+                var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
+                var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2);
+                spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColor);
+            }
         }
 
         public override void Update()
@@ -83,13 +88,10 @@ namespace PokeMan
                 _isHovering = true;
                 // all works somehow, executes the buttons code when pressed, code is in Main private void QuitButton_Click(object sender, System.EventArgs e)
                 if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
-                //theese are wonky and causes dobbelt clicks
-                //if (_currentMouse.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released)
-                //if (_previousMouse.LeftButton == ButtonState.Pressed)
-                // if (_currentMouse.LeftButton == ButtonState.Pressed)
-
                 {
                     Click?.Invoke(this, new EventArgs());
+
+                    //same as this:
                     //if (Click != null)
                     //{
                     //    Click(this, new EventArgs());

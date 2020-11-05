@@ -24,6 +24,10 @@ namespace PokeMan
         private List<Component> _GameComponents = new List<Component>();
         private SpriteBatch _spriteBatch;
 
+        private Button pickFireButton;
+        private Button pickWaterButton;
+        private Button pickGrassButton;
+
         private SpriteFont font;
 
         public PickScene(string xmlPath)
@@ -128,27 +132,18 @@ namespace PokeMan
 
             Texture2D ButtonSprite = Content.Load<Texture2D>("Assets/EmptyButton");
 
-            var pickFireButton = new Button(ButtonSprite, font)
-            {
-                Position = new Vector2(300, 700),
-                Text = "Pick Flamer",
-            };
+            pickFireButton = new Button(ButtonSprite, font, "Pick Flamer", spriteColor: Color.Transparent, penColour: Color.Green);
+
             // links the button to the code, (auto creates the method)
             pickFireButton.Click += PickFireButton_Click;
 
-            var pickWaterButton = new Button(ButtonSprite, font)
-            {
-                Position = new Vector2(600, 700),
-                Text = "Pick Bubbly",
-            };
+            pickWaterButton = new Button(ButtonSprite, font, "Pick Bubbly", spriteColor: Color.Transparent, penColour: Color.Green);
+
             // links the button to the code, (auto creates the method)
             pickWaterButton.Click += PickWaterButton_Click;
 
-            var pickGrassButton = new Button(ButtonSprite, font)
-            {
-                Position = new Vector2(900, 700),
-                Text = "Pick Leaflutter",
-            };
+            pickGrassButton = new Button(ButtonSprite, font, "Pick Leaflutter", spriteColor: Color.Transparent, penColour: Color.Green);
+
             // links the button to the code, (auto creates the method)
             pickGrassButton.Click += PickGrassButton_Click;
 
@@ -202,6 +197,10 @@ namespace PokeMan
                 spriteBatch.Draw(firePokeman.Sprite, firePos, Color.White);
                 spriteBatch.Draw(waterPokeman.Sprite, waterPos, Color.White);
                 spriteBatch.Draw(grassPokeman.Sprite, grassPos, Color.White);
+
+                pickFireButton.Rectangle = firePos;
+                pickGrassButton.Rectangle = waterPos;
+                pickWaterButton.Rectangle = grassPos;
 
                 foreach (var component in _GameComponents)
                     component.Draw(spriteBatch, camera);
