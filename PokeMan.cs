@@ -150,24 +150,6 @@ namespace PokeMan
         }
 
 
-        /// <summary>
-        /// Probably Wont be here long
-        ///
-        /// Loads the pokemons sprites so that they can be used.
-        /// </summary>
-        /// <param name="content">to get a reference to the correct ContentManager</param>
-        /// <param name="pokeman">The Pokeman whose sprites are being loaded  REMEMBER first letter has to be Upper case</param>
-        protected void LoadSprite(string pokeman)
-        {
-            //Content.RootDirectory="Content";
-            //SpriteFront = Content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/"+pokeman);
-            //SpriteBack = Content.Load<Texture2D>("Assets/Characters/Pokeman/" + pokeman + "/" + pokeman + "Back");
-        }
-
-        public void DrawTest(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(SpriteFront, Vector2.Zero,Color.White);
-            spriteBatch.Draw(SpriteBack, new Vector2(220,230), Color.White);
-        }
+        
     }
 }
