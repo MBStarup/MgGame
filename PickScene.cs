@@ -9,9 +9,8 @@ using System.Xml;
 
 namespace PokeMan
 {
-   internal class PickScene : Scene
+    internal class PickScene : Scene
     {
-
         new public float LoadAmount { get => base.LoadAmount * localLoadAmount; }
         private float localLoadAmount;
         private PokeMan firePokeman;
@@ -22,9 +21,8 @@ namespace PokeMan
         private Rectangle grassPos;
         private Texture2D Background;
         private Textbox textbox;
-        private List<Component> _GameComponents;
+        private List<Component> _GameComponents = new List<Component>();
         private SpriteBatch _spriteBatch;
-
 
         private SpriteFont font;
 
@@ -33,15 +31,11 @@ namespace PokeMan
             firePokeman = new PokeMan();
             firePokeman.id = 2;
 
-
             waterPokeman = new PokeMan();
             waterPokeman.id = 3;
 
             grassPokeman = new PokeMan();
             grassPokeman.id = 1;
-
-
-
 
             Content.RootDirectory = "Content";
             font = Content.Load<SpriteFont>("Assets/FontTextBox");
@@ -50,7 +44,6 @@ namespace PokeMan
 
         public async void LoadContent(string xmlPath)
         {
-            
             //Loads Background sprites based off xml doc
             XmlDocument doc = new XmlDocument();
             doc.Load("../../../Content/Xml/" + xmlPath);
@@ -94,7 +87,7 @@ namespace PokeMan
             localLoadAmount = 2f / 3;
 
             //waterPokeman
-            
+
             node = doc.DocumentElement.SelectSingleNode("/PokeMans");
 
             node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == waterPokeman.id).SelectSingleNode("Animations");
@@ -112,7 +105,6 @@ namespace PokeMan
 
             LoadedTextures = await LoadAssets<Texture2D>(paths);
             waterPokeman.Sprite = LoadedTextures.ToArray();
-
 
             //grassPokeman
 
@@ -134,53 +126,39 @@ namespace PokeMan
             LoadedTextures = await LoadAssets<Texture2D>(paths);
             grassPokeman.Sprite = LoadedTextures.ToArray();
 
+            Texture2D ButtonSprite = Content.Load<Texture2D>("Assets/EmptyButton");
 
-
-
-
-
-
-
-
-
-            var pickFireButton = new Button(Content.Load<Texture2D>("Assets/EmptyButton"), font)
+            var pickFireButton = new Button(ButtonSprite, font)
             {
-                Position = new Vector2(400, 950),
+                Position = new Vector2(300, 700),
                 Text = "Pick Flamer",
             };
             // links the button to the code, (auto creates the method)
             pickFireButton.Click += PickFireButton_Click;
 
-            var pickWaterButton = new Button(Content.Load<Texture2D>("Assets/EmptyButton"), font)
+            var pickWaterButton = new Button(ButtonSprite, font)
             {
-                Position = new Vector2(400, 950),
+                Position = new Vector2(600, 700),
                 Text = "Pick Bubbly",
             };
             // links the button to the code, (auto creates the method)
             pickWaterButton.Click += PickWaterButton_Click;
 
-            var pickGrassButton = new Button(Content.Load<Texture2D>("Assets/EmptyButton"), font)
+            var pickGrassButton = new Button(ButtonSprite, font)
             {
-                Position = new Vector2(400, 950),
+                Position = new Vector2(900, 700),
                 Text = "Pick Leaflutter",
             };
             // links the button to the code, (auto creates the method)
             pickGrassButton.Click += PickGrassButton_Click;
 
-
-
             // adds buttons to list
             _GameComponents = new List<Component>()
             {
-               
-               pickFireButton
+               pickFireButton,
+               pickGrassButton,
+               pickWaterButton
             };
-
-
-
-
-
-
 
             localLoadAmount = 1f;
         }
@@ -200,12 +178,11 @@ namespace PokeMan
             throw new NotImplementedException();
         }
 
-        //protected override void Update(GameTime gameTime)
-        //{
-        //    foreach (var component in _GameComponents)
-        //        component.Update(gameTime);
-        //}
-
+        public override void Update()
+        {
+            foreach (var component in _GameComponents)
+                component.Update();
+        }
 
         public override void Draw(SpriteBatch spriteBatch, Camera camera)
         {
@@ -215,34 +192,21 @@ namespace PokeMan
             }
             else
             {
-                firePos = new Rectangle(camera.Width * 2 / 6, camera.Height * 2 / 3-600, 500, 500);
-                waterPos = new Rectangle(camera.Width * 2 / 6+500, camera.Height * 2 / 3 - 600, 500, 500);
+                firePos = new Rectangle(camera.Width * 2 / 6, camera.Height * 2 / 3 - 600, 500, 500);
+                waterPos = new Rectangle(camera.Width * 2 / 6 + 500, camera.Height * 2 / 3 - 600, 500, 500);
 
-                grassPos = new Rectangle(camera.Width * 2 / 6-500, camera.Height * 2 / 3 - 600, 500, 500);
-
-
+                grassPos = new Rectangle(camera.Width * 2 / 6 - 500, camera.Height * 2 / 3 - 600, 500, 500);
 
                 spriteBatch.Draw(Background, new Rectangle(0, 0, camera.Width, camera.Height), Color.Black);
 
                 spriteBatch.Draw(firePokeman.Sprite, firePos, Color.White);
-               spriteBatch.Draw(waterPokeman.Sprite, waterPos, Color.White);
+                spriteBatch.Draw(waterPokeman.Sprite, waterPos, Color.White);
                 spriteBatch.Draw(grassPokeman.Sprite, grassPos, Color.White);
 
-
-
-                //foreach (var component in _GameComponents)
-                //    component.Draw(gameTime, _spriteBatch);
-
+                foreach (var component in _GameComponents)
+                    component.Draw(spriteBatch, camera);
             }
             base.Draw(spriteBatch, camera);
-
-            
-
-
         }
     }
 }
-
-
-
- 

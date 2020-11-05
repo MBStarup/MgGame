@@ -109,15 +109,15 @@ namespace PokeMan
                startGameButton
             };
             //State
-            _currentState = new StateMenu(this, _graphics.GraphicsDevice, Content);
+            //_currentState = new StateMenu(this, _graphics.GraphicsDevice, Content);
             //
         }
 
         private void StartGameButton_Click(object sender, System.EventArgs e)
         {
-            toDraw.Remove(currentScene);
+            //toDraw.Remove(currentScene);
             currentScene = new PickScene("Battle1.xml");
-            toDraw.Add(currentScene);
+            //toDraw.Add(currentScene);
         }
 
         private void QuitButton_Click(object sender, System.EventArgs e)
@@ -127,9 +127,9 @@ namespace PokeMan
 
         private void TestButton_Click(object sender, System.EventArgs e)
         {
-            toDraw.Remove(currentScene);
+            //toDraw.Remove(currentScene);
             currentScene = new Battle("Battle1.xml");
-            toDraw.Add(currentScene);
+            //toDraw.Add(currentScene);
         }
 
         protected override void Update(GameTime gameTime)
@@ -138,6 +138,8 @@ namespace PokeMan
                 Exit();
 
             KeyboardState state = Keyboard.GetState();
+
+            currentScene.Update();
 
             if (state.IsKeyDown(Keys.Right))
             {
@@ -151,14 +153,14 @@ namespace PokeMan
             foreach (var component in _GameComponents)
                 component.Update();
 
-            //State
-            _currentState.Update();
+            ////State
+            //_currentState.Update();
 
-            if (_nextstate != null)
-            {
-                _currentState = _nextstate;
-                _nextstate = null;
-            }
+            //if (_nextstate != null)
+            //{
+            //    _currentState = _nextstate;
+            //    _nextstate = null;
+            //}
             //
 
             cam.Update();
@@ -171,22 +173,23 @@ namespace PokeMan
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-
-            _spriteBatch.Draw(mc.Animations[currAnimIndex], mc.Position, null, Color.White, 0f, new Vector2(((Texture2D)mc.Animations[currAnimIndex]).Width / 2, ((Texture2D)mc.Animations[currAnimIndex]).Height), 0.5f, SpriteEffects.None, 0f);
-
-            foreach (IDisplayable displayable in toDraw)
             {
-                displayable.Draw(_spriteBatch, cam);
+                _spriteBatch.Draw(mc.Animations[currAnimIndex], mc.Position, null, Color.White, 0f, new Vector2(((Texture2D)mc.Animations[currAnimIndex]).Width / 2, ((Texture2D)mc.Animations[currAnimIndex]).Height), 0.5f, SpriteEffects.None, 0f);
+
+                //foreach (IDisplayable displayable in toDraw)
+                //{
+                //    displayable.Draw(_spriteBatch, cam);
+                //}
+
+                currentScene.Draw(_spriteBatch, cam);
+
+                _spriteBatch.DrawString(font, "Welcome", new Vector2(50, 50), Color.White);
+
+                foreach (var component in _GameComponents)
+                    component.Draw(_spriteBatch, cam);
+                //State
+                //_currentState.Draw( _spriteBatch);
             }
-
-            //
-            _spriteBatch.DrawString(font, "Welcome", new Vector2(50, 50), Color.White);
-
-            foreach (var component in _GameComponents)
-                component.Draw(_spriteBatch, cam);
-            //State
-            _currentState.Draw( _spriteBatch);
-            //
             _spriteBatch.End();
 
             base.Draw(gameTime);
