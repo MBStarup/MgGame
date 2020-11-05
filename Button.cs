@@ -42,7 +42,7 @@ namespace PokeMan
             PenColour = Color.Black;
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw( SpriteBatch spriteBatch)
         {
             // Resets from hover colour
             var colour = Color.Green;
@@ -72,7 +72,7 @@ namespace PokeMan
 
 
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
             // ??????????
             _previousMouse = _currentMouse;

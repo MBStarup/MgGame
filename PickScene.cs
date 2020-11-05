@@ -235,6 +235,10 @@ namespace PokeMan
 
             }
             base.Draw(spriteBatch, camera);
+
+            
+
+
         }
     }
 }

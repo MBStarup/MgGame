@@ -153,11 +153,11 @@ namespace PokeMan
             }
 
             foreach (var component in _GameComponents)
-                component.Update(gameTime);
+                component.Update();
 
 
             //State
-            _currentState.Update(gameTime);
+            _currentState.Update();
 
             if (_nextstate != null)
             {
@@ -188,9 +188,9 @@ namespace PokeMan
             _spriteBatch.DrawString(font, "Welcome", new Vector2(50, 50), Color.White);
 
             foreach (var component in _GameComponents)
-                component.Draw(gameTime, _spriteBatch);
+                component.Draw( _spriteBatch);
             //State
-            _currentState.Draw(gameTime, _spriteBatch);
+            _currentState.Draw( _spriteBatch);
             //
             _spriteBatch.End();
 
