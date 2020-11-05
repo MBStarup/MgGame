@@ -16,10 +16,10 @@ namespace PokeMan
             var buttonTexture = content.Load<Texture2D>("Assets/EmptyButton");
             var buttonFont = _content.Load<SpriteFont>("Assets/FontTextBox");
 
-
+            Vector2 startGameStateSize = buttonFont.MeasureString("Start Game (state)");
             var startGameButton = new Button(buttonTexture, buttonFont)
             {
-                Position = new Vector2(300, 250),
+                Position = new Vector2((1920/2)-(startGameStateSize.X/2), 250),
                 Text = "Start Game (state)",
             };
 
@@ -34,27 +34,29 @@ namespace PokeMan
         private void StartGameButton_Click(object sender, EventArgs e)
         {
             _game.ChangeState(new StatePick(_game, _graphicsDevice, _content));
+
+
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw( SpriteBatch spriteBatch)
         {
             // spriteBatch.Begin();
 
             foreach (var component in _components)
             {
-                component.Draw(gameTime, spriteBatch);
+                component.Draw( spriteBatch);
             }
             //spriteBatch.End();
         }
 
 
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
 
             foreach (var component in _components)
             {
-                component.Update(gameTime);
+                component.Update();
             }
 
         }

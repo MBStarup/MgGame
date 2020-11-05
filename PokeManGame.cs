@@ -185,7 +185,7 @@ namespace PokeMan
             foreach (var component in _GameComponents)
                 component.Draw(_spriteBatch, cam);
             //State
-            _currentState.Draw(gameTime, _spriteBatch);
+            _currentState.Draw( _spriteBatch);
             //
             _spriteBatch.End();
 
