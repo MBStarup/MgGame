@@ -23,7 +23,9 @@ namespace PokeMan
 
         public void DoMove(PokeMan user, PokeMan enemy)
         {
-            enemy.TakeDmg((int)(power * GetElementMultiplier(user.Element, element, enemy.Element)));
+            //enemy.TakeDmg((int)(power * GetElementMultiplier(user.Element, element, enemy.Element)));
+            // https://bulbapedia.bulbagarden.net/wiki/Damage
+            enemy.TakeDmg((int)(((((((2*user.lvl)/5)+2)*power*user.AttackStat/enemy.DefenceStat)/50)+2)* GetElementMultiplier(user.Element, element, enemy.Element)));
         }
 
         private static float GetElementMultiplier(ElementEnum attacking, ElementEnum move, ElementEnum defending)
