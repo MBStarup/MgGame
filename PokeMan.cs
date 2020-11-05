@@ -53,7 +53,7 @@ namespace PokeMan
 
         public PokeMan()
         {
-
+            
         }
         public PokeMan(int id, int level)
         {

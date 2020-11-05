@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,6 +13,8 @@ namespace PokeMan
     internal class PickScene : Scene
     {
         new public float LoadAmount { get => base.LoadAmount * localLoadAmount; }
+        
+
         private float localLoadAmount;
         private PokeMan firePokeman;
         private Rectangle firePos;
@@ -30,6 +33,7 @@ namespace PokeMan
 
         private SpriteFont font;
 
+        private SpriteFont font;   
         public PickScene(string xmlPath)
         {
             firePokeman = new PokeMan();
@@ -147,12 +151,19 @@ namespace PokeMan
             // links the button to the code, (auto creates the method)
             pickGrassButton.Click += PickGrassButton_Click;
 
+            var testButton = new Button(Content.Load<Texture2D>("Assets/EmptyButton"), font)
+            {
+                Position = new Vector2(1500, 700),
+                Text = "Test",
+            };
+            testButton.Click += TestButton_Click;
             // adds buttons to list
             _GameComponents = new List<Component>()
             {
                pickFireButton,
                pickGrassButton,
-               pickWaterButton
+               pickWaterButton,
+               testButton,
             };
 
             localLoadAmount = 1f;
@@ -160,19 +171,28 @@ namespace PokeMan
 
         private void PickGrassButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            selectedPokeman = new PokeMan(1, 1);
+            //throw new NotImplementedException();
+            Debug.WriteLine(selectedPokeman);
         }
 
         private void PickWaterButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            selectedPokeman = new PokeMan(3, 1);
+            //throw new NotImplementedException();
+            Debug.WriteLine(selectedPokeman);
         }
 
         private void PickFireButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            selectedPokeman = new PokeMan(2, 1);
+            //throw new NotImplementedException();
+            Debug.WriteLine(selectedPokeman);
         }
-
+        private void TestButton_Click(object sender, System.EventArgs e)
+        {
+        
+        }
         public override void Update()
         {
             foreach (var component in _GameComponents)

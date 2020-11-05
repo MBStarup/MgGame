@@ -34,7 +34,7 @@
 //                Position = new Vector2(300, 250),
 //                Text = "Return to Menu",
 //            };
-//// De forskellige knapper som spilleren nok skal kunne bruge i kamp scenen
+//            // De forskellige knapper som spilleren nok skal kunne bruge i kamp scenen
 //            var fightButton = new Button(buttonTexture, buttonFont)
 //            {
 //                Position = new Vector2(1000, 500),
@@ -171,7 +171,7 @@
 //            }
 //        }
 
-//        public override void Draw( SpriteBatch spriteBatch)
+//        public override void Draw(SpriteBatch spriteBatch)
 //        {
 //            //spriteBatch.Begin();
 
@@ -179,7 +179,7 @@
 
 //            foreach (var component in _components)
 //            {
-//                component.Draw( spriteBatch);
+//                component.Draw(spriteBatch);
 //            }
 
 //            //spriteBatch.End();

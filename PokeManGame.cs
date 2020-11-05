@@ -121,7 +121,7 @@ namespace PokeMan
 
         private void TestButton_Click(object sender, System.EventArgs e)
         {
-            //toDraw.Remove(currentScene);
+           //toDraw.Remove(currentScene);
             currentScene = new Battle("Battle1.xml");
             //toDraw.Add(currentScene);
         }
