@@ -27,12 +27,14 @@ namespace PokeMan
 
         //State
         private State _currentState;
+
         private State _nextstate;
-        
+
         public void ChangeState(State state)
         {
             _nextstate = state;
         }
+
         //
 
         public PokeManGame()
@@ -91,8 +93,6 @@ namespace PokeMan
 
             quitButton.Click += QuitButton_Click;
 
-
-
             var startGameButton = new Button(Content.Load<Texture2D>("Assets/EmptyButton"), font)
             {
                 Position = new Vector2(400, 950),
@@ -100,10 +100,6 @@ namespace PokeMan
             };
             // links the button to the code, (auto creates the method)
             startGameButton.Click += StartGameButton_Click;
-
-
-
-
 
             // adds buttons to list
             _GameComponents = new List<Component>()
@@ -153,11 +149,10 @@ namespace PokeMan
             }
 
             foreach (var component in _GameComponents)
-                component.Update(gameTime);
-
+                component.Update();
 
             //State
-            _currentState.Update(gameTime);
+            _currentState.Update();
 
             if (_nextstate != null)
             {
@@ -188,7 +183,7 @@ namespace PokeMan
             _spriteBatch.DrawString(font, "Welcome", new Vector2(50, 50), Color.White);
 
             foreach (var component in _GameComponents)
-                component.Draw(gameTime, _spriteBatch);
+                component.Draw(_spriteBatch, cam);
             //State
             _currentState.Draw(gameTime, _spriteBatch);
             //

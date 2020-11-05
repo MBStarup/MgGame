@@ -38,7 +38,6 @@ namespace PokeMan
 
         public async void LoadContent(string xmlPath)
         {
-            Thread.Sleep(0000);
             //Loads Background sprites based off xml doc
             XmlDocument doc = new XmlDocument();
             doc.Load("../../../Content/Xml/" + xmlPath);

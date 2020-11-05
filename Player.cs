@@ -11,14 +11,14 @@ using System.Xml.Linq;
 
 namespace PokeMan
 {
-    public class Player : IDisplayable
+    public class Player : Component
     {
         public SpriteAnimation[] Animations;
         public int AnimationIndex;
         private PlayerData data = new PlayerData();
         public Vector2 Position { get => new Vector2(data.Position.x, data.Position.y); }
 
-        public void Draw(SpriteBatch spriteBatch, Camera camera)
+        public override void Draw(SpriteBatch spriteBatch, Camera camera)
         {
             spriteBatch.Draw(Animations[AnimationIndex], camera.WorldToScreen(Position), Color.White);
         }
@@ -52,6 +52,11 @@ namespace PokeMan
                 }
                 Animations[i++] = t;
             }
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
         }
     }
 

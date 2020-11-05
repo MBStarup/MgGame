@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PokeMan
 {
-    internal class Scene : IDisplayable
+    internal class Scene : Component
     {
         public virtual float LoadAmount { get { return loadAmount; } } //should be atomic, so no need to lock https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/variables#atomicity-of-variable-references
 
@@ -46,7 +46,11 @@ namespace PokeMan
             return result;
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch, Camera camera)
+        public override void Draw(SpriteBatch spriteBatch, Camera camera)
+        {
+        }
+
+        public override void Update()
         {
         }
     }

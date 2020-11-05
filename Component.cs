@@ -6,14 +6,10 @@ using System.Text;
 
 namespace PokeMan
 {
-    // auto creates the 2 main methods for subclass
-    public abstract class Component
+    public abstract class Component : IDisplayable, IUpdatable
     {
-        public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
+        public abstract void Draw(SpriteBatch spriteBatch, Camera camera);
 
-
-
-        public abstract void Update(GameTime gameTime);
-
+        public abstract void Update();
     }
 }
