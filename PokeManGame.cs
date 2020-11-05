@@ -68,7 +68,10 @@ namespace PokeMan
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            currentScene = new Area("Home.xml");
+
+            currentScene = new SceneStartMenu("Battle1.xml");
+            //currentScene = new Area("Home.xml");
+
             mc.LoadAssets(this.Content, "MainChar.xml");
 
             // loads font FontTextBox
@@ -174,6 +177,8 @@ namespace PokeMan
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             {
+
+                currentScene.Draw(_spriteBatch, cam);
                 _spriteBatch.Draw(mc.Animations[currAnimIndex], mc.Position, null, Color.White, 0f, new Vector2(((Texture2D)mc.Animations[currAnimIndex]).Width / 2, ((Texture2D)mc.Animations[currAnimIndex]).Height), 0.5f, SpriteEffects.None, 0f);
 
                 //foreach (IDisplayable displayable in toDraw)
@@ -181,7 +186,7 @@ namespace PokeMan
                 //    displayable.Draw(_spriteBatch, cam);
                 //}
 
-                currentScene.Draw(_spriteBatch, cam);
+                
 
                 _spriteBatch.DrawString(font, "Welcome", new Vector2(50, 50), Color.White);
 

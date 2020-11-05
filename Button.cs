@@ -22,7 +22,7 @@ namespace PokeMan
         public Vector2 Position { get; set; }
         public string Text { get; set; }
 
-        public Rectangle Rectangle
+       public Rectangle Rectangle
         {
             get
             {
