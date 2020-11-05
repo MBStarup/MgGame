@@ -76,31 +76,22 @@ namespace PokeMan
 
             // loads font FontTextBox
             font = Content.Load<SpriteFont>("Assets/FontTextBox");
+            Texture2D buttonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
 
             // Creates a new button
-            var testButton = new Button(Content.Load<Texture2D>("Assets/EmptyButton"), font)
-            {
-                Position = new Vector2(200, 950),
-                Text = "Test",
-            };
+            Button testButton = new Button(buttonTexture, font, text: "Test", position: new Point(200, 950));
+
             // links the button to the code, (auto creates the method)
             testButton.Click += TestButton_Click;
             // example example.Click +=
 
             // Creates a new button
-            var quitButton = new Button(Content.Load<Texture2D>("Assets/EmptyButton"), font)
-            {
-                Position = new Vector2(1700, 950),
-                Text = "quit",
-            };
+            var quitButton = new Button(buttonTexture, font, text: "quit", position: new Point(1700, 950));
 
             quitButton.Click += QuitButton_Click;
 
-            var startGameButton = new Button(Content.Load<Texture2D>("Assets/EmptyButton"), font)
-            {
-                Position = new Vector2(400, 950),
-                Text = "Start Game(scene)",
-            };
+            var startGameButton = new Button(buttonTexture, font, text: "Start Game(scene)", position: new Point(400, 950));
+
             // links the button to the code, (auto creates the method)
             startGameButton.Click += StartGameButton_Click;
 
