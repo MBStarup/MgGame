@@ -49,7 +49,7 @@ namespace PokeMan
 
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw( SpriteBatch spriteBatch)
         {
             //spriteBatch.Begin();
 
@@ -58,7 +58,7 @@ namespace PokeMan
 
             foreach (var component in _components)
             {
-                component.Draw(gameTime, spriteBatch);
+                component.Draw( spriteBatch);
             }
 
 
@@ -68,12 +68,12 @@ namespace PokeMan
 
 
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
 
             foreach (var component in _components)
             {
-                component.Update(gameTime);
+                component.Update();
             }
         }
     }

@@ -36,25 +36,25 @@ namespace PokeMan
             _game.ChangeState(new StatePick(_game, _graphicsDevice, _content));
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public override void Draw( SpriteBatch spriteBatch)
         {
             // spriteBatch.Begin();
 
             foreach (var component in _components)
             {
-                component.Draw(gameTime, spriteBatch);
+                component.Draw( spriteBatch);
             }
             //spriteBatch.End();
         }
 
 
 
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
 
             foreach (var component in _components)
             {
-                component.Update(gameTime);
+                component.Update();
             }
 
         }
