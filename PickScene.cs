@@ -13,7 +13,6 @@ namespace PokeMan
     internal class PickScene : Scene
     {
         new public float LoadAmount { get => base.LoadAmount * localLoadAmount; }
-        
 
         private float localLoadAmount;
         private PokeMan firePokeman;
@@ -173,8 +172,8 @@ namespace PokeMan
         private void PickGrassButton_Click(object sender, EventArgs e)
         {
             //selectedPokeman = new PokeMan(1, 1);
-            PokeMan.playerPokemen.Add(new PokeMan(1,5));
-        
+            PokeMan.playerPokemen.Add(new PokeMan(1, 5));
+
             //throw new NotImplementedException();
             //Debug.WriteLine(selectedPokeman);
         }
@@ -194,10 +193,11 @@ namespace PokeMan
             //Debug.WriteLine(selectedPokeman);
             PokeMan.playerPokemen.Add(new PokeMan(2, 5));
         }
+
         private void TestButton_Click(object sender, System.EventArgs e)
         {
-        
         }
+
         public override void Update()
         {
             foreach (var component in _GameComponents)

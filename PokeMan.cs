@@ -13,7 +13,7 @@ namespace PokeMan
     public class PokeMan
     {
         public int id;
-        protected Random rnd;
+        protected Random rnd = new Random();
 
         public SpriteAnimation Sprite;
 
@@ -33,7 +33,6 @@ namespace PokeMan
         private Texture2D spriteBack;
 
         public static List<PokeMan> playerPokemen = new List<PokeMan>(4);
-        
 
         //protected int baseHp;
         //protected int baseAttack;
@@ -52,23 +51,25 @@ namespace PokeMan
         public Texture2D SpriteFront { get => spriteFront; protected set => spriteFront = value; }
         public Texture2D SpriteBack { get => spriteBack; protected set => spriteBack = value; }
 
-        XmlDocument doc = new XmlDocument();
+        private XmlDocument doc = new XmlDocument();
 
         public PokeMan()
         {
-            
         }
+
         public PokeMan(int id, int level)
         {
             this.id = id;
             lvl = level;
             doc.Load("../../../Content/Xml/PocketMan.xml");
             var node = doc.DocumentElement.SelectSingleNode("/PokeMans");
-            node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == this.id).SelectSingleNode("PokeMan");
+            node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == this.id);
+
+            baseStats = new int[4];
 
             baseStats[0] = int.Parse(node.Attributes["baseHp"].Value);
             baseStats[1] = int.Parse(node.Attributes["baseAttack"].Value);
-            baseStats[2] = int.Parse(node.Attributes["baseDefence"].Value);
+            baseStats[2] = int.Parse(node.Attributes["baseDefense"].Value);
             baseStats[3] = int.Parse(node.Attributes["baseSpeed"].Value);
 
             GenerateStats();
@@ -126,6 +127,7 @@ namespace PokeMan
             nature[neg][0] -= 1;
             nature[neg][1] *= 0.5f;
         }
+
         /// <summary>
         /// Updates the Pokemans Current Stats Based on Base stats, Level and Nature
         /// </summary>
@@ -142,6 +144,7 @@ namespace PokeMan
             DefenceStat = (int)Math.Floor(stats[2]);
             SpeedStat = (int)Math.Floor(stats[3]);
         }
+
         /// <summary>
         /// Generates Nature and updates stats
         /// Only for use when first generating the pokemon
@@ -151,7 +154,5 @@ namespace PokeMan
             DetermineNature();
             UpdateStats();
         }
-
-        
     }
 }
