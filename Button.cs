@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Reflection.PortableExecutable;
+using System.Runtime.CompilerServices;
 
 namespace PokeMan
 {
@@ -25,6 +27,8 @@ namespace PokeMan
         public string Text { get; set; }
 
         public Rectangle Rectangle;
+
+        
 
         // Constructor for button
         public Button(Texture2D texture, SpriteFont font, string text = "", Point? position = null, int width = 100, int height = 50, Color? penColour = null, Color? spriteColor = null, Color? hoverColor = null)
@@ -53,6 +57,9 @@ namespace PokeMan
 
         public override void Draw(SpriteBatch spriteBatch, Camera camera)
         {
+          
+            
+
             // Resets from hover colour
             var colour = SpriteColor;
             // changes colour when mouse is hovering

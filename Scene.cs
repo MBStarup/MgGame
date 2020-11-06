@@ -11,16 +11,25 @@ using System.Threading.Tasks;
 
 namespace PokeMan
 {
-    internal class Scene : Component
+    public class Scene : Component
     {
+
+
+        protected PokeManGame _game;
         public virtual float LoadAmount { get { return loadAmount; } } //should be atomic, so no need to lock https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/variables#atomicity-of-variable-references
 
         private float loadAmount;
 
         protected ContentManager Content = new ContentManager(PokeManGame.Services);
 
-        public Scene()
+        public Scene(PokeManGame game)
         {
+
+               Content.RootDirectory = "Content";
+
+            _game = game;
+
+           
         }
 
         public async Task<IEnumerable<T>> LoadAssets<T>(IEnumerable<string> AssetPaths)

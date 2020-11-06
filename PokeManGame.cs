@@ -26,13 +26,13 @@ namespace PokeMan
         private List<Component> _GameComponents;
 
         //State
-        private State _currentState;
+        private Scene _currentState;
 
-        private State _nextstate;
+        private Scene _nextstate;
 
-        public void ChangeState(State state)
+        public void ChangeState(Scene scene)
         {
-            _nextstate = state;
+            _nextstate = scene;
         }
 
         //
@@ -48,15 +48,15 @@ namespace PokeMan
 
         protected override void Initialize()
         {
-            mc = new Player((0, _graphics.PreferredBackBufferHeight));
+           mc = new Player((0, _graphics.PreferredBackBufferHeight));
 
             base.Initialize();
 
-            // window size
+           // window size
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.ApplyChanges();
-            //_graphics.IsFullScreen = true;
+            _graphics.IsFullScreen = true;
 
             toDraw.Add(currentScene);
 
@@ -69,8 +69,8 @@ namespace PokeMan
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
-            currentScene = new SceneStartMenu("Battle1.xml");
-            //currentScene = new Area("Home.xml");
+            //currentScene = new SceneStartMenu("StartMenu.xml");
+           // currentScene = new Area("Home.xml");
 
             mc.LoadAssets(this.Content, "MainChar.xml");
 
@@ -78,53 +78,33 @@ namespace PokeMan
             font = Content.Load<SpriteFont>("Assets/FontTextBox");
             Texture2D buttonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
 
-            // Creates a new button
-            Button testButton = new Button(buttonTexture, font, text: "Test", position: new Point(200, 950));
-
-            // links the button to the code, (auto creates the method)
-            testButton.Click += TestButton_Click;
-            // example example.Click +=
+          
 
             // Creates a new button
             var quitButton = new Button(buttonTexture, font, text: "quit", position: new Point(1700, 950));
 
             quitButton.Click += QuitButton_Click;
 
-            var startGameButton = new Button(buttonTexture, font, text: "Start Game(scene)", position: new Point(400, 950));
-
-            // links the button to the code, (auto creates the method)
-            startGameButton.Click += StartGameButton_Click;
 
             // adds buttons to list
             _GameComponents = new List<Component>()
             {
-               testButton,
+             
                quitButton,
-               startGameButton
             };
             //State
-            //_currentState = new StateMenu(this, _graphics.GraphicsDevice, Content);
+            _currentState = new StateMenu(this);
             //
         }
 
-        private void StartGameButton_Click(object sender, System.EventArgs e)
-        {
-            //toDraw.Remove(currentScene);
-            currentScene = new PickScene("Battle1.xml");
-            //toDraw.Add(currentScene);
-        }
+      
 
         private void QuitButton_Click(object sender, System.EventArgs e)
         {
             Exit();
         }
 
-        private void TestButton_Click(object sender, System.EventArgs e)
-        {
-            //toDraw.Remove(currentScene);
-            currentScene = new Battle("Battle1.xml");
-            //toDraw.Add(currentScene);
-        }
+      
 
         protected override void Update(GameTime gameTime)
         {
@@ -133,29 +113,22 @@ namespace PokeMan
 
             KeyboardState state = Keyboard.GetState();
 
-            currentScene.Update();
+           // currentScene.Update();
 
-            if (state.IsKeyDown(Keys.Right))
-            {
-                currAnimIndex = 1;
-            }
-            else
-            {
-                currAnimIndex = 0;
-            }
+         
 
             foreach (var component in _GameComponents)
                 component.Update();
 
             ////State
-            //_currentState.Update();
+            _currentState.Update();
 
-            //if (_nextstate != null)
-            //{
-            //    _currentState = _nextstate;
-            //    _nextstate = null;
-            //}
-            //
+            if (_nextstate != null)
+            {
+                _currentState = _nextstate;
+                _nextstate = null;
+            }
+
 
             cam.Update();
 
@@ -168,23 +141,20 @@ namespace PokeMan
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             {
-
-                currentScene.Draw(_spriteBatch, cam);
-                _spriteBatch.Draw(mc.Animations[currAnimIndex], mc.Position, null, Color.White, 0f, new Vector2(((Texture2D)mc.Animations[currAnimIndex]).Width / 2, ((Texture2D)mc.Animations[currAnimIndex]).Height), 0.5f, SpriteEffects.None, 0f);
+                _currentState.Draw(_spriteBatch, cam);
+                //currentScene.Draw(_spriteBatch, cam);
 
                 //foreach (IDisplayable displayable in toDraw)
                 //{
                 //    displayable.Draw(_spriteBatch, cam);
                 //}
 
-                
 
-                _spriteBatch.DrawString(font, "Welcome", new Vector2(50, 50), Color.White);
 
                 foreach (var component in _GameComponents)
                     component.Draw(_spriteBatch, cam);
                 //State
-                //_currentState.Draw( _spriteBatch);
+                
             }
             _spriteBatch.End();
 

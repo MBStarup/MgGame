@@ -14,16 +14,16 @@ namespace PokeMan
         protected PokeManGame _game;
 
         // Constructor
-        public State(PokeManGame game, GraphicsDevice graphicsDevice, ContentManager content)
+        public State(PokeManGame game, ContentManager content)
         {
             _game = game;
-            _graphicsDevice = graphicsDevice;
+           
             _content = content;
         }
 
 
 
-        public abstract void Draw( SpriteBatch spriteBatch);
+        public abstract void Draw(SpriteBatch spriteBatch, Camera camera);
 
 
 
