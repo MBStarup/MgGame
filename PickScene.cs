@@ -33,7 +33,8 @@ namespace PokeMan
 
         private SpriteFont font;
 
-        private SpriteFont font;   
+        private PokeMan selectedPokeman;
+
         public PickScene(string xmlPath)
         {
             firePokeman = new PokeMan();
@@ -52,6 +53,9 @@ namespace PokeMan
 
         public async void LoadContent(string xmlPath)
         {
+            font = Content.Load<SpriteFont>("Assets/FontTextBox");
+            Texture2D buttonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
+
             //Loads Background sprites based off xml doc
             XmlDocument doc = new XmlDocument();
             doc.Load("../../../Content/Xml/" + xmlPath);
@@ -151,11 +155,8 @@ namespace PokeMan
             // links the button to the code, (auto creates the method)
             pickGrassButton.Click += PickGrassButton_Click;
 
-            var testButton = new Button(Content.Load<Texture2D>("Assets/EmptyButton"), font)
-            {
-                Position = new Vector2(1500, 700),
-                Text = "Test",
-            };
+            var testButton = new Button(buttonTexture, font, text: "Test", position: new Point(1500, 700));
+
             testButton.Click += TestButton_Click;
             // adds buttons to list
             _GameComponents = new List<Component>()
@@ -171,23 +172,27 @@ namespace PokeMan
 
         private void PickGrassButton_Click(object sender, EventArgs e)
         {
-            selectedPokeman = new PokeMan(1, 1);
+            //selectedPokeman = new PokeMan(1, 1);
+            PokeMan.playerPokemen.Add(new PokeMan(1,5));
+        
             //throw new NotImplementedException();
-            Debug.WriteLine(selectedPokeman);
+            //Debug.WriteLine(selectedPokeman);
         }
 
         private void PickWaterButton_Click(object sender, EventArgs e)
         {
-            selectedPokeman = new PokeMan(3, 1);
+            //selectedPokeman = new PokeMan(3, 1);
             //throw new NotImplementedException();
-            Debug.WriteLine(selectedPokeman);
+            //Debug.WriteLine(selectedPokeman);
+            PokeMan.playerPokemen.Add(new PokeMan(3, 5));
         }
 
         private void PickFireButton_Click(object sender, EventArgs e)
         {
-            selectedPokeman = new PokeMan(2, 1);
+            //selectedPokeman = new PokeMan(2, 1);
             //throw new NotImplementedException();
-            Debug.WriteLine(selectedPokeman);
+            //Debug.WriteLine(selectedPokeman);
+            PokeMan.playerPokemen.Add(new PokeMan(2, 5));
         }
         private void TestButton_Click(object sender, System.EventArgs e)
         {

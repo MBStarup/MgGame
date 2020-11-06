@@ -32,6 +32,9 @@ namespace PokeMan
         private Texture2D spriteFront;
         private Texture2D spriteBack;
 
+        public static List<PokeMan> playerPokemen = new List<PokeMan>(4);
+        
+
         //protected int baseHp;
         //protected int baseAttack;
         //protected int baseDefence;
@@ -148,7 +151,6 @@ namespace PokeMan
             DetermineNature();
             UpdateStats();
         }
-
 
         
     }
