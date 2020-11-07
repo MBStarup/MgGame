@@ -23,11 +23,8 @@
 
 //        private SpriteFont font;
 
-
 //        public SceneStartMenu(string xmlPath)
 //        {
-           
-
 //            Content.RootDirectory = "Content";
 //            font = Content.Load<SpriteFont>("Assets/FontTextBox");
 //            LoadContent(xmlPath);
@@ -55,17 +52,9 @@
 
 //            localLoadAmount = 1f / 3;
 
-           
 //            localLoadAmount = 2f / 3;
 
-           
-
-
-           
-
 //            LoadedTextures = await LoadAssets<Texture2D>(paths);
-
-
 
 //            // loads font FontTextBox
 //            font = Content.Load<SpriteFont>("Assets/FontTextBox");
@@ -78,23 +67,16 @@
 //            testButton.Click += TestButton_Click;
 //            // example example.Click +=
 
-           
-
 //            var startGameButton = new Button(buttonTexture, font, text: "Start Game(scene)", position: new Point(400, 600));
-
-
 
 //            // links the button to the code, (auto creates the method)
 //            startGameButton.Click += StartGameButton_Click;
 
-           
-
 //            // adds buttons to list
 //            _GameComponents = new List<Component>()
 //            {
-            
 //               testButton,
-           
+
 //               startGameButton
 //            };
 //            //State
@@ -104,17 +86,12 @@
 //            localLoadAmount = 1f;
 //        }
 
-
-       
-
 //        private void StartGameButton_Click(object sender, System.EventArgs e)
 //        {
 //            //toDraw.Remove(currentScene);
 //            currentScene = new PickScene("Battle1.xml");
 //            //toDraw.Add(currentScene);
 //        }
-
-      
 
 //        private void TestButton_Click(object sender, System.EventArgs e)
 //        {
@@ -123,30 +100,25 @@
 //            //toDraw.Add(currentScene);
 //        }
 
-
 //        public override void Update()
 //        {
 //            //currentScene.Update();
 //            foreach (var component in _GameComponents)
 //                component.Update();
-            
+
 //        }
 
 //        public override void Draw(SpriteBatch spriteBatch, Camera camera)
 //        {
-
-
 //            if (this.LoadAmount < 1)
 //            {
 //                spriteBatch.DrawString(font, "Loading Assets: " + (int)(LoadAmount * 100) + "%", Vector2.Zero, Color.Green);
 //            }
 //            else
 //            {
-              
 //                spriteBatch.Draw(Background, new Rectangle(0, 0, camera.Width, camera.Height), Color.White);
 
 //                //_spriteBatch.DrawString(font, "Welcome", new Vector2(50, 50), Color.White);
-
 
 //                foreach (var component in _GameComponents)
 //                    component.Draw(spriteBatch, camera);

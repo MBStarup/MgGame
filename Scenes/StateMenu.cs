@@ -8,21 +8,19 @@ using System.Text;
 
 namespace PokeMan
 {
-    public class StateMenu : Scene
+    public class StartMenuScene : Scene
     {
         private List<Component> _components;
-        private Texture2D background;
 
+        private Texture2D background;
+        private Texture2D buttonTexture;
         private SpriteFont font;
 
-
-        public StateMenu(PokeManGame game) : base(game)
+        public StartMenuScene(PokeManGame game) : base(game)
         {
             background = Content.Load<Texture2D>("Assets/StartMenu/StartMenuBG");
-            font = Content.Load<SpriteFont>("Assets/FontTextBox");
-
-            var buttonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
-            var buttonFont = Content.Load<SpriteFont>("Assets/FontTextBox");
+            font = PokeManGame.Font;
+            buttonTexture = PokeManGame.ButtonTexture;
 
             //Vector2 startGameStateSize = buttonFont.MeasureString("Start Game (state)");
             //var startGameButton = new Button(buttonTexture, buttonFont)
@@ -31,10 +29,10 @@ namespace PokeMan
             //    Text = "Start Game (state)",
             //};
 
-            var startBattleButton = new Button(buttonTexture, buttonFont, text: "Start Battle (state)", position: new Point(400, 800));
-            var startGameButton = new Button(buttonTexture, buttonFont, text: "Start Game (state)", position: new Point(100, 800));
-
+            var startGameButton = new Button(buttonTexture, font, text: "Start Game (state)", position: new Point(100, 800), width: 250);
             startGameButton.Click += StartGameButton_Click;
+
+            var startBattleButton = new Button(buttonTexture, font, text: "Start Battle (state)", position: new Point(400, 800), width: 250);
             startBattleButton.Click += StartBattleButton_Click;
 
             _components = new List<Component>()
@@ -46,14 +44,12 @@ namespace PokeMan
 
         private void StartGameButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new StatePick(_game,xmlPath));
-
+            PokeManGame.Scenes.Pop();
         }
 
         private void StartBattleButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new StateBattle(_game));
-
+            //_game.ChangeState(new StateBattle(_game));
         }
 
         public override void Draw(SpriteBatch spriteBatch, Camera camera)
@@ -77,8 +73,6 @@ namespace PokeMan
             {
                 component.Update();
             }
-
         }
     }
-
 }

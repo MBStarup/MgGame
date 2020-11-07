@@ -18,10 +18,8 @@ namespace PokeMan
 
         public PokeMan FriendlyPokeMan { get; }
 
-
         public StateBattle(PokeManGame game) : base(game)
         {
-
             font = Content.Load<SpriteFont>("Assets/FontTextBox");
 
             FriendlyPokeMan = new PokeMan();
@@ -34,23 +32,17 @@ namespace PokeMan
 
             Checktype();
 
-          
-
             Button startGameButton = new Button(buttonTexture, font, text: "Return to Menu", position: new Point(300, 250));
 
             // De forskellige knapper som spilleren nok skal kunne bruge i kamp scenen
-           
+
             Button fightButton = new Button(buttonTexture, font, text: "Fight", position: new Point(1000, 500));
 
             Button bagButton = new Button(buttonTexture, font, text: "Bag", position: new Point(1100, 500));
 
-
             Button pokemanButton = new Button(buttonTexture, font, text: "Pokeman", position: new Point(1000, 550));
 
             Button cowardButton = new Button(buttonTexture, font, text: "Run", position: new Point(1100, 550));
-
-
-          
 
             startGameButton.Click += StartGameButton_Click;
             fightButton.Click += fightButton_Click;
@@ -65,17 +57,15 @@ namespace PokeMan
                 bagButton,
                 pokemanButton,
                 cowardButton,
-
             };
 
             void StartGameButton_Click(object sender, EventArgs e)
             {
-                _game.ChangeState(new StateMenu(_game));
+                //_game.ChangeState(new StateMenu(_game));
             }
             // Knappen fight har andre knapper i sig når man klikker på den
             void fightButton_Click(object sender, EventArgs e)
             {
-
                 Button move1Button = new Button(buttonTexture, font, text: "hak", position: new Point(1100, 550));
 
                 Button move2Button = new Button(buttonTexture, font, text: "slash", position: new Point(1100, 600));
@@ -83,7 +73,6 @@ namespace PokeMan
                 Button move3Button = new Button(buttonTexture, font, text: "poke", position: new Point(1100, 650));
 
                 Button moveSpecialButton = new Button(buttonTexture, font, text: (type), position: new Point(1100, 700));
-
 
                 move1Button.Click += move1Button_Click;
                 move2Button.Click += move2Button_Click;
@@ -123,7 +112,7 @@ namespace PokeMan
             void cowardButton_Click(object sender, EventArgs e)
             {
                 // Tager spilleren tilbage til startmenuen, bare en placeholder
-                _game.ChangeState(new StateMenu(_game));
+                // _game.ChangeState(new StateMenu(_game));
             }
 
             // Tjekker hvilken type pokeman man har, så pokemanens special attack passer til typen
@@ -136,13 +125,11 @@ namespace PokeMan
                 else if (FriendlyPokeMan.id == 2)
                 {
                     type = "water";
-
                 }
                 else if (FriendlyPokeMan.id == 3)
                 {
                     type = "fire";
                 }
-
                 else
                 {
                     type = "normal";
