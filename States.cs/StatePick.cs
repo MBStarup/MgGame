@@ -34,6 +34,7 @@ namespace PokeMan
 
         private PokeMan selectedPokeman;
 
+        
 
         public StatePick(PokeManGame game, string xmlPath) : base(game)
         {
@@ -41,11 +42,13 @@ namespace PokeMan
             firePokeman = new PokeMan();
             firePokeman.id = 2;
 
+            grassPokeman = new PokeMan();
+            grassPokeman.id = 1;
+
             waterPokeman = new PokeMan();
             waterPokeman.id = 3;
 
-            grassPokeman = new PokeMan();
-            grassPokeman.id = 1;
+            
 
             Content.RootDirectory = "Content";
             font = Content.Load<SpriteFont>("Assets/FontTextBox");
@@ -58,9 +61,11 @@ namespace PokeMan
             font = Content.Load<SpriteFont>("Assets/FontTextBox");
             Texture2D buttonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
 
-            //Loads Background sprites based off xml doc
-            XmlDocument doc = new XmlDocument();
-            doc.Load("../../../Content/Xml/" + xmlPath);
+            
+
+        //Loads Background sprites based off xml doc
+        XmlDocument doc = new XmlDocument();
+           doc.Load("../../../Content/Xml/Battle1.xml");
             var node = doc.DocumentElement.SelectSingleNode("/Battle");
             var path = node.Attributes["path"].Value;
 
@@ -216,7 +221,7 @@ namespace PokeMan
 
             if (this.LoadAmount < 1)
             {
-                _spriteBatch.DrawString(font, "Loading Assets: " + (int)(LoadAmount * 100) + "%", Vector2.Zero, Color.Green);
+               // _spriteBatch.DrawString(font, "Loading Assets: " + (int)(LoadAmount * 100) + "%", Vector2.Zero, Color.Green);
             }
             else
             {

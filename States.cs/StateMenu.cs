@@ -46,7 +46,7 @@ namespace PokeMan
 
         private void StartGameButton_Click(object sender, EventArgs e)
         {
-            _game.ChangeState(new StatePick(_game, xmlPath));
+            _game.ChangeState(new StatePick(_game,xmlPath));
 
         }
 
