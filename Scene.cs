@@ -14,7 +14,7 @@ namespace PokeMan
     public class Scene : Component
     {
 
-
+        protected string xmlPath;
         protected PokeManGame _game;
         public virtual float LoadAmount { get { return loadAmount; } } //should be atomic, so no need to lock https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/variables#atomicity-of-variable-references
 
