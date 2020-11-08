@@ -30,7 +30,7 @@ namespace PokeMan
 
         private Button[] buttons = new Button[choices.Length];
 
-        public PickScene(PokeManGame game, string xmlPath) : base(game)
+        public PickScene( string xmlPath)
         {
             Content.RootDirectory = "Content";
             LoadContent(xmlPath);

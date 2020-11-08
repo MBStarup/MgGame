@@ -11,18 +11,33 @@ using System.Xml;
 
 namespace PokeMan
 {
-    internal class Area : Scene
+    public class Area : Scene
     {
         public byte[,,] Tiles = new byte[100, 100, 10];
         private Texture2D[] Textures;
         public int SpriteSize { get; private set; }
-        private SpriteFont font;
+        private List<Component> _components;
 
-        public Area(PokeManGame game, string xmlPath) : base(game)
+        private Texture2D background;
+        private Texture2D buttonTexture = PokeManGame.ButtonTexture;
+        private SpriteFont font = PokeManGame.Font;
+        public Area( string xmlPath)
         {
             Content.RootDirectory = "Content";
             font = Content.Load<SpriteFont>("Assets/FontTextBox");
             LoadContent(xmlPath);
+
+          
+
+
+            var startGameButton = new Button(buttonTexture, font, text: "Start Game (state)", position: new Point(100, 800), width: 250);
+            startGameButton.Click += StartBattleButton_Click;
+
+
+            _components = new List<Component>()
+            {
+                startGameButton
+            };
         }
 
         public async void LoadContent(string xmlPath)
@@ -47,8 +62,29 @@ namespace PokeMan
             Textures = a.ToArray();
         }
 
+
+
+
+        private void StartBattleButton_Click(object sender, EventArgs e)
+        {
+            
+            PokeManGame.Scenes.Push(new Battle("Battle1.xml"));
+
+
+        }
+
+        
+
+       
+
+
         public override void Draw(SpriteBatch spriteBatch, Camera camera)
         {
+            foreach (var component in _components)
+            {
+                component.Draw(spriteBatch, camera);
+            }
+
             if (this.LoadAmount < 1)
             {
                 spriteBatch.DrawString(font, "Loading Assets: " + LoadAmount + "%", Vector2.Zero, Color.Black);
@@ -66,11 +102,26 @@ namespace PokeMan
                         }
                     }
                 }
+
+
             }
 
+           
+
             base.Draw(spriteBatch, camera);
+
+            
         }
 
+
+        public override void Update()
+        {
+            foreach (var component in _components)
+            {
+                component.Update();
+            }
+
+        }
         public (int x, int y) WorldToGrid(Vector2 worldCoords)
         {
             return ((int)Math.Round(worldCoords.X / SpriteSize), (int)Math.Round(worldCoords.Y / SpriteSize));

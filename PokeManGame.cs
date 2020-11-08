@@ -21,6 +21,9 @@ namespace PokeMan
         public static SpriteFont Font;
         public static Texture2D ButtonTexture;
 
+       
+      
+
         //private List<Component> _GameComponents;
 
         //private Scene _currentState;
@@ -39,6 +42,7 @@ namespace PokeMan
             IsMouseVisible = true;
 
             Services = base.Services;
+
         }
 
         protected override void Initialize()
@@ -50,11 +54,12 @@ namespace PokeMan
             // window size
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
-            _graphics.IsFullScreen = true;
+          //  _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
 
             cam = new Camera(_graphics);
             //cam.position = new Vector2(0, 0);
+
         }
 
         protected override void LoadContent()
@@ -67,9 +72,9 @@ namespace PokeMan
             Font = Content.Load<SpriteFont>("Assets/FontTextBox");
             ButtonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
 
-            Scenes.Push(new Area(this, "Home.xml"));
-            Scenes.Push(new PickScene(this, "Battle1.xml"));
-            Scenes.Push(new StartMenuScene(this));
+            Scenes.Push(new Area( "Home.xml"));
+            Scenes.Push(new PickScene( "Battle1.xml"));
+            Scenes.Push(new StartMenuScene());
 
             // Creates a new button
             //var quitButton = new Button(ButtonTexture, Font, text: "quit", position: new Point(1700, 950));
@@ -84,9 +89,13 @@ namespace PokeMan
             //_currentState = new StateMenu(this);
         }
 
+
+
+
         private void QuitButton_Click(object sender, System.EventArgs e)
         {
             Exit();
+
         }
 
         protected override void Update(GameTime gameTime)

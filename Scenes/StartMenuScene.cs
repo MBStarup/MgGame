@@ -16,7 +16,7 @@ namespace PokeMan
         private Texture2D buttonTexture;
         private SpriteFont font;
 
-        public StartMenuScene(PokeManGame game) : base(game)
+        public StartMenuScene()
         {
             background = Content.Load<Texture2D>("Assets/StartMenu/StartMenuBG");
             font = PokeManGame.Font;
@@ -32,12 +32,9 @@ namespace PokeMan
             var startGameButton = new Button(buttonTexture, font, text: "Start Game (state)", position: new Point(100, 800), width: 250);
             startGameButton.Click += StartGameButton_Click;
 
-            var startBattleButton = new Button(buttonTexture, font, text: "Start Battle (state)", position: new Point(400, 800), width: 250);
-            startBattleButton.Click += StartBattleButton_Click;
-
+          
             _components = new List<Component>()
             {
-                startBattleButton,
                 startGameButton
             };
         }
@@ -47,10 +44,7 @@ namespace PokeMan
             PokeManGame.Scenes.Pop();
         }
 
-        private void StartBattleButton_Click(object sender, EventArgs e)
-        {
-            //_game.ChangeState(new StateBattle(_game));
-        }
+       
 
         public override void Draw(SpriteBatch spriteBatch, Camera camera)
         {
