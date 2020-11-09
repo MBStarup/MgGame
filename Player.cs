@@ -13,7 +13,7 @@ using System.Xml.Linq;
 
 namespace PokeMan
 {
-    public class Player : Component
+    public class Player : Component // Static maybe
     {
         public SpriteAnimation[] Animations;
         public int AnimationIndex;
@@ -23,6 +23,8 @@ namespace PokeMan
         private uint frameCounter;
         private int previousAnimationIndex;
         private long animationLength;
+        public PokeMan[] party;  
+
 
         public Vector2 Position
         {
@@ -45,6 +47,7 @@ namespace PokeMan
         public Player(int size)
         {
             rectangle = new Rectangle(PokeManGame.SceenSize.x / 2, PokeManGame.SceenSize.y / 2, size, size);
+            party = new PokeMan[6];
         }
 
         public void LoadAssets(ContentManager contMan, string xmlPath)

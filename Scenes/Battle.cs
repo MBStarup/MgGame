@@ -25,8 +25,8 @@ namespace PokeMan
 
         public Battle(PokeManGame game, string xmlPath) : base(game)
         {
-            FriendlyPokeMan = new PokeMan();
-            FriendlyPokeMan.id = 1;
+            FriendlyPokeMan = Area.p.party[0];
+            //FriendlyPokeMan.id = 1;
 
             EnemyPokeMan = new PokeMan();
             EnemyPokeMan.id = 2;

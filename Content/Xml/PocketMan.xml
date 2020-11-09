@@ -22,7 +22,7 @@
 				<Frame>Flamer</Frame>
 			</Animation>
 			<Animation name="Back" path="Assets/Characters/Pokeman/Flamer/">
-				<Frame>Flamer</Frame>
+				<Frame>FlamerBack</Frame>
 			</Animation>
 		</Animations>
 		<Moves>

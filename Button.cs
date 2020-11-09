@@ -21,10 +21,13 @@ namespace PokeMan
 
         public event EventHandler Click;
 
+        private PokeMan pokeman;
+
         public Color PenColor { get; set; }
         public Color SpriteColor { get; set; }
         public Color HoverColor { get; set; }
         public string Text { get; set; }
+        public PokeMan Pokeman { get => pokeman; set => pokeman = value; }
 
         public Rectangle Rectangle;
 

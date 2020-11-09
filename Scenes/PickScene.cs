@@ -93,6 +93,7 @@ namespace PokeMan
             foreach (PokeMan pokeMan in choices)
             {
                 var button = new Button(buttonTexture, font, spriteColor: Color.Transparent, penColour: Color.Green);
+                button.Pokeman = pokeMan;
                 button.Click += OnPokemonClick;
                 buttons[i++] = button;
             }
@@ -106,7 +107,8 @@ namespace PokeMan
 
         private void OnPokemonClick(object sender, EventArgs e)
         {
-            PokeMan.playerPokemen.Add(new PokeMan(1, 5));
+            //PokeMan.playerPokemen.Add(new PokeMan(1, 5));
+            Area.p.party[0] = ((Button)sender).Pokeman;
             PokeManGame.Scenes.Pop();
         }
 

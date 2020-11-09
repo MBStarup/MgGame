@@ -22,7 +22,7 @@ namespace PokeMan
         public int SpriteSize { get; private set; }
         private SpriteFont font;
 
-        private Player p;
+        public static Player p; //Lavet fra private til public static
         private Camera cam;
         private KeyboardState lastState;
 
