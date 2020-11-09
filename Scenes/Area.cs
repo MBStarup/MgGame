@@ -36,38 +36,41 @@ namespace PokeMan
 
         public override void Update()
         {
-            var playerPos = p.Position;
+            Vector2 distance = Vector2.Zero;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) && lastState.IsKeyUp(Keys.Right))
             {
-                playerPos += new Vector2(SpriteSize, 0);
+                distance += new Vector2(SpriteSize, 0);
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left) && lastState.IsKeyUp(Keys.Left))
             {
-                playerPos -= new Vector2(SpriteSize, 0);
+                distance -= new Vector2(SpriteSize, 0);
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && lastState.IsKeyUp(Keys.Up))
             {
-                playerPos -= new Vector2(0, SpriteSize);
+                distance -= new Vector2(0, SpriteSize);
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Down) && lastState.IsKeyUp(Keys.Down))
             {
-                playerPos += new Vector2(0, SpriteSize);
+                distance += new Vector2(0, SpriteSize);
             }
             lastState = Keyboard.GetState();
 
-            var i = WorldToGrid(playerPos);
-
-            try
+            if (distance != Vector2.Zero)
             {
-                if (Tiles[i.x, i.y, 0] != 1)
+                var i = WorldToGrid(p.Position + distance);
+                try
                 {
-                    p.Position = playerPos;
+                    if (Tiles[i.x, i.y, 0] != 1)
+                    {
+                        p.Position += distance;
+                        p.PlaySingleAnimation(PlayerAnimationEnums.Running);
+                    }
                 }
+                catch (IndexOutOfRangeException) { } //Don't move the player if we outside the array
             }
-            catch (IndexOutOfRangeException) { } //Don't move the player if we outside the array
 
             cam.position = p.Position;
 
@@ -172,7 +175,18 @@ namespace PokeMan
 
         public bool WillColide(int x, int y)
         {
+            if (Tiles[x, y, 0] == 3) //using the vlaue 3 to indicate it's  ab battle spot
+            {
+                StartBattle();
+                return false;
+            }
+
             return Tiles[x, y, 0] == 1;
+        }
+
+        private void StartBattle()
+        {
+            throw new NotImplementedException();
         }
     }
 }

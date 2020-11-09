@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EnumBuilder;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -19,7 +20,9 @@ namespace PokeMan
         private PlayerData data = new PlayerData();
         private KeyboardState lastState;
         private Rectangle rectangle;
-        private int frameCounter;
+        private uint frameCounter;
+        private int previousAnimationIndex;
+        private long animationLength;
 
         public Vector2 Position
         {
@@ -34,7 +37,9 @@ namespace PokeMan
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Animations[AnimationIndex], rectangle, Color.White);
-            frameCounter++;
+
+            if (frameCounter++ >= animationLength)
+                AnimationIndex = previousAnimationIndex;
         }
 
         public Player(int size)
@@ -66,6 +71,19 @@ namespace PokeMan
                 }
                 Animations[i++] = t;
             }
+        }
+
+        public void PlaySingleAnimation(int index)
+        {
+            frameCounter = 0;
+            previousAnimationIndex = AnimationIndex;
+            AnimationIndex = index;
+            animationLength = Animations[AnimationIndex].Length * Animations[AnimationIndex].InverseSpeed;
+        }
+
+        public void PlaySingleAnimation(PlayerAnimationEnums animation)
+        {
+            PlaySingleAnimation((int)animation);
         }
 
         public override void Update()
