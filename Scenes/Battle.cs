@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading;
 using System.Xml;
@@ -25,6 +26,12 @@ namespace PokeMan
         private SpriteFont font;
         private string type;
         private string hpText;
+        private int pos = PokeManGame.SceenSize.x * 2 / 3;
+        private int posE;
+        private Rectangle FriendlyShadow;
+        private Rectangle EnemyShadow;
+
+        
         public Battle(PokeManGame game, string xmlPath) : base(game)
         {
             var buttonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
@@ -32,9 +39,11 @@ namespace PokeMan
 
             FriendlyPokeMan = Area.p.party[0];
             //FriendlyPokeMan.id = 1;
+        
 
-            EnemyPokeMan = new PokeMan();
+        EnemyPokeMan = new PokeMan();
             EnemyPokeMan.id = 2;
+
 
             Content.RootDirectory = "Content";
             font = Content.Load<SpriteFont>("Assets/FontTextBox");
@@ -43,13 +52,13 @@ namespace PokeMan
 
             // De forskellige knapper som spilleren nok skal kunne bruge i kamp scenen
 
-            Button fightButton = new Button(buttonTexture, font, text: "Fight", position: new Point(1000, 500));
+            Button fightButton = new Button(buttonTexture, font, text: "Fight", position: new Point(1000, 900));
 
-            Button bagButton = new Button(buttonTexture, font, text: "Bag", position: new Point(1100, 500));
+            Button bagButton = new Button(buttonTexture, font, text: "Bag", position: new Point(1100, 900));
 
-            Button pokemanButton = new Button(buttonTexture, font, text: "Pokeman", position: new Point(1000, 550));
+            Button pokemanButton = new Button(buttonTexture, font, text: "Pokeman", position: new Point(1000, 950));
 
-            Button cowardButton = new Button(buttonTexture, font, text: "Run", position: new Point(1100, 550));
+            Button cowardButton = new Button(buttonTexture, font, text: "Run", position: new Point(1100, 950));
 
             //startGameButton.Click += StartGameButton_Click;
             fightButton.Click += fightButton_Click;
@@ -69,13 +78,13 @@ namespace PokeMan
             // Knappen fight har andre knapper i sig når man klikker på den
             void fightButton_Click(object sender, EventArgs e)
             {
-                Button move1Button = new Button(buttonTexture, font, text: "hak", position: new Point(1100, 550));
+                Button move1Button = new Button(buttonTexture, font, text: "hak", position: new Point(1100, 850));
 
-                Button move2Button = new Button(buttonTexture, font, text: "slash", position: new Point(1100, 600));
+                Button move2Button = new Button(buttonTexture, font, text: "slash", position: new Point(1100, 900));
 
-                Button move3Button = new Button(buttonTexture, font, text: "poke", position: new Point(1100, 650));
+                Button move3Button = new Button(buttonTexture, font, text: "poke", position: new Point(1100, 950));
 
-                Button moveSpecialButton = new Button(buttonTexture, font, text: (type), position: new Point(1100, 700));
+                Button moveSpecialButton = new Button(buttonTexture, font, text: (type), position: new Point(1100, 1000));
 
                 move1Button.Click += move1Button_Click;
                 move2Button.Click += move2Button_Click;
@@ -111,6 +120,8 @@ namespace PokeMan
             }
             void pokemanButton_Click(object sender, EventArgs e)
             {
+                //FriendlyPokeMan = Area.p.party[1];
+
             }
             void cowardButton_Click(object sender, EventArgs e)
             {
@@ -183,6 +194,7 @@ namespace PokeMan
             }
 
             LoadedTextures = await LoadAssets<Texture2D>(paths);
+
             EnemyPokeMan.Sprite = LoadedTextures.ToArray();
 
             localLoadAmount = 1f;
@@ -196,14 +208,39 @@ namespace PokeMan
             }
             else
             {
-                Friendly = new Rectangle(0, PokeManGame.SceenSize.y * 2 / 3, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
-                Enemy = new Rectangle(PokeManGame.SceenSize.x * 2 / 3, PokeManGame.SceenSize.y, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
-                Enemy = new Rectangle(PokeManGame.SceenSize.x * 2 / 3, 0, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
+                Texture2D shadow = Content.Load<Texture2D>("Assets/Battle/Background/shadow");
 
-                spriteBatch.Draw(Background, new Rectangle(0, 0, PokeManGame.SceenSize.x, PokeManGame.SceenSize.y), Color.Black);
+
+                Friendly = new Rectangle(pos, PokeManGame.SceenSize.y * 2 / 3- 50, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
+                //Enemy = new Rectangle(PokeManGame.SceenSize.x * 2 / 3, PokeManGame.SceenSize.y, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
+                Enemy = new Rectangle(posE,0, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
+                
+                spriteBatch.Draw(Background, new Rectangle(0, 0, PokeManGame.SceenSize.x, PokeManGame.SceenSize.y), Color.White);
+
+                FriendlyShadow = new Rectangle(pos, PokeManGame.SceenSize.y * 2 / 3 +100 , PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
+
+                EnemyShadow = new Rectangle(posE, 100, PokeManGame.SceenSize.x / 3 , PokeManGame.SceenSize.y / 3);
+
+
+                spriteBatch.Draw(shadow, FriendlyShadow, Color.Black);
+
+                spriteBatch.Draw(shadow, EnemyShadow, Color.Black);
+
+                if (pos > 100 && posE < 1200)
+                {
+                    SlideIn() ;
+
+                    spriteBatch.DrawString(font, "FIGHT!", new Vector2(540, 500), Color.Black);
+
+                }
+
+
+
 
                 spriteBatch.Draw(FriendlyPokeMan.Sprite, Friendly, Color.White);
                 spriteBatch.Draw(EnemyPokeMan.Sprite, Enemy, Color.White);
+
+
 
                 spriteBatch.DrawString(font, $"Hp = {hpText}", new Vector2(50, 50), Color.White);
 
@@ -222,11 +259,11 @@ namespace PokeMan
             }
             else if (FriendlyPokeMan.id == 2)
             {
-                type = "water";
+                type = "fire";
             }
             else if (FriendlyPokeMan.id == 3)
             {
-                type = "fire";
+                type = "water";
             }
             else
             {
@@ -235,8 +272,25 @@ namespace PokeMan
         }
 
 
+         void SlideIn()
+        {
+            
+                pos -= 15;
+
+            
+                posE += 15;
+
+
+
+
+        }
+
         public override void Update()
         {
+            
+
+
+
             foreach (var component in _components)
             {
                 component.Update();
