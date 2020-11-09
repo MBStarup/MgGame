@@ -1,7 +1,7 @@
 #Global:
+/platform:DesktopGL
 /outputDir:bin/$(Platform)
 /intermediateDir:obj/$(Platform)
-/platform:DesktopGL
 
 #Files:
 /build:Assets\EmptyButton.png
