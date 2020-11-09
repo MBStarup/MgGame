@@ -23,6 +23,8 @@ namespace PokeMan
         public int lvl;
         public int hp;
         public string nickname;
+        public int tookdmg;
+
 
         private int maxHp;
         private int attack;
@@ -87,9 +89,9 @@ namespace PokeMan
         {
             move.DoMove(this, enemy);
         }
-
         public void TakeDmg(int dmg)
         {
+            tookdmg = Math.Clamp(dmg, 0, Int32.MaxValue);
             hp = Math.Clamp(hp - dmg, 0, Int32.MaxValue);
             if (hp == 0)
                 this.Die();

@@ -40,9 +40,9 @@ namespace PokeMan
 
             FriendlyPokeMan = Area.p.party[0];
             //FriendlyPokeMan.id = 1;
-        
 
-        EnemyPokeMan = new PokeMan(1,2);
+
+            EnemyPokeMan = new PokeMan(1, 5);
 
 
             Content.RootDirectory = "Content";
@@ -109,11 +109,14 @@ namespace PokeMan
                 void moveSpecialButton_Click(object sender, EventArgs e)
                 {
                     move = new Move();
-                    FriendlyPokeMan.Attack(EnemyPokeMan,move);
+                    FriendlyPokeMan.Attack(EnemyPokeMan, move);
                     //if (FriendlyPokeMan.id == 1)
                     //{
                     //    Debug.WriteLine("The pokeman is a" + type);
                     //}
+
+                    EnemyPokeMan.Attack(FriendlyPokeMan, move);
+                   
                 }
             }
 
@@ -131,6 +134,8 @@ namespace PokeMan
                 // _game.ChangeState(new StateMenu(_game));
             }
         }
+
+     
 
         public async void LoadContent(string xmlPath)
         {
@@ -200,6 +205,10 @@ namespace PokeMan
             EnemyPokeMan.Sprite = LoadedTextures.ToArray();
 
             localLoadAmount = 1f;
+
+
+
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -244,10 +253,31 @@ namespace PokeMan
 
 
 
-                spriteBatch.DrawString(font, $"Enemy Hp: = {enemyhpText}", new Vector2(50, 50), Color.White);
                 spriteBatch.DrawString(font, $"Your Hp: = {hpText}", new Vector2(50, 200), Color.White);
 
-                
+
+                spriteBatch.DrawString(font, $"Dmg Taken: = {FriendlyPokeMan.tookdmg}", new Vector2(50, 250), Color.Black);
+                spriteBatch.DrawString(font, $"Dmg Taken: = {FriendlyPokeMan.AttackStat}", new Vector2(50, 300), Color.Black);
+               // spriteBatch.DrawString(font, $"Dmg Taken: = {FriendlyPokeMan.Attack}", new Vector2(50, 250), Color.Black);
+
+
+
+                spriteBatch.DrawString(font, $"Enemy Hp: = {enemyhpText}", new Vector2(50, 50), Color.White);
+
+                spriteBatch.DrawString(font, $"Dmg Taken: = {EnemyPokeMan.tookdmg}", new Vector2(50, 100), Color.Black);
+
+                spriteBatch.DrawString(font, $"Dmg Taken: = {EnemyPokeMan.AttackStat}", new Vector2(50, 150), Color.Black);
+
+
+
+
+
+
+
+
+
+
+
                 foreach (var component in _components)
                 {
                     component.Draw(spriteBatch);
