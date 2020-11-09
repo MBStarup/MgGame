@@ -36,6 +36,11 @@ namespace PokeMan
 
         public override void Update()
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.B)) //temp
+            {
+                StartBattle();
+            }
+
             Vector2 distance = Vector2.Zero;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) && lastState.IsKeyUp(Keys.Right))
             {
@@ -175,7 +180,7 @@ namespace PokeMan
 
         public bool WillColide(int x, int y)
         {
-            if (Tiles[x, y, 0] == 3) //using the vlaue 3 to indicate it's  ab battle spot
+            if (Tiles[x, y, 0] == 3) //using the vlaue 3 to indicate it's  a battle spot
             {
                 StartBattle();
                 return false;
@@ -186,7 +191,7 @@ namespace PokeMan
 
         private void StartBattle()
         {
-            throw new NotImplementedException();
+            PokeManGame.Scenes.Push(new Battle(_game, "Battle1.xml")); //add the player or some shit
         }
     }
 }
