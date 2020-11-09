@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,16 +17,29 @@ namespace PokeMan
         public SpriteAnimation[] Animations;
         public int AnimationIndex;
         private PlayerData data = new PlayerData();
-        public Vector2 Position { get => new Vector2(data.Position.x, data.Position.y); }
+        private KeyboardState lastState;
+        private Rectangle rectangle;
+        private int frameCounter;
 
-        public override void Draw(SpriteBatch spriteBatch, Camera camera)
+        public Vector2 Position
         {
-            spriteBatch.Draw(Animations[AnimationIndex], camera.WorldToScreen(Position), Color.White);
+            get => new Vector2(data.Position.x, data.Position.y);
+            set
+            {
+                data.Position.x = (int)value.X;
+                data.Position.y = (int)value.Y;
+            }
         }
 
-        public Player((int x, int y) position)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            data.Position = position;
+            spriteBatch.Draw(Animations[AnimationIndex], rectangle, Color.White);
+            frameCounter++;
+        }
+
+        public Player(int size)
+        {
+            rectangle = new Rectangle(PokeManGame.SceenSize.x / 2, PokeManGame.SceenSize.y / 2, size, size);
         }
 
         public void LoadAssets(ContentManager contMan, string xmlPath)
@@ -56,7 +70,6 @@ namespace PokeMan
 
         public override void Update()
         {
-            throw new NotImplementedException();
         }
     }
 

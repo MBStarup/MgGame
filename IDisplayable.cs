@@ -8,6 +8,6 @@ namespace PokeMan
 {
     internal interface IDisplayable
     {
-        public void Draw(SpriteBatch spriteBatch, Camera camera);
+        public void Draw(SpriteBatch spriteBatch);
     }
 }

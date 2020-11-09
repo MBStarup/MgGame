@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Tiles size="30" file="ok.ga">
+	<Palette path="Assets/World/Sprites/Effects/">
+		<Tile>Cross</Tile>
+		<Tile>Face</Tile>
+	</Palette>
+	<Palette path="Assets/World/Sprites/Background/">
+		<Tile>Grass0</Tile>
+		<Tile>Grass1</Tile>
+		<Tile>Grass2</Tile>
+		<Tile>Stone0</Tile>
+	</Palette>
+	<Palette path="Assets/World/Sprites/Foreground/">
+		<Tile>Cracks0</Tile>
+		<Tile>Foliage0</Tile>
+		<Tile>Foliage1</Tile>
+		<Tile>Leaf0</Tile>
+		<Tile>Leaf1</Tile>
+		<Tile>Leaf2</Tile>
+		<Tile>Moss0</Tile>
+		<Tile>Moss1</Tile>
+		<Tile>Rock0</Tile>
+		<Tile>Rock1</Tile>
+		<Tile>Trunk0</Tile>
+	</Palette>
+	<Palette path="Assets/World/Sprites/Foreground/">
+		<Tile>Crown0</Tile>
+		<Tile>Trunk1</Tile>
+	</Palette>
+</Tiles>

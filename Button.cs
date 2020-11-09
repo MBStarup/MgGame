@@ -28,8 +28,6 @@ namespace PokeMan
 
         public Rectangle Rectangle;
 
-        
-
         // Constructor for button
         public Button(Texture2D texture, SpriteFont font, string text = "", Point? position = null, int width = 100, int height = 50, Color? penColour = null, Color? spriteColor = null, Color? hoverColor = null)
         {
@@ -55,11 +53,8 @@ namespace PokeMan
             Rectangle = rectangle;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Camera camera)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-          
-            
-
             // Resets from hover colour
             var colour = SpriteColor;
             // changes colour when mouse is hovering

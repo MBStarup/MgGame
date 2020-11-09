@@ -8,7 +8,7 @@ namespace PokeMan
 {
     public abstract class Component : IDisplayable, IUpdatable
     {
-        public abstract void Draw(SpriteBatch spriteBatch, Camera camera);
+        public abstract void Draw(SpriteBatch spriteBatch);
 
         public abstract void Update();
     }

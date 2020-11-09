@@ -52,7 +52,7 @@ namespace PokeMan
             //_game.ChangeState(new StateBattle(_game));
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Camera camera)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             // spriteBatch.Begin();
 
@@ -62,7 +62,7 @@ namespace PokeMan
 
             foreach (var component in _components)
             {
-                component.Draw(spriteBatch, camera);
+                component.Draw(spriteBatch);
             }
             //spriteBatch.End();
         }

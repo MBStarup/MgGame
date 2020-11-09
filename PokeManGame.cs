@@ -10,7 +10,7 @@ namespace PokeMan
     public class PokeManGame : Game
     {
         new public static GameServiceContainer Services;
-        private GraphicsDeviceManager _graphics;
+        public GraphicsDeviceManager Graphics;
         private SpriteBatch _spriteBatch;
 
         public static Stack<Scene> Scenes = new Stack<Scene>();
@@ -20,6 +20,8 @@ namespace PokeMan
 
         public static SpriteFont Font;
         public static Texture2D ButtonTexture;
+
+        public static (int x, int y) SceenSize;
 
         //private List<Component> _GameComponents;
 
@@ -34,7 +36,7 @@ namespace PokeMan
 
         public PokeManGame()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
@@ -43,18 +45,16 @@ namespace PokeMan
 
         protected override void Initialize()
         {
+            SceenSize = (GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height);
             //mc = new Player((0, _graphics.PreferredBackBufferHeight));
 
-            base.Initialize();
-
             // window size
-            _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.PreferredBackBufferHeight = 1080;
-            _graphics.IsFullScreen = true;
-            _graphics.ApplyChanges();
+            Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            //_graphics.IsFullScreen = true;
+            Graphics.ApplyChanges();
 
-            cam = new Camera(_graphics);
-            //cam.position = new Vector2(0, 0);
+            base.Initialize();
         }
 
         protected override void LoadContent()
@@ -67,7 +67,7 @@ namespace PokeMan
             Font = Content.Load<SpriteFont>("Assets/FontTextBox");
             ButtonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
 
-            Scenes.Push(new Area(this, "Home.xml"));
+            Scenes.Push(new Area(this, "Sprites.xml"));
             Scenes.Push(new PickScene(this, "Battle1.xml"));
             Scenes.Push(new StartMenuScene(this));
 
@@ -107,18 +107,16 @@ namespace PokeMan
             //    _nextstate = null;
             //}
 
-            cam.Update();
-
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Aquamarine);
+            GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             {
-                Scenes.Peek().Draw(_spriteBatch, cam);
+                Scenes.Peek().Draw(_spriteBatch);
 
                 //_currentState.Draw(_spriteBatch, cam);
 

@@ -13,7 +13,6 @@ namespace PokeMan
 {
     public class Scene : Component
     {
-
         protected string xmlPath;
         protected PokeManGame _game;
         public virtual float LoadAmount { get { return loadAmount; } } //should be atomic, so no need to lock https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/variables#atomicity-of-variable-references
@@ -24,12 +23,9 @@ namespace PokeMan
 
         public Scene(PokeManGame game)
         {
-
-               Content.RootDirectory = "Content";
+            Content.RootDirectory = "Content";
 
             _game = game;
-
-           
         }
 
         public async Task<IEnumerable<T>> LoadAssets<T>(IEnumerable<string> AssetPaths)
@@ -55,7 +51,7 @@ namespace PokeMan
             return result;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Camera camera)
+        public override void Draw(SpriteBatch spriteBatch)
         {
         }
 

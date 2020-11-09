@@ -12,9 +12,10 @@ namespace PokeMan
 {
     internal class PickScene : Scene
     {
-        new public float LoadAmount { get => base.LoadAmount * localLoadAmount; }
+        new public float LoadAmount { get => (float)completedLoadTasks / loadTasks + base.LoadAmount / loadTasks; }
 
-        private float localLoadAmount;
+        private int completedLoadTasks;
+        private int loadTasks;
 
         private Texture2D background;
         private Texture2D buttonTexture = PokeManGame.ButtonTexture;
@@ -24,7 +25,6 @@ namespace PokeMan
         {
             new PokeMan(1, 2),
             new PokeMan(2, 2),
-            new PokeMan(3, 2),
             new PokeMan(3, 2)
         };
 
@@ -38,8 +38,7 @@ namespace PokeMan
 
         public async void LoadContent(string xmlPath)
         {
-            //font = Content.Load<SpriteFont>("Assets/FontTextBox");
-            //buttonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
+            loadTasks = choices.Length;
 
             //Loads Background sprites based off xml doc
             XmlDocument doc = new XmlDocument();
@@ -48,19 +47,20 @@ namespace PokeMan
             var path = node.Attributes["path"].Value;
 
             int count = node.ChildNodes.Count;
+            loadTasks += count;
             string[] paths = new string[count];
 
             int i = 0;
             foreach (XmlNode sprite in node)
             {
                 paths[i++] = ($"{path}{sprite.InnerText}");
+                completedLoadTasks += 1;
             }
             IEnumerable<Texture2D> LoadedTextures = await LoadAssets<Texture2D>(paths);
             var arr = LoadedTextures.ToArray();
             background = arr[0];
 
             //Load pokeman assets
-            count = choices.Length;
             i = 0;
             foreach (PokeMan pokeMan in choices)
             {
@@ -84,7 +84,7 @@ namespace PokeMan
 
                 pokeMan.Sprite = LoadedTextures.ToArray();
 
-                localLoadAmount = ++i / count;
+                completedLoadTasks += 1;
             }
 
             //make buttons
@@ -101,7 +101,7 @@ namespace PokeMan
 
             testButton.Click += TestButton_Click;
 
-            localLoadAmount = 1f;
+            completedLoadTasks = loadTasks;
         }
 
         private void OnPokemonClick(object sender, EventArgs e)
@@ -121,7 +121,7 @@ namespace PokeMan
                 button.Update();
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Camera camera)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (this.LoadAmount < 1)
             {
@@ -129,10 +129,10 @@ namespace PokeMan
             }
             else
             {
-                spriteBatch.Draw(background, new Rectangle(0, 0, camera.Width, camera.Height), Color.Green);
+                spriteBatch.Draw(background, new Rectangle(0, 0, PokeManGame.SceenSize.x, PokeManGame.SceenSize.y), Color.Green);
 
                 float buttonSpaceRatio = 0.5f / 1;
-                float buttonWidth = camera.Width / (buttons.Length * (buttonSpaceRatio + 1));
+                float buttonWidth = PokeManGame.SceenSize.x / (buttons.Length * (buttonSpaceRatio + 1));
 
                 int i = 0;
                 foreach (Button b in buttons)
@@ -141,10 +141,10 @@ namespace PokeMan
                     b.Rectangle = rec;
                     spriteBatch.Draw(choices[i].Sprite, rec, Color.White);
                     i++;
-                    b.Draw(spriteBatch, camera);
+                    b.Draw(spriteBatch);
                 }
             }
-            base.Draw(spriteBatch, camera);
+            base.Draw(spriteBatch);
         }
     }
 }

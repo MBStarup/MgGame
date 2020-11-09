@@ -25,7 +25,7 @@ namespace PokeMan
         {
             //enemy.TakeDmg((int)(power * GetElementMultiplier(user.Element, element, enemy.Element)));
             // https://bulbapedia.bulbagarden.net/wiki/Damage
-            enemy.TakeDmg((int)(((((((2*user.lvl)/5)+2)*power*user.AttackStat/enemy.DefenceStat)/50)+2)* GetElementMultiplier(user.Element, element, enemy.Element)));
+            enemy.TakeDmg((int)(((((((2 * user.lvl) / 5) + 2) * power * user.AttackStat / enemy.DefenceStat) / 50) + 2) * GetElementMultiplier(user.Element, element, enemy.Element)));
         }
 
         private static float GetElementMultiplier(ElementEnum attacking, ElementEnum move, ElementEnum defending)
@@ -65,7 +65,7 @@ namespace PokeMan
             return result;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Camera camera)
+        public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Animation, Vector2.Zero, Color.White);
         }

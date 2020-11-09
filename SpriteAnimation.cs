@@ -10,6 +10,7 @@ namespace PokeMan
     {
         private Texture2D[] Frames;
         private ulong currIndex;
+        public int Length { get => Frames.Length; }
 
         /// <summary>
         /// How many frames each texture is repeated, lover numbers means faster animantions
@@ -42,7 +43,7 @@ namespace PokeMan
             return Frames[(++currIndex % ((ulong)Frames.Length * InverseSpeed)) / InverseSpeed];
         }
 
-        public void Draw(SpriteBatch spriteBatch, Camera camera)
+        public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(this, Vector2.Zero, Color.White);
         }
