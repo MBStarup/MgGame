@@ -59,6 +59,9 @@ namespace PokeMan
 
         public PokeMan(int id, int level)
         {
+
+            
+
             this.id = id;
             lvl = level;
             doc.Load("../../../Content/Xml/PocketMan.xml");
@@ -77,6 +80,7 @@ namespace PokeMan
 
         public void Load()
         {
+           
         }
 
         public void Attack(PokeMan enemy, Move move)
@@ -87,14 +91,14 @@ namespace PokeMan
         public void TakeDmg(int dmg)
         {
             hp = Math.Clamp(hp - dmg, 0, Int32.MaxValue);
-
             if (hp == 0)
                 this.Die();
         }
 
         private void Die()
         {
-            throw new NotImplementedException("Your PokeMan died!");
+            //throw new NotImplementedException("Your PokeMan died!");
+            PokeManGame.Scenes.Pop();
         }
 
         public void LevelUp()
@@ -153,6 +157,8 @@ namespace PokeMan
         {
             DetermineNature();
             UpdateStats();
+
+            hp = MaxHpStat;
         }
     }
 }

@@ -25,13 +25,14 @@ namespace PokeMan
         private List<Component> _components;
         private SpriteFont font;
         private string type;
+        private string enemyhpText;
         private string hpText;
         private int pos = PokeManGame.SceenSize.x * 2 / 3;
         private int posE;
         private Rectangle FriendlyShadow;
         private Rectangle EnemyShadow;
+        private Move move;
 
-        
         public Battle(PokeManGame game, string xmlPath) : base(game)
         {
             var buttonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
@@ -41,8 +42,7 @@ namespace PokeMan
             //FriendlyPokeMan.id = 1;
         
 
-        EnemyPokeMan = new PokeMan();
-            EnemyPokeMan.id = 2;
+        EnemyPokeMan = new PokeMan(1,2);
 
 
             Content.RootDirectory = "Content";
@@ -108,10 +108,12 @@ namespace PokeMan
                 }
                 void moveSpecialButton_Click(object sender, EventArgs e)
                 {
-                    if (FriendlyPokeMan.id == 1)
-                    {
-                        Debug.WriteLine("The pokeman is a" + type);
-                    }
+                    move = new Move();
+                    FriendlyPokeMan.Attack(EnemyPokeMan,move);
+                    //if (FriendlyPokeMan.id == 1)
+                    //{
+                    //    Debug.WriteLine("The pokeman is a" + type);
+                    //}
                 }
             }
 
@@ -242,8 +244,10 @@ namespace PokeMan
 
 
 
-                spriteBatch.DrawString(font, $"Hp = {hpText}", new Vector2(50, 50), Color.White);
+                spriteBatch.DrawString(font, $"Enemy Hp: = {enemyhpText}", new Vector2(50, 50), Color.White);
+                spriteBatch.DrawString(font, $"Your Hp: = {hpText}", new Vector2(50, 200), Color.White);
 
+                
                 foreach (var component in _components)
                 {
                     component.Draw(spriteBatch);
@@ -287,8 +291,8 @@ namespace PokeMan
 
         public override void Update()
         {
-            
 
+            
 
 
             foreach (var component in _components)
@@ -296,7 +300,9 @@ namespace PokeMan
                 component.Update();
             }
 
+            enemyhpText = EnemyPokeMan.hp.ToString();
             hpText = FriendlyPokeMan.hp.ToString();
+
 
         }
 

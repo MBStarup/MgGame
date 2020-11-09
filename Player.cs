@@ -91,6 +91,7 @@ namespace PokeMan
 
         public override void Update()
         {
+
         }
     }
 
