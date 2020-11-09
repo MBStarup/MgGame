@@ -21,7 +21,7 @@ namespace PokeMan
 
         protected ContentManager Content = new ContentManager(PokeManGame.Services);
 
-        public Scene()
+        public Scene(PokeManGame game)
         {
             Content.RootDirectory = "Content";
 

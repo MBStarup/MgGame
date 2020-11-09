@@ -137,16 +137,16 @@
 //            }
 //        }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            //spriteBatch.Begin();
+//public override void Draw(SpriteBatch spriteBatch)
+//{
+//    spriteBatch.Begin();
 
-//            spriteBatch.Draw(background, Vector2.Zero, new Rectangle(0, 0, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.1f);
+//   spriteBatch.Draw(background, Vector2.Zero, new Rectangle(0, 0, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), Color.White, 0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.1f);
 
-            foreach (var component in _components)
-            {
-                component.Draw(spriteBatch);
-            }
+//    foreach (var component in _components)
+//    {
+//        component.Draw(spriteBatch);
+//    }
 
 //            //spriteBatch.End();
 //        }
