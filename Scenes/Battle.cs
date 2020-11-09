@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -20,11 +21,15 @@ namespace PokeMan
 
         private Rectangle Friendly;
         private Rectangle Enemy;
-
+        private List<Component> _components;
         private SpriteFont font;
-
+        private string type;
+        private string hpText;
         public Battle(PokeManGame game, string xmlPath) : base(game)
         {
+            var buttonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
+            var buttonFont = Content.Load<SpriteFont>("Assets/FontTextBox");
+
             FriendlyPokeMan = Area.p.party[0];
             //FriendlyPokeMan.id = 1;
 
@@ -33,7 +38,85 @@ namespace PokeMan
 
             Content.RootDirectory = "Content";
             font = Content.Load<SpriteFont>("Assets/FontTextBox");
+            Checktype();
             LoadContent(xmlPath);
+
+            // De forskellige knapper som spilleren nok skal kunne bruge i kamp scenen
+
+            Button fightButton = new Button(buttonTexture, font, text: "Fight", position: new Point(1000, 500));
+
+            Button bagButton = new Button(buttonTexture, font, text: "Bag", position: new Point(1100, 500));
+
+            Button pokemanButton = new Button(buttonTexture, font, text: "Pokeman", position: new Point(1000, 550));
+
+            Button cowardButton = new Button(buttonTexture, font, text: "Run", position: new Point(1100, 550));
+
+            //startGameButton.Click += StartGameButton_Click;
+            fightButton.Click += fightButton_Click;
+            bagButton.Click += bagButton_Click;
+            pokemanButton.Click += pokemanButton_Click;
+            cowardButton.Click += cowardButton_Click;
+
+            _components = new List<Component>()
+            {
+               // startGameButton,
+                fightButton,
+                bagButton,
+                pokemanButton,
+                cowardButton,
+            };
+
+            // Knappen fight har andre knapper i sig når man klikker på den
+            void fightButton_Click(object sender, EventArgs e)
+            {
+                Button move1Button = new Button(buttonTexture, font, text: "hak", position: new Point(1100, 550));
+
+                Button move2Button = new Button(buttonTexture, font, text: "slash", position: new Point(1100, 600));
+
+                Button move3Button = new Button(buttonTexture, font, text: "poke", position: new Point(1100, 650));
+
+                Button moveSpecialButton = new Button(buttonTexture, font, text: (type), position: new Point(1100, 700));
+
+                move1Button.Click += move1Button_Click;
+                move2Button.Click += move2Button_Click;
+                move3Button.Click += move3Button_Click;
+                moveSpecialButton.Click += moveSpecialButton_Click;
+                _components = new List<Component>()
+            {
+               move1Button,
+               move2Button,
+               move3Button,
+               moveSpecialButton,
+            };
+                void move1Button_Click(object sender, EventArgs e)
+                {
+                }
+                void move2Button_Click(object sender, EventArgs e)
+                {
+                }
+                void move3Button_Click(object sender, EventArgs e)
+                {
+                }
+                void moveSpecialButton_Click(object sender, EventArgs e)
+                {
+                    if (FriendlyPokeMan.id == 1)
+                    {
+                        Debug.WriteLine("The pokeman is a" + type);
+                    }
+                }
+            }
+
+            void bagButton_Click(object sender, EventArgs e)
+            {
+            }
+            void pokemanButton_Click(object sender, EventArgs e)
+            {
+            }
+            void cowardButton_Click(object sender, EventArgs e)
+            {
+                // Tager spilleren tilbage til startmenuen, bare en placeholder
+                // _game.ChangeState(new StateMenu(_game));
+            }
         }
 
         public async void LoadContent(string xmlPath)
@@ -81,7 +164,7 @@ namespace PokeMan
 
             localLoadAmount = 2f / 3;
 
-            //enmy
+            //enemy
             doc = new XmlDocument();
             doc.Load("../../../Content/Xml/PocketMan.xml");
             node = doc.DocumentElement.SelectSingleNode("/PokeMans");
@@ -121,7 +204,47 @@ namespace PokeMan
 
                 spriteBatch.Draw(FriendlyPokeMan.Sprite, Friendly, Color.White);
                 spriteBatch.Draw(EnemyPokeMan.Sprite, Enemy, Color.White);
+
+                spriteBatch.DrawString(font, $"Hp = {hpText}", new Vector2(50, 50), Color.White);
+
+                foreach (var component in _components)
+                {
+                    component.Draw(spriteBatch);
+                }
             }
         }
+
+        void Checktype()
+        {
+            if (FriendlyPokeMan.id == 1)
+            {
+                type = "grass";
+            }
+            else if (FriendlyPokeMan.id == 2)
+            {
+                type = "water";
+            }
+            else if (FriendlyPokeMan.id == 3)
+            {
+                type = "fire";
+            }
+            else
+            {
+                type = "normal";
+            }
+        }
+
+
+        public override void Update()
+        {
+            foreach (var component in _components)
+            {
+                component.Update();
+            }
+
+            hpText = FriendlyPokeMan.hp.ToString();
+
+        }
+
     }
 }
