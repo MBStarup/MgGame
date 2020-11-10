@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,7 +87,7 @@ namespace PokeMan
 
         public void Load()
         {
-           
+          
         }
 
         public void Attack(PokeMan enemy, Move move)
@@ -100,6 +101,10 @@ namespace PokeMan
             if (hp == 0)
                 this.Die();
         }
+
+
+
+
 
         private void Die()
         {

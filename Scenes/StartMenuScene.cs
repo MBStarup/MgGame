@@ -22,14 +22,7 @@ namespace PokeMan
             font = PokeManGame.Font;
             buttonTexture = PokeManGame.ButtonTexture;
 
-            //Vector2 startGameStateSize = buttonFont.MeasureString("Start Game (state)");
-            //var startGameButton = new Button(buttonTexture, buttonFont)
-            //{
-            //    Position = new Vector2((1920 / 2) - (startGameStateSize.X / 2), 250),
-            //    Text = "Start Game (state)",
-            //};
-
-            var startGameButton = new Button(buttonTexture, font, text: "Start Game (state)", position: new Point(100, 800), width: 250);
+            var startGameButton = new Button(buttonTexture, font, text: "Start Game", position: new Point(100, 800), width: 250);
             startGameButton.Click += StartGameButton_Click;
 
             _components = new List<Component>()

@@ -95,9 +95,9 @@ namespace PokeMan
 
             void BattleButtons()
             {
-             
-                
-                
+
+
+
                 // De forskellige knapper som spilleren nok skal kunne bruge i kamp scenen
 
                 Button fightButton = new Button(buttonTexture, font, text: "Fight", position: new Point(1000, 900));
@@ -282,7 +282,10 @@ namespace PokeMan
             // 0.0f is silent, 1.0f is full volume
             MediaPlayer.Volume -= 0.1f;
             MediaPlayer.Play(song);
+
         }
+
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (this.LoadAmount < 1)
@@ -373,7 +376,8 @@ namespace PokeMan
             enemyhpText = EnemyPokeMan.hp.ToString();
             hpText = FriendlyPokeMan.hp.ToString();
 
-            
+
+
         }
 
 

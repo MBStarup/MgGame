@@ -14,8 +14,6 @@ namespace PokeMan
         public GraphicsDeviceManager Graphics;
         private SpriteBatch _spriteBatch;
 
-        Song song;
-
         public static Stack<Scene> Scenes = new Stack<Scene>();
 
         //private Player mc;
@@ -25,17 +23,9 @@ namespace PokeMan
         public static Texture2D ButtonTexture;
 
         public static (int x, int y) SceenSize;
+        private Song gam;
 
-        //private List<Component> _GameComponents;
 
-        //private Scene _currentState;
-
-        //private Scene _nextstate;
-
-        // void ChangeState(Scene scene)
-        //{
-        //    _nextstate = scene;
-        //}
 
         public PokeManGame()
         {
@@ -60,6 +50,8 @@ namespace PokeMan
             base.Initialize();
         }
 
+
+       
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -74,26 +66,17 @@ namespace PokeMan
             Scenes.Push(new PickScene("Battle1.xml"));
             Scenes.Push(new StartMenuScene());
 
-            // Creates a new button
-            //var quitButton = new Button(ButtonTexture, Font, text: "quit", position: new Point(1700, 950));
 
-            //quitButton.Click += QuitButton_Click;
-
-            // adds buttons to list
-            //_GameComponents = new List<Component>()
-            //{
-            //   quitButton,
-            //};
-            //_currentState = new StateMenu(this);
             
+            //song
+            //Content.Load<Song>("music/menuSongName");
+            //Content.Load<Song>("music/gameSongName");
+
+
 
         }
 
-       
-
-        
-
-            private void QuitButton_Click(object sender, System.EventArgs e)
+        private void QuitButton_Click(object sender, System.EventArgs e)
         {
             Exit();
         }
@@ -104,16 +87,21 @@ namespace PokeMan
                 Exit();
 
             Scenes.Peek().Update();
+            
+            
+            //song
+            //Scene tempscene = new Scene;
+            //tempscene = Scenes.Peek(); ;
 
-            //_currentState.Update();
-
-            //foreach (var component in _GameComponents)
-            //    component.Update();
-
-            //if (_nextstate != null)
+            //if (isInMenu)
             //{
-            //    _currentState = _nextstate;
-            //    _nextstate = null;
+            //    MediaPlayer.Stop(); //Stop the current audio...
+            //    MediaPlayer.Play(battle_song); //...and start playing the next.
+            //}
+            //else
+            //{
+            //    MediaPlayer.Stop(); //Stop the current audio
+            //    MediaPlayer.Play(game_song); //...and start playing the next.
             //}
 
             base.Update(gameTime);
@@ -127,15 +115,7 @@ namespace PokeMan
             {
                 Scenes.Peek().Draw(_spriteBatch);
 
-                //_currentState.Draw(_spriteBatch, cam);
-
-                //foreach (IDisplayable displayable in toDraw)
-                //{
-                //    displayable.Draw(_spriteBatch, cam);
-                //}
-
-                //foreach (var component in _GameComponents)
-                //    component.Draw(_spriteBatch, cam);
+               
             }
             _spriteBatch.End();
 
