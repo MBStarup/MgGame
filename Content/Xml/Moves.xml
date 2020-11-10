@@ -2,10 +2,10 @@
 <Moves>
 	<Move id="1" name="Grapple" element="Normal" power="10" accuracy="100">
 	</Move>
-	<Move id="1" name="Cinder" element="Fire" power="10" accuracy="100">
+	<Move id="2" name="Cinder" element="Fire" power="10" accuracy="100">
 	</Move>
-	<Move id="1" name="Creeper Whisk" element="Grass" power="10" accuracy="100">
+	<Move id="3" name="Creeper Whisk" element="Grass" power="10" accuracy="100">
 	</Move>
-	<Move id="1" name="Foam Laser" element="Water" power="10" accuracy="100">
+	<Move id="4" name="Foam Laser" element="Water" power="10" accuracy="100">
 	</Move>
 </Moves>

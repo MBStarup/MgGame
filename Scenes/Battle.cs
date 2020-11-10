@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,7 +33,7 @@ namespace PokeMan
         private Rectangle FriendlyShadow;
         private Rectangle EnemyShadow;
         private Move move;
-
+        private Song song;
         public Battle(string xmlPath)
         {
             var buttonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
@@ -198,9 +199,20 @@ namespace PokeMan
 
             EnemyPokeMan.Sprite = LoadedTextures.ToArray();
 
+
+            this.song = Content.Load<Song>("Assets/Battle/Music/battlemusic");
+            MediaPlayer.Play(song);
+            MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged1;
+
             localLoadAmount = 1f;
         }
 
+        private void MediaPlayer_MediaStateChanged1(object sender, System.EventArgs e)
+        {
+            // 0.0f is silent, 1.0f is full volume
+            MediaPlayer.Volume -= 0.1f;
+            MediaPlayer.Play(song);
+        }
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (this.LoadAmount < 1)

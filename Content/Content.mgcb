@@ -25,6 +25,12 @@
 /processorParam:TextureFormat=Color
 /build:Assets/Battle/Background/shadow.png
 
+#begin Assets/Battle/Music/battlemusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Assets/Battle/Music/battlemusic.mp3
+
 #begin Assets\Battle\Background\1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -36,12 +42,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Assets\Battle\Background\1.png
-
-#begin Assets\Battle\Music\PokeMan Battle Music.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Assets\Battle\Music\PokeMan Battle Music.wav
 
 #begin Assets\Battle\Platform\1.png
 /importer:TextureImporter

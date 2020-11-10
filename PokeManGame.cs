@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 using System.Reflection.PortableExecutable;
 using System.Runtime.CompilerServices;
@@ -12,6 +13,8 @@ namespace PokeMan
         new public static GameServiceContainer Services;
         public GraphicsDeviceManager Graphics;
         private SpriteBatch _spriteBatch;
+
+        Song song;
 
         public static Stack<Scene> Scenes = new Stack<Scene>();
 
@@ -82,9 +85,15 @@ namespace PokeMan
             //   quitButton,
             //};
             //_currentState = new StateMenu(this);
+            
+
         }
 
-        private void QuitButton_Click(object sender, System.EventArgs e)
+       
+
+        
+
+            private void QuitButton_Click(object sender, System.EventArgs e)
         {
             Exit();
         }
