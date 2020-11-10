@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PokeMan
 {
-    public class SpriteAnimation : IDisplayable
+    public class SpriteAnimation
     {
         private Texture2D[] Frames;
         private ulong currIndex;
@@ -46,11 +46,6 @@ namespace PokeMan
         public Texture2D GetNextFrame()
         {
             return Frames[(++currIndex % ((ulong)Frames.Length * InverseSpeed)) / InverseSpeed];
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(this, Vector2.Zero, Color.White);
         }
     }
 }

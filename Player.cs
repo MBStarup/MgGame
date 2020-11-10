@@ -71,7 +71,7 @@ namespace PokeMan
                 {
                     t[j++] = contMan.Load<Texture2D>($"{n.Attributes["path"].Value}{m.InnerText}");
                 }
-                Animations[i++] = t;
+                Animations[i++] = new SpriteAnimation(t, uint.Parse(n.Attributes["inverseSpeed"].Value));
             }
         }
 
@@ -99,6 +99,20 @@ namespace PokeMan
         public void ChangeAnimation(PlayerAnimationEnums animation, bool restart = false)
         {
             ChangeAnimation((int)animation, restart);
+        }
+
+        public void PlayAnimationFor(int index, int frames, bool restart = false)
+        {
+            frameCounter = 0;
+            animationIndex = index;
+            animationLength = frames;
+            if (restart)
+                Animations[index].Restart();
+        }
+
+        public void PlayAnimationFor(PlayerAnimationEnums animation, int frames, bool restart = false)
+        {
+            PlayAnimationFor((int)animation, frames, restart);
         }
 
         public override void Update()

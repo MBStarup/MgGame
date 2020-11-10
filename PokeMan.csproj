@@ -30,6 +30,7 @@
 		<PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
 	</ItemGroup>
 	<ItemGroup>
+		<Folder Include="Content\Assets\Characters\Player\Sprites\" />
 		<Folder Include="Content\Assets\World\Sprites\" />
 		<Folder Include="Content\Maps\" />
 	</ItemGroup>
