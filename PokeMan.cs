@@ -25,7 +25,6 @@ namespace PokeMan
         public string nickname;
         public int tookdmg;
 
-
         private int maxHp;
         private int attack;
         private int defence;
@@ -35,11 +34,6 @@ namespace PokeMan
         private Texture2D spriteBack;
 
         public static List<PokeMan> playerPokemen = new List<PokeMan>(4);
-
-        //protected int baseHp;
-        //protected int baseAttack;
-        //protected int baseDefence;
-        //protected int baseSpeed;
 
         protected int[] baseStats; // Hp, Attack, Defence, Speed
         protected float[][] nature;
@@ -53,7 +47,8 @@ namespace PokeMan
         public Texture2D SpriteFront { get => spriteFront; protected set => spriteFront = value; }
         public Texture2D SpriteBack { get => spriteBack; protected set => spriteBack = value; }
 
-        private XmlDocument doc = new XmlDocument();
+        private XmlDocument doc;
+        private XmlDocument movepoolDoc;
 
         public PokeMan()
         {
@@ -61,14 +56,15 @@ namespace PokeMan
 
         public PokeMan(int id, int level)
         {
-
-            
-
             this.id = id;
             lvl = level;
+            doc = new XmlDocument();
             doc.Load("../../../Content/Xml/PocketMan.xml");
             var node = doc.DocumentElement.SelectSingleNode("/PokeMans");
             node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == this.id);
+
+            nickname = node.Attributes["name"].Value;
+            element = (ElementEnum)Enum.Parse(typeof(ElementEnum), node.Attributes["element"].Value);
 
             baseStats = new int[4];
 
@@ -76,6 +72,14 @@ namespace PokeMan
             baseStats[1] = int.Parse(node.Attributes["baseAttack"].Value);
             baseStats[2] = int.Parse(node.Attributes["baseDefense"].Value);
             baseStats[3] = int.Parse(node.Attributes["baseSpeed"].Value);
+
+            moves = new Move[4];
+
+            movepoolDoc = new XmlDocument();
+            movepoolDoc.Load("../../../Content/Xml/PocketMan.xml");
+            
+
+
 
             GenerateStats();
         }
@@ -107,6 +111,7 @@ namespace PokeMan
         {
             lvl++;
             UpdateStats();
+            UpdateMoveset();
         }
 
         /// <summary>
@@ -150,15 +155,39 @@ namespace PokeMan
             DefenceStat = (int)Math.Floor(stats[2]);
             SpeedStat = (int)Math.Floor(stats[3]);
         }
+        public void UpdateMoveset()
+        {
+            var movepoolNode = movepoolDoc.DocumentElement.SelectSingleNode("/PokeMans");
+            movepoolNode = movepoolNode.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == this.id).SelectSingleNode("Moves");
+
+            int slot = 0; // To place the move the correct place
+
+            foreach(XmlNode m in movepoolNode)
+            {
+                int moveLevel = int.Parse(m.Attributes["lvl"].Value);
+                if (moveLevel <= lvl)
+                {
+                    int moveid = int.Parse(m.Attributes["id"].Value);
+                    moves[slot] = new Move(int.Parse(m.Attributes["id"].Value));
+                    slot++;
+                }
+                else// if it is not the previous level it will not me the next levels either
+                    break;
+                
+            }
+
+
+        }
 
         /// <summary>
-        /// Generates Nature and updates stats
+        /// Generates Nature and updates stats, and Udates Moveset
         /// Only for use when first generating the pokemon
         /// </summary>
         protected void GenerateStats()
         {
             DetermineNature();
             UpdateStats();
+            UpdateMoveset();
 
             hp = MaxHpStat;
         }
