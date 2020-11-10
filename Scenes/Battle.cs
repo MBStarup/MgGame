@@ -32,13 +32,15 @@ namespace PokeMan
         private Rectangle FriendlyShadow;
         private Rectangle EnemyShadow;
         private Move move;
+        private Player p;
 
-        public Battle(string xmlPath)
+        public Battle(Player player, string xmlPath)
         {
+            p = player;
             var buttonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
             var buttonFont = Content.Load<SpriteFont>("Assets/FontTextBox");
 
-            FriendlyPokeMan = Area.p.party[0];
+            FriendlyPokeMan = p.Party[0];
             //FriendlyPokeMan.id = 1;
 
             EnemyPokeMan = new PokeMan(1, 5);
