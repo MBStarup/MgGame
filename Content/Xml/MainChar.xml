@@ -2,12 +2,33 @@
 
 <Character type="mc" name="Mial" hp="100" dmg="11">
 	<Animations>
-		<Animation name="Idle" path="Assets/Characters/Player/Sprites/">
-			<Frame>Idle</Frame>
+		<Animation name="IdleDown" path="Assets/Characters/Player/Sprites/" inverseSpeed="5">
+			<Frame>IdleDown1</Frame>
 		</Animation>
-		<Animation name="Running" path="Assets/Characters/Player/Sprites/">
-			<Frame>Running1</Frame>
-			<Frame>Running2</Frame>
+		<Animation name="IdleUp" path="Assets/Characters/Player/Sprites/" inverseSpeed="5">
+			<Frame>IdleUp1</Frame>
+		</Animation>
+		<Animation name="IdleRight" path="Assets/Characters/Player/Sprites/" inverseSpeed="5">
+			<Frame>IdleRight1</Frame>
+		</Animation>
+		<Animation name="IdleLeft" path="Assets/Characters/Player/Sprites/" inverseSpeed="5">
+			<Frame>IdleLeft1</Frame>
+		</Animation>
+		<Animation name="WalkDown" path="Assets/Characters/Player/Sprites/" inverseSpeed="3">
+			<Frame>WalkDown3</Frame>
+			<Frame>WalkDown7</Frame>
+		</Animation>
+		<Animation name="WalkUp" path="Assets/Characters/Player/Sprites/" inverseSpeed="3">
+			<Frame>WalkUp3</Frame>
+			<Frame>WalkUp7</Frame>
+		</Animation>
+		<Animation name="WalkRight" path="Assets/Characters/Player/Sprites/" inverseSpeed="3">
+			<Frame>WalkRight2</Frame>
+			<Frame>WalkRight3</Frame>
+		</Animation>
+		<Animation name="WalkLeft" path="Assets/Characters/Player/Sprites/" inverseSpeed="3">
+			<Frame>WalkLeft2</Frame>
+			<Frame>WalkLeft3</Frame>
 		</Animation>
 	</Animations>
 	<Items>

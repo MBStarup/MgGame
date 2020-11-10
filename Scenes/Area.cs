@@ -41,29 +41,28 @@ namespace PokeMan
                 StartBattle();
             }
 
-            Vector2 distance = Vector2.Zero;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) && lastState.IsKeyUp(Keys.Right))
             {
-                distance += new Vector2(SpriteSize, 0);
+                ApplyMoveInput(new Vector2(SpriteSize, 0));
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left) && lastState.IsKeyUp(Keys.Left))
             {
-                distance -= new Vector2(SpriteSize, 0);
+                ApplyMoveInput(new Vector2(-SpriteSize, 0));
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && lastState.IsKeyUp(Keys.Up))
             {
-                distance -= new Vector2(0, SpriteSize);
+                ApplyMoveInput(new Vector2(0, -SpriteSize));
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Down) && lastState.IsKeyUp(Keys.Down))
             {
-                distance += new Vector2(0, SpriteSize);
+                ApplyMoveInput(new Vector2(0, SpriteSize));
             }
             lastState = Keyboard.GetState();
 
-            if (distance != Vector2.Zero)
+            void ApplyMoveInput(Vector2 distance)
             {
                 var i = WorldToGrid(p.Position + distance);
                 try
@@ -71,7 +70,29 @@ namespace PokeMan
                     if (Tiles[i.x, i.y, 0] != 1)
                     {
                         p.Position += distance;
-                        p.PlaySingleAnimation(PlayerAnimationEnums.Running);
+
+                        distance.Normalize();
+
+                        if (distance == Vector2.UnitX)
+                        {
+                            p.ChangeAnimation(PlayerAnimationEnums.IdleRight);
+                            p.PlayAnimationFor(PlayerAnimationEnums.WalkRight, 5);
+                        }
+                        else if (distance == -Vector2.UnitX)
+                        {
+                            p.ChangeAnimation(PlayerAnimationEnums.IdleLeft);
+                            p.PlayAnimationFor(PlayerAnimationEnums.WalkLeft, 5);
+                        }
+                        else if (distance == Vector2.UnitY)
+                        {
+                            p.ChangeAnimation(PlayerAnimationEnums.IdleDown);
+                            p.PlayAnimationFor(PlayerAnimationEnums.WalkDown, 5);
+                        }
+                        else
+                        {
+                            p.ChangeAnimation(PlayerAnimationEnums.IdleUp);
+                            p.PlayAnimationFor(PlayerAnimationEnums.WalkUp, 5);
+                        }
                     }
                 }
                 catch (IndexOutOfRangeException) { } //Don't move the player if we outside the array
