@@ -76,44 +76,19 @@ namespace PokeMan
             // Knappen fight har andre knapper i sig når man klikker på den
             void fightButton_Click(object sender, EventArgs e)
             {
-                Button move1Button = new Button(buttonTexture, font, text: "hak", position: new Point(1100, 850));
-
-                Button move2Button = new Button(buttonTexture, font, text: "slash", position: new Point(1100, 900));
-
-                Button move3Button = new Button(buttonTexture, font, text: "poke", position: new Point(1100, 950));
-
-                Button moveSpecialButton = new Button(buttonTexture, font, text: (type), position: new Point(1100, 1000));
-
-                move1Button.Click += move1Button_Click;
-                move2Button.Click += move2Button_Click;
-                move3Button.Click += move3Button_Click;
-                moveSpecialButton.Click += moveSpecialButton_Click;
-                _components = new List<Component>()
-            {
-               move1Button,
-               move2Button,
-               move3Button,
-               moveSpecialButton,
-            };
-                void move1Button_Click(object sender, EventArgs e)
+                _components = new List<Component>();
+                int i = 0;
+                foreach (Move move in FriendlyPokeMan.moves)
                 {
-                }
-                void move2Button_Click(object sender, EventArgs e)
-                {
-                }
-                void move3Button_Click(object sender, EventArgs e)
-                {
-                }
-                void moveSpecialButton_Click(object sender, EventArgs e)
-                {
-                    move = new Move();
-                    FriendlyPokeMan.Attack(EnemyPokeMan, move);
-                    //if (FriendlyPokeMan.id == 1)
-                    //{
-                    //    Debug.WriteLine("The pokeman is a" + type);
-                    //}
-
-                    EnemyPokeMan.Attack(FriendlyPokeMan, move);
+                    if (move != null)
+                    {
+                        Button moveButton = new Button(buttonTexture, font, text: move.Name, position: new Point(1100, 850 + (50 * i)));
+                        moveButton.Click += (object o, EventArgs e) => FriendlyPokeMan.Attack(EnemyPokeMan, move);
+                        _components.Add(moveButton);
+                        i++;
+                    }
+                    else
+                        break; 
                 }
             }
 

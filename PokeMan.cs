@@ -167,7 +167,6 @@ namespace PokeMan
                 int moveLevel = int.Parse(m.Attributes["lvl"].Value);
                 if (moveLevel <= lvl)
                 {
-                    int moveid = int.Parse(m.Attributes["id"].Value);
                     moves[slot] = new Move(int.Parse(m.Attributes["id"].Value));
                     slot++;
                 }

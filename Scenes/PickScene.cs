@@ -24,9 +24,9 @@ namespace PokeMan
 
         private static readonly PokeMan[] choices = new PokeMan[]
         {
-            new PokeMan(1, 2),
-            new PokeMan(2, 2),
-            new PokeMan(3, 2)
+            new PokeMan(1, 5),
+            new PokeMan(2, 5),
+            new PokeMan(3, 5)
         };
 
         private Button[] buttons = new Button[choices.Length];
