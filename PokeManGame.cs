@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 using System.Reflection.PortableExecutable;
 using System.Runtime.CompilerServices;
@@ -12,6 +13,8 @@ namespace PokeMan
         new public static GameServiceContainer Services;
         public GraphicsDeviceManager Graphics;
         private SpriteBatch _spriteBatch;
+
+        Song song;
 
         public static Stack<Scene> Scenes = new Stack<Scene>();
 
@@ -67,8 +70,9 @@ namespace PokeMan
             Font = Content.Load<SpriteFont>("Assets/FontTextBox");
             ButtonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
 
-            Scenes.Push(new Area("Sprites.xml"));
-            Scenes.Push(new PickScene("Battle1.xml"));
+            var a = new Area("Sprites.xml");
+            Scenes.Push(a);
+            Scenes.Push(new PickScene("Battle1.xml", a.Player));
             Scenes.Push(new StartMenuScene());
 
             // Creates a new button
@@ -82,9 +86,15 @@ namespace PokeMan
             //   quitButton,
             //};
             //_currentState = new StateMenu(this);
+            
+
         }
 
-        private void QuitButton_Click(object sender, System.EventArgs e)
+       
+
+        
+
+            private void QuitButton_Click(object sender, System.EventArgs e)
         {
             Exit();
         }
