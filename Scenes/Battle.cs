@@ -271,13 +271,13 @@ namespace PokeMan
                 spriteBatch.Draw(FriendlyPokeMan.Sprite, Friendly, Color.White);
                 spriteBatch.Draw(EnemyPokeMan.Sprite, Enemy, Color.White);
 
-                spriteBatch.DrawString(font, $"Your Hp: = {hpText}", new Vector2(50, 200), Color.White);
+               spriteBatch.DrawString(font, $"Your Hp: = {hpText}", new Vector2(50, 200), Color.White);
 
                 spriteBatch.DrawString(font, $"Dmg Taken: = {FriendlyPokeMan.tookdmg}", new Vector2(50, 250), Color.Black);
                 spriteBatch.DrawString(font, $"Dmg Taken: = {FriendlyPokeMan.AttackStat}", new Vector2(50, 300), Color.Black);
-                // spriteBatch.DrawString(font, $"Dmg Taken: = {FriendlyPokeMan.Attack}", new Vector2(50, 250), Color.Black);
 
                 spriteBatch.DrawString(font, $"Enemy Hp: = {enemyhpText}", new Vector2(50, 50), Color.White);
+
 
                 spriteBatch.DrawString(font, $"Dmg Taken: = {EnemyPokeMan.tookdmg}", new Vector2(50, 100), Color.Black);
 
