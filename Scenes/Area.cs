@@ -212,7 +212,7 @@ namespace PokeMan
 
         private void StartBattle()
         {
-            PokeManGame.Scenes.Push(new Battle(Player, "Battle1.xml")); //add the player or some shit
+            PokeManGame.Scenes.Push(new Battle("Battle1.xml", Player)); //add the player or some shit
         }
     }
 }
