@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<Character type="mc" name="Mial" hp="100" dmg="11">
+<Character size="30">
 	<Animations>
 		<Animation name="IdleDown" path="Assets/Characters/Player/Sprites/" inverseSpeed="5">
 			<Frame>IdleDown1</Frame>
@@ -31,12 +31,4 @@
 			<Frame>WalkLeft3</Frame>
 		</Animation>
 	</Animations>
-	<Items>
-		<Equipped>
-			<Item name="SwordOfEpic" type="Weapon" ></Item>
-		</Equipped>
-		<Inventory>
-			<Item name="Ring." type="Jewlery" ></Item>
-		</Inventory>
-	</Items>
 </Character>

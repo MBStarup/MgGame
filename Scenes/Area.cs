@@ -22,7 +22,7 @@ namespace PokeMan
         public int SpriteSize { get; private set; }
         private SpriteFont font;
 
-        public static Player p; //Lavet fra private til public static
+        public Player Player;
         private Camera cam;
         private KeyboardState lastState;
 
@@ -64,41 +64,41 @@ namespace PokeMan
 
             void ApplyMoveInput(Vector2 distance)
             {
-                var i = WorldToGrid(p.Position + distance);
+                var i = WorldToGrid(Player.Position + distance);
                 try
                 {
-                    if (Tiles[i.x, i.y, 0] != 1)
+                    if (!WillColide(i.x, i.y))
                     {
-                        p.Position += distance;
+                        Player.Position += distance;
 
                         distance.Normalize();
 
                         if (distance == Vector2.UnitX)
                         {
-                            p.ChangeAnimation(PlayerAnimationEnums.IdleRight);
-                            p.PlayAnimationFor(PlayerAnimationEnums.WalkRight, 5);
+                            Player.ChangeAnimation(PlayerAnimationEnums.IdleRight);
+                            Player.PlayAnimationFor(PlayerAnimationEnums.WalkRight, 5);
                         }
                         else if (distance == -Vector2.UnitX)
                         {
-                            p.ChangeAnimation(PlayerAnimationEnums.IdleLeft);
-                            p.PlayAnimationFor(PlayerAnimationEnums.WalkLeft, 5);
+                            Player.ChangeAnimation(PlayerAnimationEnums.IdleLeft);
+                            Player.PlayAnimationFor(PlayerAnimationEnums.WalkLeft, 5);
                         }
                         else if (distance == Vector2.UnitY)
                         {
-                            p.ChangeAnimation(PlayerAnimationEnums.IdleDown);
-                            p.PlayAnimationFor(PlayerAnimationEnums.WalkDown, 5);
+                            Player.ChangeAnimation(PlayerAnimationEnums.IdleDown);
+                            Player.PlayAnimationFor(PlayerAnimationEnums.WalkDown, 5);
                         }
                         else
                         {
-                            p.ChangeAnimation(PlayerAnimationEnums.IdleUp);
-                            p.PlayAnimationFor(PlayerAnimationEnums.WalkUp, 5);
+                            Player.ChangeAnimation(PlayerAnimationEnums.IdleUp);
+                            Player.PlayAnimationFor(PlayerAnimationEnums.WalkUp, 5);
                         }
                     }
                 }
                 catch (IndexOutOfRangeException) { } //Don't move the player if we outside the array
             }
 
-            cam.position = p.Position;
+            cam.position = Player.Position;
 
             base.Update();
         }
@@ -117,7 +117,7 @@ namespace PokeMan
             fileStream.Close();
             Tiles = data.Deserialize<Byte[,,]>();
 
-            p = new Player(SpriteSize);
+            Player = new Player(SpriteSize);
 
             void PlacePlayer() //local function so we can use retrun to break out of both loops
             {
@@ -127,7 +127,7 @@ namespace PokeMan
                     {
                         if (Tiles[x, y, 0] == 2) //The first occurence of the value 2 in the effect layer of the map is where we spawn the player, not good with areas where you'd come from both sides but it's prototype stuff so it's fiiiiinneeeee
                         {
-                            p.Position = GridToWorld((x, y));
+                            Player.Position = GridToWorld((x, y));
                             return;
                         }
                     }
@@ -136,7 +136,7 @@ namespace PokeMan
 
             PlacePlayer();
 
-            p.LoadAssets(this.Content, "MainChar.xml");
+            Player.LoadAssets(this.Content, "MainChar.xml");
 
             Palettes = new Texture2D[node.ChildNodes.Count][];
             var nodes = node.SelectNodes("Palette");
@@ -182,7 +182,7 @@ namespace PokeMan
                                 spriteBatch.Draw(Palettes[z][Tiles[x, y, z]], cam.WorldToScreen(GridToWorld((x, y))), Color.White);
 
                             if (x == 0 && y == 0 && z == Tiles.GetLength(2) - 1) //Before the last layer we draw the player, so that player can stand behind some foreground sprites
-                                p.Draw(spriteBatch);
+                                Player.Draw(spriteBatch);
                         }
                     }
                 }
@@ -212,7 +212,7 @@ namespace PokeMan
 
         private void StartBattle()
         {
-            PokeManGame.Scenes.Push(new Battle("Battle1.xml")); //add the player or some shit
+            PokeManGame.Scenes.Push(new Battle("Battle1.xml", Player)); //add the player or some shit
         }
     }
 }

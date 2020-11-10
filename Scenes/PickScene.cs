@@ -22,17 +22,20 @@ namespace PokeMan
         private Texture2D buttonTexture = PokeManGame.ButtonTexture;
         private SpriteFont font = PokeManGame.Font;
 
+        private Player p;
+
         private static readonly PokeMan[] choices = new PokeMan[]
         {
-            new PokeMan(1, 2),
-            new PokeMan(2, 2),
-            new PokeMan(3, 2)
+            new PokeMan(1, 5),
+            new PokeMan(2, 5),
+            new PokeMan(3, 5)
         };
 
         private Button[] buttons = new Button[choices.Length];
 
-        public PickScene(string xmlPath)
+        public PickScene(string xmlPath, Player player)
         {
+            p = player;
             Content.RootDirectory = "Content";
             LoadContent(xmlPath);
         }
@@ -95,7 +98,7 @@ namespace PokeMan
             {
                 var button = new Button(buttonTexture, font, spriteColor: Color.Transparent, penColour: Color.Green);
 
-                button.Click += (object o, EventArgs e) => { Area.p.party[0] = pokeMan; PokeManGame.Scenes.Pop(); };
+                button.Click += (object o, EventArgs e) => { p.AddPokeMan(pokeMan); PokeManGame.Scenes.Pop(); };
                 buttons[i++] = button;
             }
 

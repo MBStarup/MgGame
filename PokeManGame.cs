@@ -62,8 +62,9 @@ namespace PokeMan
             Font = Content.Load<SpriteFont>("Assets/FontTextBox");
             ButtonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
 
-            Scenes.Push(new Area("Sprites.xml"));
-            Scenes.Push(new PickScene("Battle1.xml"));
+            var a = new Area("Sprites.xml");
+            Scenes.Push(a);
+            Scenes.Push(new PickScene("Battle1.xml", a.Player));
             Scenes.Push(new StartMenuScene());
 
 

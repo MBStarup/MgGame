@@ -23,7 +23,8 @@ namespace PokeMan
         private uint frameCounter;
         private int baseAnimationIndex;
         private long animationLength;
-        public PokeMan[] party;
+
+        public PokeMan[] Party { get => data.Party; }
 
         public Vector2 Position
         {
@@ -46,7 +47,7 @@ namespace PokeMan
         public Player(int size)
         {
             rectangle = new Rectangle(PokeManGame.SceenSize.x / 2, PokeManGame.SceenSize.y / 2, size, size);
-            party = new PokeMan[6];
+            data.Party = new PokeMan[6];
         }
 
         public void LoadAssets(ContentManager contMan, string xmlPath)
@@ -54,8 +55,6 @@ namespace PokeMan
             //Loads animations sprites based off xml doc
             XmlDocument doc = new XmlDocument();
             doc.Load("../../../Content/Xml/" + xmlPath);
-
-            data.Name = doc.SelectSingleNode("/Character")?.Attributes["name"].Value;
 
             var node = doc.DocumentElement.SelectSingleNode("/Character/Animations");
 
@@ -74,6 +73,8 @@ namespace PokeMan
                 Animations[i++] = new SpriteAnimation(t, uint.Parse(n.Attributes["inverseSpeed"].Value));
             }
         }
+
+        #region Animation
 
         public void PlaySingleAnimation(int index, bool restart = false)
         {
@@ -113,6 +114,20 @@ namespace PokeMan
         public void PlayAnimationFor(PlayerAnimationEnums animation, int frames, bool restart = false)
         {
             PlayAnimationFor((int)animation, frames, restart);
+        }
+
+        #endregion Animation
+
+        public bool AddPokeMan(PokeMan pokeMan)
+        {
+            for (int i = 0; i < data.Party.Length; i++)
+
+                if (data.Party[i] == null)
+                {
+                    data.Party[i] = pokeMan;
+                    return true;
+                }
+            return false;
         }
 
         public override void Update()
