@@ -16,15 +16,14 @@ namespace PokeMan
     public class Player : Component // Static maybe
     {
         public SpriteAnimation[] Animations;
-        public int AnimationIndex;
+        private int animationIndex;
         private PlayerData data = new PlayerData();
         private KeyboardState lastState;
         private Rectangle rectangle;
         private uint frameCounter;
-        private int previousAnimationIndex;
+        private int baseAnimationIndex;
         private long animationLength;
-        public PokeMan[] party;  
-
+        public PokeMan[] party;
 
         public Vector2 Position
         {
@@ -38,10 +37,10 @@ namespace PokeMan
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Animations[AnimationIndex], rectangle, Color.White);
+            spriteBatch.Draw(Animations[animationIndex], rectangle, Color.White);
 
             if (frameCounter++ >= animationLength)
-                AnimationIndex = previousAnimationIndex;
+                animationIndex = baseAnimationIndex;
         }
 
         public Player(int size)
@@ -76,22 +75,34 @@ namespace PokeMan
             }
         }
 
-        public void PlaySingleAnimation(int index)
+        public void PlaySingleAnimation(int index, bool restart = false)
         {
             frameCounter = 0;
-            previousAnimationIndex = AnimationIndex;
-            AnimationIndex = index;
-            animationLength = Animations[AnimationIndex].Length * Animations[AnimationIndex].InverseSpeed;
+            animationIndex = index;
+            animationLength = Animations[animationIndex].Length * Animations[animationIndex].InverseSpeed;
+            if (restart)
+                Animations[index].Restart();
         }
 
-        public void PlaySingleAnimation(PlayerAnimationEnums animation)
+        public void PlaySingleAnimation(PlayerAnimationEnums animation, bool restart = false)
         {
-            PlaySingleAnimation((int)animation);
+            PlaySingleAnimation((int)animation, restart);
+        }
+
+        public void ChangeAnimation(int index, bool restart = false)
+        {
+            baseAnimationIndex = index;
+            if (restart)
+                Animations[index].Restart();
+        }
+
+        public void ChangeAnimation(PlayerAnimationEnums animation, bool restart = false)
+        {
+            ChangeAnimation((int)animation, restart);
         }
 
         public override void Update()
         {
-
         }
     }
 

@@ -12,6 +12,11 @@ namespace PokeMan
         private ulong currIndex;
         public int Length { get => Frames.Length; }
 
+        public void Restart()
+        {
+            currIndex = 0;
+        }
+
         /// <summary>
         /// How many frames each texture is repeated, lover numbers means faster animantions
         /// </summary>

@@ -4,6 +4,7 @@ using PokeMan.Scenes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -94,28 +95,12 @@ namespace PokeMan
             foreach (PokeMan pokeMan in choices)
             {
                 var button = new Button(buttonTexture, font, spriteColor: Color.Transparent, penColour: Color.Green);
-                button.Pokeman = pokeMan;
-                button.Click += OnPokemonClick;
+
+                button.Click += (object o, EventArgs e) => { Area.p.party[0] = pokeMan; PokeManGame.Scenes.Pop(); };
                 buttons[i++] = button;
             }
 
-            var testButton = new Button(buttonTexture, font, text: "Test", position: new Point(1500, 700));
-
-            testButton.Click += TestButton_Click;
-
             completedLoadTasks = loadTasks;
-        }
-
-        private void OnPokemonClick(object sender, EventArgs e)
-        {
-            //PokeMan.playerPokemen.Add(new PokeMan(1, 5));
-            Area.p.party[0] = ((Button)sender).Pokeman;
-            PokeManGame.Scenes.Pop();
-        }
-
-        private void TestButton_Click(object sender, System.EventArgs e)
-        {
-            PokeManGame.Scenes.Pop();
         }
 
         public override void Update()

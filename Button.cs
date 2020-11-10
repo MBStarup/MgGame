@@ -21,28 +21,14 @@ namespace PokeMan
 
         public event EventHandler Click;
 
-        private PokeMan pokeman;
-
         public Color PenColor { get; set; }
         public Color SpriteColor { get; set; }
         public Color HoverColor { get; set; }
         public string Text { get; set; }
-        public PokeMan Pokeman { get => pokeman; set => pokeman = value; }
 
         public Rectangle Rectangle;
 
         // Constructor for button
-        public Button(Texture2D texture, SpriteFont font, string text = "", Point? position = null, int width = 100, int height = 50, Color? penColour = null, Color? spriteColor = null, Color? hoverColor = null)
-        {
-            Text = text;
-            _texture = texture;
-            _font = font;
-            PenColor = penColour ?? Color.White;
-            SpriteColor = spriteColor ?? Color.White;
-            HoverColor = hoverColor ?? Color.Gray;
-
-            Rectangle = new Rectangle(position ?? Point.Zero, new Point(width, height));
-        }
 
         public Button(Texture2D texture, SpriteFont font, Rectangle rectangle, string text = "", Color? penColour = null, Color? spriteColor = null, Color? hoverColor = null)
         {
@@ -55,6 +41,10 @@ namespace PokeMan
 
             Rectangle = rectangle;
         }
+
+        public Button(
+            Texture2D texture, SpriteFont font, Point? position = null, int width = 100, int height = 50, string text = "", Color? penColour = null, Color? spriteColor = null, Color? hoverColor = null)
+            : this(texture, font, new Rectangle(position ?? Point.Zero, new Point(width, height)), text, penColour, spriteColor, hoverColor) { }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
