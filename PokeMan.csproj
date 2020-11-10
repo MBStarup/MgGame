@@ -32,7 +32,6 @@
 	<ItemGroup>
 		<Folder Include="Content\Assets\Characters\Player\Sprites\" />
 		<Folder Include="Content\Assets\World\Sprites\" />
-		<Folder Include="Content\Maps\" />
 	</ItemGroup>
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
 		<Exec Command="mgcb_builder ./Content/Content.mgcb ./Content/Assets DesktopGL" />
