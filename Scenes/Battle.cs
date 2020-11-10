@@ -33,6 +33,10 @@ namespace PokeMan
         private Rectangle EnemyShadow;
         private Move move;
 
+        private bool playerHasAttacked;
+
+        private bool playerDead;
+        private bool enemyDead;
         public Battle(string xmlPath)
         {
             var buttonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
@@ -47,24 +51,68 @@ namespace PokeMan
             font = Content.Load<SpriteFont>("Assets/FontTextBox");
             Checktype();
             LoadContent(xmlPath);
+            BattleButtons();
 
-            // De forskellige knapper som spilleren nok skal kunne bruge i kamp scenen
+            void CheckPlayerStatus()
+            {
+                if (FriendlyPokeMan.hp <= 0)
+                {
+                    playerDead = true;
+                }
+            }
+            void CheckEnemyStatus()
+            {
+                if (EnemyPokeMan.hp <= 0)
+                {
+                    enemyDead = true;
+                }
+            }
 
-            Button fightButton = new Button(buttonTexture, font, text: "Fight", position: new Point(1000, 900));
 
-            Button bagButton = new Button(buttonTexture, font, text: "Bag", position: new Point(1100, 900));
+            void EnemyAttack()
+            {
+                if (playerHasAttacked == true && playerDead == false && enemyDead == false)
+                {
+                    EnemyPokeMan.Attack(FriendlyPokeMan, move);
 
-            Button pokemanButton = new Button(buttonTexture, font, text: "Pokeman", position: new Point(1000, 950));
+                    playerHasAttacked = false;
+                }
 
-            Button cowardButton = new Button(buttonTexture, font, text: "Run", position: new Point(1100, 950));
+                else if (playerDead == true || enemyDead == true)
+                {
+                    Debug.WriteLine("PlayerDead");
+                    playerHasAttacked = false;
+                }
 
-            //startGameButton.Click += StartGameButton_Click;
-            fightButton.Click += fightButton_Click;
-            bagButton.Click += bagButton_Click;
-            pokemanButton.Click += pokemanButton_Click;
-            cowardButton.Click += cowardButton_Click;
+                else
+                {
+                    BattleButtons();
+                    playerHasAttacked = false;
+                }
+            }
 
-            _components = new List<Component>()
+            void BattleButtons()
+            {
+             
+                
+                
+                // De forskellige knapper som spilleren nok skal kunne bruge i kamp scenen
+
+                Button fightButton = new Button(buttonTexture, font, text: "Fight", position: new Point(1000, 900));
+
+                Button bagButton = new Button(buttonTexture, font, text: "Bag", position: new Point(1100, 900));
+
+                Button pokemanButton = new Button(buttonTexture, font, text: "Pokeman", position: new Point(1000, 950));
+
+                Button cowardButton = new Button(buttonTexture, font, text: "Run", position: new Point(1100, 950));
+
+                //startGameButton.Click += StartGameButton_Click;
+                fightButton.Click += fightButton_Click;
+                bagButton.Click += bagButton_Click;
+                pokemanButton.Click += pokemanButton_Click;
+                cowardButton.Click += cowardButton_Click;
+
+                _components = new List<Component>()
             {
                // startGameButton,
                 fightButton,
@@ -73,62 +121,83 @@ namespace PokeMan
                 cowardButton,
             };
 
-            // Knappen fight har andre knapper i sig når man klikker på den
-            void fightButton_Click(object sender, EventArgs e)
-            {
-                Button move1Button = new Button(buttonTexture, font, text: "hak", position: new Point(1100, 850));
+                // Knappen fight har andre knapper i sig når man klikker på den
+                void fightButton_Click(object sender, EventArgs e)
+                {
+                    Button move1Button = new Button(buttonTexture, font, text: "hak", position: new Point(1100, 850));
 
-                Button move2Button = new Button(buttonTexture, font, text: "slash", position: new Point(1100, 900));
+                    Button move2Button = new Button(buttonTexture, font, text: "slash", position: new Point(1100, 900));
 
-                Button move3Button = new Button(buttonTexture, font, text: "poke", position: new Point(1100, 950));
+                    Button move3Button = new Button(buttonTexture, font, text: "poke", position: new Point(1100, 950));
 
-                Button moveSpecialButton = new Button(buttonTexture, font, text: (type), position: new Point(1100, 1000));
+                    Button moveSpecialButton = new Button(buttonTexture, font, text: (type), position: new Point(1100, 1000));
 
-                move1Button.Click += move1Button_Click;
-                move2Button.Click += move2Button_Click;
-                move3Button.Click += move3Button_Click;
-                moveSpecialButton.Click += moveSpecialButton_Click;
-                _components = new List<Component>()
+                    move1Button.Click += move1Button_Click;
+                    move2Button.Click += move2Button_Click;
+                    move3Button.Click += move3Button_Click;
+                    moveSpecialButton.Click += moveSpecialButton_Click;
+                    _components = new List<Component>()
             {
                move1Button,
                move2Button,
                move3Button,
                moveSpecialButton,
             };
-                void move1Button_Click(object sender, EventArgs e)
-                {
-                }
-                void move2Button_Click(object sender, EventArgs e)
-                {
-                }
-                void move3Button_Click(object sender, EventArgs e)
-                {
-                }
-                void moveSpecialButton_Click(object sender, EventArgs e)
-                {
-                    move = new Move();
-                    FriendlyPokeMan.Attack(EnemyPokeMan, move);
-                    //if (FriendlyPokeMan.id == 1)
-                    //{
-                    //    Debug.WriteLine("The pokeman is a" + type);
-                    //}
+                    void move1Button_Click(object sender, EventArgs e)
+                    {
 
-                    EnemyPokeMan.Attack(FriendlyPokeMan, move);
+                        CheckPlayerStatus();
+                        CheckEnemyStatus();
+                        EnemyAttack();
+                        BattleButtons();
+                    }
+                    void move2Button_Click(object sender, EventArgs e)
+                    {
+                        CheckPlayerStatus();
+                        CheckEnemyStatus();
+                        EnemyAttack();
+                        BattleButtons();
+                    }
+                    void move3Button_Click(object sender, EventArgs e)
+                    {
+                        CheckPlayerStatus();
+                        CheckEnemyStatus();
+                        EnemyAttack();
+                        BattleButtons();
+                    }
+                    void moveSpecialButton_Click(object sender, EventArgs e)
+                    {
+                        move = new Move();
+                        FriendlyPokeMan.Attack(EnemyPokeMan, move);
+                        playerHasAttacked = true;
+                        CheckPlayerStatus();
+                        CheckEnemyStatus();
+                        EnemyAttack();
+                        BattleButtons();
+                        //if (FriendlyPokeMan.id == 1)
+                        //{
+                        //    Debug.WriteLine("The pokeman is a" + type);
+                        //}
+                        // De forskellige knapper som spilleren nok skal kunne bruge i kamp scenen
+                    }
+                }
+
+                void bagButton_Click(object sender, EventArgs e)
+                {
+                }
+                void pokemanButton_Click(object sender, EventArgs e)
+                {
+                    //FriendlyPokeMan = Area.p.party[1];
+                }
+                void cowardButton_Click(object sender, EventArgs e)
+                {
+                    // Tager spilleren tilbage til startmenuen, bare en placeholder
+                    // _game.ChangeState(new StateMenu(_game));
                 }
             }
 
-            void bagButton_Click(object sender, EventArgs e)
-            {
-            }
-            void pokemanButton_Click(object sender, EventArgs e)
-            {
-                //FriendlyPokeMan = Area.p.party[1];
-            }
-            void cowardButton_Click(object sender, EventArgs e)
-            {
-                // Tager spilleren tilbage til startmenuen, bare en placeholder
-                // _game.ChangeState(new StateMenu(_game));
-            }
+
+
         }
 
         public async void LoadContent(string xmlPath)
@@ -290,6 +359,11 @@ namespace PokeMan
 
             enemyhpText = EnemyPokeMan.hp.ToString();
             hpText = FriendlyPokeMan.hp.ToString();
+
+            
         }
+
+
+
     }
 }
