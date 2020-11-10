@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using PokeMan.Scenes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,7 +31,7 @@ namespace PokeMan
 
         private Button[] buttons = new Button[choices.Length];
 
-        public PickScene(PokeManGame game, string xmlPath) : base(game)
+        public PickScene(string xmlPath)
         {
             Content.RootDirectory = "Content";
             LoadContent(xmlPath);

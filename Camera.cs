@@ -15,10 +15,10 @@ namespace PokeMan
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public Camera(GraphicsDeviceManager g)
+        public Camera()
         {
-            Width = g.GraphicsDevice.Viewport.Width;
-            Height = g.GraphicsDevice.Viewport.Height;
+            Width = PokeManGame.SceenSize.x;
+            Height = PokeManGame.SceenSize.y;
             offset = new Vector2(-Width, -Height);
         }
 

@@ -16,7 +16,7 @@ namespace PokeMan
         private Texture2D buttonTexture;
         private SpriteFont font;
 
-        public StartMenuScene(PokeManGame game) : base(game)
+        public StartMenuScene()
         {
             background = Content.Load<Texture2D>("Assets/StartMenu/StartMenuBG");
             font = PokeManGame.Font;

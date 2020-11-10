@@ -21,11 +21,9 @@ namespace PokeMan
 
         protected ContentManager Content = new ContentManager(PokeManGame.Services);
 
-        public Scene(PokeManGame game)
+        public Scene()
         {
             Content.RootDirectory = "Content";
-
-            _game = game;
         }
 
         public async Task<IEnumerable<T>> LoadAssets<T>(IEnumerable<string> AssetPaths)

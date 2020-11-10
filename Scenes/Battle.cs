@@ -33,7 +33,7 @@ namespace PokeMan
         private Rectangle EnemyShadow;
         private Move move;
 
-        public Battle(PokeManGame game, string xmlPath) : base(game)
+        public Battle(string xmlPath)
         {
             var buttonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
             var buttonFont = Content.Load<SpriteFont>("Assets/FontTextBox");
@@ -41,9 +41,7 @@ namespace PokeMan
             FriendlyPokeMan = Area.p.party[0];
             //FriendlyPokeMan.id = 1;
 
-
             EnemyPokeMan = new PokeMan(1, 5);
-
 
             Content.RootDirectory = "Content";
             font = Content.Load<SpriteFont>("Assets/FontTextBox");
@@ -116,7 +114,6 @@ namespace PokeMan
                     //}
 
                     EnemyPokeMan.Attack(FriendlyPokeMan, move);
-                   
                 }
             }
 
@@ -126,7 +123,6 @@ namespace PokeMan
             void pokemanButton_Click(object sender, EventArgs e)
             {
                 //FriendlyPokeMan = Area.p.party[1];
-
             }
             void cowardButton_Click(object sender, EventArgs e)
             {
@@ -134,8 +130,6 @@ namespace PokeMan
                 // _game.ChangeState(new StateMenu(_game));
             }
         }
-
-     
 
         public async void LoadContent(string xmlPath)
         {
@@ -205,10 +199,6 @@ namespace PokeMan
             EnemyPokeMan.Sprite = LoadedTextures.ToArray();
 
             localLoadAmount = 1f;
-
-
-
-
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -221,17 +211,15 @@ namespace PokeMan
             {
                 Texture2D shadow = Content.Load<Texture2D>("Assets/Battle/Background/shadow");
 
-
-                Friendly = new Rectangle(pos, PokeManGame.SceenSize.y * 2 / 3- 50, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
+                Friendly = new Rectangle(pos, PokeManGame.SceenSize.y * 2 / 3 - 50, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
                 //Enemy = new Rectangle(PokeManGame.SceenSize.x * 2 / 3, PokeManGame.SceenSize.y, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
-                Enemy = new Rectangle(posE,0, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
-                
+                Enemy = new Rectangle(posE, 0, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
+
                 spriteBatch.Draw(Background, new Rectangle(0, 0, PokeManGame.SceenSize.x, PokeManGame.SceenSize.y), Color.White);
 
-                FriendlyShadow = new Rectangle(pos, PokeManGame.SceenSize.y * 2 / 3 +100 , PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
+                FriendlyShadow = new Rectangle(pos, PokeManGame.SceenSize.y * 2 / 3 + 100, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
 
-                EnemyShadow = new Rectangle(posE, 100, PokeManGame.SceenSize.x / 3 , PokeManGame.SceenSize.y / 3);
-
+                EnemyShadow = new Rectangle(posE, 100, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
 
                 spriteBatch.Draw(shadow, FriendlyShadow, Color.Black);
 
@@ -239,44 +227,25 @@ namespace PokeMan
 
                 if (pos > 100 && posE < 1200)
                 {
-                    SlideIn() ;
+                    SlideIn();
 
                     spriteBatch.DrawString(font, "FIGHT!", new Vector2(540, 500), Color.Black);
-
                 }
-
-
-
 
                 spriteBatch.Draw(FriendlyPokeMan.Sprite, Friendly, Color.White);
                 spriteBatch.Draw(EnemyPokeMan.Sprite, Enemy, Color.White);
 
-
-
                 spriteBatch.DrawString(font, $"Your Hp: = {hpText}", new Vector2(50, 200), Color.White);
-
 
                 spriteBatch.DrawString(font, $"Dmg Taken: = {FriendlyPokeMan.tookdmg}", new Vector2(50, 250), Color.Black);
                 spriteBatch.DrawString(font, $"Dmg Taken: = {FriendlyPokeMan.AttackStat}", new Vector2(50, 300), Color.Black);
-               // spriteBatch.DrawString(font, $"Dmg Taken: = {FriendlyPokeMan.Attack}", new Vector2(50, 250), Color.Black);
-
-
+                // spriteBatch.DrawString(font, $"Dmg Taken: = {FriendlyPokeMan.Attack}", new Vector2(50, 250), Color.Black);
 
                 spriteBatch.DrawString(font, $"Enemy Hp: = {enemyhpText}", new Vector2(50, 50), Color.White);
 
                 spriteBatch.DrawString(font, $"Dmg Taken: = {EnemyPokeMan.tookdmg}", new Vector2(50, 100), Color.Black);
 
                 spriteBatch.DrawString(font, $"Dmg Taken: = {EnemyPokeMan.AttackStat}", new Vector2(50, 150), Color.Black);
-
-
-
-
-
-
-
-
-
-
 
                 foreach (var component in _components)
                 {
@@ -285,7 +254,7 @@ namespace PokeMan
             }
         }
 
-        void Checktype()
+        private void Checktype()
         {
             if (FriendlyPokeMan.id == 1)
             {
@@ -305,26 +274,15 @@ namespace PokeMan
             }
         }
 
-
-         void SlideIn()
+        private void SlideIn()
         {
-            
-                pos -= 15;
+            pos -= 15;
 
-            
-                posE += 15;
-
-
-
-
+            posE += 15;
         }
 
         public override void Update()
         {
-
-            
-
-
             foreach (var component in _components)
             {
                 component.Update();
@@ -332,9 +290,6 @@ namespace PokeMan
 
             enemyhpText = EnemyPokeMan.hp.ToString();
             hpText = FriendlyPokeMan.hp.ToString();
-
-
         }
-
     }
 }

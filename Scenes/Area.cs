@@ -26,11 +26,11 @@ namespace PokeMan
         private Camera cam;
         private KeyboardState lastState;
 
-        public Area(PokeManGame game, string xmlPath) : base(game)
+        public Area(string xmlPath)
         {
             Content.RootDirectory = "Content";
             font = Content.Load<SpriteFont>("Assets/FontTextBox");
-            cam = new Camera(game.Graphics);
+            cam = new Camera();
             LoadContent(xmlPath);
         }
 
@@ -191,7 +191,7 @@ namespace PokeMan
 
         private void StartBattle()
         {
-            PokeManGame.Scenes.Push(new Battle(_game, "Battle1.xml")); //add the player or some shit
+            PokeManGame.Scenes.Push(new Battle("Battle1.xml")); //add the player or some shit
         }
     }
 }

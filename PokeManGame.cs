@@ -67,9 +67,9 @@ namespace PokeMan
             Font = Content.Load<SpriteFont>("Assets/FontTextBox");
             ButtonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
 
-            Scenes.Push(new Area(this, "Sprites.xml"));
-            Scenes.Push(new PickScene(this, "Battle1.xml"));
-            Scenes.Push(new StartMenuScene(this));
+            Scenes.Push(new Area("Sprites.xml"));
+            Scenes.Push(new PickScene("Battle1.xml"));
+            Scenes.Push(new StartMenuScene());
 
             // Creates a new button
             //var quitButton = new Button(ButtonTexture, Font, text: "quit", position: new Point(1700, 950));
