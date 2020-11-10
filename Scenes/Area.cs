@@ -67,7 +67,7 @@ namespace PokeMan
                 var i = WorldToGrid(Player.Position + distance);
                 try
                 {
-                    if (Tiles[i.x, i.y, 0] != 1)
+                    if (!WillColide(i.x, i.y))
                     {
                         Player.Position += distance;
 
