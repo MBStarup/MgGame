@@ -92,4 +92,10 @@ namespace PokeMan
             base.Draw(gameTime);
         }
     }
+
+    //
+    // picture bg https://chrystianadach.artstation.com/projects/XBzk4Y
+    // soundtrack menu + overworld track 1: Bip bop https://soundcloud.com/joshuamclean17/sets/free-music-pack-5-chiptune-2
+    // button from https://karwisch.itch.io/pxui-basic
+
 }
