@@ -98,7 +98,7 @@ namespace PokeMan
             {
                 var button = new Button(buttonTexture, font, spriteColor: Color.Transparent, penColour: Color.Green);
 
-                button.Click += (object o, EventArgs e) => { p.AddPokeMan(pokeMan); PokeManGame.Scenes.Pop(); };
+                button.Click += (object o, EventArgs e) => { p.AddPokeMan(pokeMan); Close(); ; };
                 buttons[i++] = button;
             }
 
@@ -138,10 +138,7 @@ namespace PokeMan
                 spriteBatch.DrawString(font, "Leaflutter!", new Vector2(275, 170), Color.Black);
                 spriteBatch.DrawString(font, "Bubbly!", new Vector2(1550, 170), Color.Black);
 
-
-
                 spriteBatch.DrawString(font, "Pick your favorite starter Pokeman!", new Vector2(750, 700), Color.White);
-
             }
             base.Draw(spriteBatch);
         }

@@ -56,5 +56,10 @@ namespace PokeMan
         public override void Update()
         {
         }
+
+        public virtual void Close()
+        {
+            PokeManGame.Scenes.Pop();
+        }
     }
 }

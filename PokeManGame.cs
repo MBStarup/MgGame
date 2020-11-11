@@ -47,8 +47,6 @@ namespace PokeMan
             base.Initialize();
         }
 
-
-       
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -87,8 +85,6 @@ namespace PokeMan
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             {
                 Scenes.Peek().Draw(_spriteBatch);
-
-               
             }
             _spriteBatch.End();
 
