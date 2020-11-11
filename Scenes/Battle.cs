@@ -14,8 +14,11 @@ namespace PokeMan
 {
     internal class Battle : Scene
     {
-        new public float LoadAmount { get => base.LoadAmount * localLoadAmount; }
-        private float localLoadAmount;
+        new public float LoadAmount { get => (float)completedLoadTasks / loadTasks + base.LoadAmount / loadTasks; }
+
+        private int completedLoadTasks;
+        private int loadTasks = 1; //The setup, corresponds to the completedLoadTasks increment at the bottom of the load method
+
         private PokeMan FriendlyPokeMan;
         private PokeMan EnemyPokeMan;
         private Texture2D Background;
@@ -57,14 +60,16 @@ namespace PokeMan
 
         public async void LoadContent(string xmlPath)
         {
+            loadTasks += 4;//Manually counted at design-time, no time to add cool way to programatically count this, definetly "nice to have"-feature that could be added
+
+            this.song = Content.Load<Song>("Assets/Battle/Music/battlemusic");
+            completedLoadTasks += 1;
+
             //Loads Background sprites based off xml doc
             XmlDocument doc = new XmlDocument();
             doc.Load("../../../Content/Xml/" + xmlPath);
             var node = doc.DocumentElement.SelectSingleNode("/Battle");
             var path = node.Attributes["path"].Value;
-
-            this.song = Content.Load<Song>("Assets/Battle/Music/battlemusic");
-
             int count = node.ChildNodes.Count;
             string[] paths = new string[count];
 
@@ -76,8 +81,7 @@ namespace PokeMan
             IEnumerable<Texture2D> LoadedTextures = await LoadAssets<Texture2D>(paths);
             var arr = LoadedTextures.ToArray();
             Background = arr[0];
-
-            localLoadAmount = 1f / 3;
+            completedLoadTasks += 1;
 
             //frienly
             doc = new XmlDocument();
@@ -99,8 +103,7 @@ namespace PokeMan
 
             LoadedTextures = await LoadAssets<Texture2D>(paths);
             FriendlyPokeMan.Sprite = LoadedTextures.ToArray();
-
-            localLoadAmount = 2f / 3;
+            completedLoadTasks += 1;
 
             //enemy
             doc = new XmlDocument();
@@ -121,10 +124,10 @@ namespace PokeMan
             }
 
             LoadedTextures = await LoadAssets<Texture2D>(paths);
-
             EnemyPokeMan.Sprite = LoadedTextures.ToArray();
+            completedLoadTasks += 1;
 
-            localLoadAmount = 1f;
+            completedLoadTasks += 1; //Setup Done!
         }
 
         private void DoTurn(Move move)

@@ -16,7 +16,7 @@ namespace PokeMan
         new public float LoadAmount { get => (float)completedLoadTasks / loadTasks + base.LoadAmount / loadTasks; }
 
         private int completedLoadTasks;
-        private int loadTasks = 1; //loading the player, the rest is added later
+        private int loadTasks = 1; //the setup, corresponds to the completedLoadTasks increment at the bottom of the load method
 
         public byte[,,] Tiles;
         private Texture2D[][] Palettes;
@@ -112,14 +112,18 @@ namespace PokeMan
 
         public async void LoadContent(string xmlPath)
         {
+            loadTasks += 5; //Manually counted at design-time, no time to add cool way to programatically count this, definetly "nice to have"-feature that could be added
+
             this.song = Content.Load<Song>("Assets/World/Music/bip-bop");
             MediaPlayer.Play(song);
             // Free soundtrack bip-bop from  https://joshua-mclean.itch.io/free-music-pack-5
+            completedLoadTasks += 1;
 
             XmlDocument doc = new XmlDocument();
             doc.Load("../../../Content/Xml/Areas/" + xmlPath);
             var node = doc.DocumentElement.SelectSingleNode("/Tiles");
             SpriteSize = int.Parse(node.Attributes["size"].Value);
+            completedLoadTasks += 1;
 
             //loads map from file
             FileStream fileStream = File.OpenRead("../../../Content/Maps/" + node.Attributes["file"].Value);
@@ -127,6 +131,7 @@ namespace PokeMan
             fileStream.Read(data);
             fileStream.Close();
             Tiles = data.Deserialize<Byte[,,]>();
+            completedLoadTasks += 1;
 
             Player = new Player(SpriteSize);
 
@@ -146,8 +151,10 @@ namespace PokeMan
             }
 
             PlacePlayer();
+            completedLoadTasks += 1;
 
             Player.LoadAssets(this.Content, "MainChar.xml");
+            completedLoadTasks += 1;
 
             Palettes = new Texture2D[node.ChildNodes.Count][];
             var nodes = node.SelectNodes("Palette");
@@ -173,6 +180,8 @@ namespace PokeMan
                 Palettes[i++] = a.ToArray();
                 completedLoadTasks += 1;
             }
+
+            completedLoadTasks += 1; //Done!
         }
 
         public override void Draw(SpriteBatch spriteBatch)
