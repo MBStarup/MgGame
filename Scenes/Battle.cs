@@ -47,7 +47,7 @@ namespace PokeMan
             buttonRect = new Rectangle(textRect.X, textRect.Y + textRect.Height / 2, textRect.Width, textRect.Height / 3);
 
             friendlyPokeMan = p.Party[0];
-            enemyPokeMan = new PokeMan(new System.Random().Next(1, 3), 5); //Big NO! NO!, hard coded that we have 3 pokemans, should probably be stored in the gameworld data of the area, but so should the path to the sprites probably also, maybe even the textures them self, but we didn't have time for that soooo ¯\_(ツ)_/¯
+            enemyPokeMan = new PokeMan(new System.Random().Next(1, 4), 5); //Big NO! NO!, hard coded that we have 3 pokemans, should probably be stored in the gameworld data of the area, but so should the path to the sprites probably also, maybe even the textures them self, but we didn't have time for that soooo ¯\_(ツ)_/¯
 
             Content.RootDirectory = "Content";
             beginLoad(xmlPath);
@@ -241,22 +241,24 @@ namespace PokeMan
                 friendlyPokeMan.Attack(enemyPokeMan, move);
                 if (friendlyPokeMan.Alive && enemyPokeMan.Alive)
                 {
-                    currentmessage += $"You used {move} and did {enemyPokeMan.tookdmg} dmg!";
+                    currentmessage += $"You used {move} and did {enemyPokeMan.tookdmg} dmg";
                     currentmessage += ", and " + Environment.NewLine;
-                    enemyPokeMan.Attack(friendlyPokeMan, enemyPokeMan.moves[0]);
-                    currentmessage += $"Enemy used {enemyPokeMan.moves[0]} and did {friendlyPokeMan.tookdmg} dmg!";
+                    int moveIndex = new System.Random().Next(enemyPokeMan.moves.Where(a => a != null).Count());
+                    enemyPokeMan.Attack(friendlyPokeMan, enemyPokeMan.moves[moveIndex]);
+                    currentmessage += $"Enemy used {enemyPokeMan.moves[moveIndex]} and did {friendlyPokeMan.tookdmg} dmg";
                 }
             }
 
             void EnemyFirst()
             {
-                enemyPokeMan.Attack(friendlyPokeMan, enemyPokeMan.moves[0]);
+                int moveIndex = new System.Random().Next(enemyPokeMan.moves.Where(a => a != null).Count());
+                enemyPokeMan.Attack(friendlyPokeMan, enemyPokeMan.moves[moveIndex]);
                 if (friendlyPokeMan.Alive && enemyPokeMan.Alive)
                 {
-                    currentmessage += $"Enemy used {enemyPokeMan.moves[0]} and did {friendlyPokeMan.tookdmg} dmg!";
+                    currentmessage += $"Enemy used {enemyPokeMan.moves[moveIndex]} and did {friendlyPokeMan.tookdmg} dmg";
                     currentmessage += ", and " + Environment.NewLine;
                     friendlyPokeMan.Attack(enemyPokeMan, move);
-                    currentmessage += $"You used {move} and did {enemyPokeMan.tookdmg} dmg!";
+                    currentmessage += $"You used {move} and did {enemyPokeMan.tookdmg} dmg";
                 }
             }
         }

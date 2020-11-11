@@ -81,10 +81,6 @@ namespace PokeMan
             GenerateStats();
         }
 
-        public void Load()
-        {
-        }
-
         public void Attack(PokeMan enemy, Move move)
         {
             move.DoMove(this, enemy);
