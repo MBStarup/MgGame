@@ -80,18 +80,29 @@ namespace PokeMan
 
             GenerateStats();
         }
-
+        /// <summary>
+        /// Attacks "enemy" with "move"
+        /// </summary>
+        /// <param name="enemy"></param>
+        /// <param name="move"></param>
         public void Attack(PokeMan enemy, Move move)
         {
             move.DoMove(this, enemy);
         }
 
+        /// <summary>
+        /// Subtracts "dmg" from pokeman hp
+        /// </summary>
+        /// <param name="dmg"></param>
         public void TakeDmg(int dmg)
         {
             tookdmg = Math.Clamp(dmg, 0, Int32.MaxValue);
             hp = Math.Clamp(hp - dmg, 0, Int32.MaxValue);
         }
 
+        /// <summary>
+        /// Updates when lvl up
+        /// </summary>
         public void LevelUp()
         {
             lvl++;
@@ -140,7 +151,9 @@ namespace PokeMan
             DefenceStat = (int)Math.Floor(stats[2]);
             SpeedStat = (int)Math.Floor(stats[3]);
         }
-
+/// <summary>
+/// Sets the difrent moves of the pokeman from xml
+/// </summary>
         public void UpdateMoveset()
         {
             var movepoolNode = movepoolDoc.DocumentElement.SelectSingleNode("/PokeMans");

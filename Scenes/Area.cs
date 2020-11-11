@@ -39,7 +39,7 @@ namespace PokeMan
         public override void Update()
         {
 
-           
+           // plays a song
             if (MediaPlayer.State == MediaState.Stopped)
             {
                 MediaPlayer.Play(song);
@@ -72,7 +72,6 @@ namespace PokeMan
                 ApplyMoveInput(new Vector2(0, SpriteSize));
             }
             lastState = Keyboard.GetState();
-
             void ApplyMoveInput(Vector2 distance)
             {
                 var i = WorldToGrid(Player.Position + distance);
@@ -153,7 +152,6 @@ namespace PokeMan
                     }
                 }
             }
-
             PlacePlayer();
             completedLoadTasks += 1;
 
