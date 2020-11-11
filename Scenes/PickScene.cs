@@ -113,6 +113,8 @@ namespace PokeMan
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+
+           
             if (this.LoadAmount < 1)
             {
                 spriteBatch.DrawString(font, "Loading Assets: " + (int)(LoadAmount * 100) + "%", Vector2.Zero, Color.Green);
@@ -127,19 +129,24 @@ namespace PokeMan
                 int i = 0;
                 foreach (Button b in buttons)
                 {
+                   
+
                     var rec = new Rectangle((int)((i * (buttonSpaceRatio + 1) * buttonWidth) + ((buttonSpaceRatio * buttonWidth) / 2)), (int)(buttonWidth / 2), (int)buttonWidth, (int)buttonWidth);
                     b.Rectangle = rec;
+                    b.Draw(spriteBatch);
                     spriteBatch.Draw(choices[i].Sprite, rec, Color.White);
 
                     i++;
-                    b.Draw(spriteBatch);
                 }
+
                 spriteBatch.DrawString(font, "Flamer!", new Vector2(925, 170), Color.Black);
                 spriteBatch.DrawString(font, "Leaflutter!", new Vector2(275, 170), Color.Black);
                 spriteBatch.DrawString(font, "Bubbly!", new Vector2(1550, 170), Color.Black);
-
                 spriteBatch.DrawString(font, "Pick your favorite starter Pokeman!", new Vector2(750, 700), Color.White);
             }
+
+        
+
             base.Draw(spriteBatch);
         }
     }

@@ -16,6 +16,7 @@ namespace PokeMan
         public static Stack<Scene> Scenes = new Stack<Scene>();
         public static SpriteFont Font;
         public static Texture2D ButtonTexture;
+
         public static (int x, int y) SceenSize;
 
         public PokeManGame()

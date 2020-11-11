@@ -35,7 +35,7 @@ namespace PokeMan
             Text = text;
             _texture = texture;
             _font = font;
-            PenColor = penColour ?? Color.White;
+            PenColor = penColour ?? Color.Black;
             SpriteColor = spriteColor ?? Color.White;
             HoverColor = hoverColor ?? Color.Gray;
 

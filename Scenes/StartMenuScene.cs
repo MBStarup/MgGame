@@ -58,6 +58,9 @@ namespace PokeMan
             //spriteBatch.End();
         }
 
+        
+
+
         public override void Update()
         {
             foreach (var component in _components)
