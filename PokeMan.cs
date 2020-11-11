@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using EnumBuilder;
 
 namespace PokeMan
 {
@@ -78,22 +79,19 @@ namespace PokeMan
 
             movepoolDoc = new XmlDocument();
             movepoolDoc.Load("../../../Content/Xml/PocketMan.xml");
-            
-
-
 
             GenerateStats();
         }
 
         public void Load()
         {
-          
         }
 
         public void Attack(PokeMan enemy, Move move)
         {
             move.DoMove(this, enemy);
         }
+
         public void TakeDmg(int dmg)
         {
             tookdmg = Math.Clamp(dmg, 0, Int32.MaxValue);
@@ -101,10 +99,6 @@ namespace PokeMan
             if (hp == 0)
                 this.Die();
         }
-
-
-
-
 
         private void Die()
         {
@@ -160,6 +154,7 @@ namespace PokeMan
             DefenceStat = (int)Math.Floor(stats[2]);
             SpeedStat = (int)Math.Floor(stats[3]);
         }
+
         public void UpdateMoveset()
         {
             var movepoolNode = movepoolDoc.DocumentElement.SelectSingleNode("/PokeMans");
@@ -167,7 +162,7 @@ namespace PokeMan
 
             int slot = 0; // To place the move the correct place
 
-            foreach(XmlNode m in movepoolNode)
+            foreach (XmlNode m in movepoolNode)
             {
                 int moveLevel = int.Parse(m.Attributes["lvl"].Value);
                 if (moveLevel <= lvl)
@@ -177,10 +172,7 @@ namespace PokeMan
                 }
                 else// if it is not the previous level it will not me the next levels either
                     break;
-                
             }
-
-
         }
 
         /// <summary>

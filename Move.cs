@@ -3,17 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
 using System.Xml;
+using EnumBuilder;
 
 namespace PokeMan
 {
-    public enum ElementEnum
-    {
-        Normal,
-        Fire,
-        Water,
-        Grass
-    }
-
     [Serializable]
     public class Move : IDisplayable
     {
@@ -30,28 +23,16 @@ namespace PokeMan
         public int Power { get => power; private set => power = value; }
         public int Accuracy { get => accuracy; private set => accuracy = value; }
 
-        /// <summary>
-        /// INTERMIDIARRY
-        /// </summary>
-        public Move()
-        {
-
-        }
         public Move(int id)
         {
-
             doc.Load("../../../Content/Xml/Moves.xml");
             var node = doc.DocumentElement.SelectSingleNode("/Moves");
             node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == id);
 
             Name = node.Attributes["name"].Value;
             Power = int.Parse(node.Attributes["power"].Value);
-            Accuracy= int.Parse(node.Attributes["accuracy"].Value);
+            Accuracy = int.Parse(node.Attributes["accuracy"].Value);
             element = (ElementEnum)Enum.Parse(typeof(ElementEnum), node.Attributes["element"].Value);
-
-
-
-
         }
 
 

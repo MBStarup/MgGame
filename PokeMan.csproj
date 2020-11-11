@@ -10,6 +10,11 @@
 		<ApplicationIcon>Icon.ico</ApplicationIcon>
 	</PropertyGroup>
 	<ItemGroup>
+		<Reference Include="ElementEnum">
+			<HintPath>ElementEnum.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
 		<Reference Include="PlayerAnimationEnums">
 			<HintPath>PlayerAnimationEnums.dll</HintPath>
 		</Reference>
@@ -38,5 +43,8 @@
 	</Target>
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
 		<Exec Command="EnumBuilder.exe PlayerAnimationEnums Content/Xml/MainChar.xml /Character/Animations/Animation name" />
+	</Target>
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+		<Exec Command="EnumBuilder.exe ElementEnum Content/Xml/Elements.xml /Elements/Element name" />
 	</Target>
 </Project>
