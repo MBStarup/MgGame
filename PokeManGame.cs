@@ -25,8 +25,6 @@ namespace PokeMan
         public static (int x, int y) SceenSize;
         private Song gam;
 
-
-
         public PokeManGame()
         {
             Graphics = new GraphicsDeviceManager(this);
@@ -50,8 +48,6 @@ namespace PokeMan
             base.Initialize();
         }
 
-
-       
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -67,14 +63,9 @@ namespace PokeMan
             Scenes.Push(new PickScene("Battle1.xml", a.Player));
             Scenes.Push(new StartMenuScene());
 
-
-            
             //song
             //Content.Load<Song>("music/menuSongName");
             //Content.Load<Song>("music/gameSongName");
-
-
-
         }
 
         private void QuitButton_Click(object sender, System.EventArgs e)
@@ -88,8 +79,7 @@ namespace PokeMan
                 Exit();
 
             Scenes.Peek().Update();
-            
-            
+
             //song
             //Scene tempscene = new Scene;
             //tempscene = Scenes.Peek(); ;
@@ -115,8 +105,6 @@ namespace PokeMan
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             {
                 Scenes.Peek().Draw(_spriteBatch);
-
-               
             }
             _spriteBatch.End();
 

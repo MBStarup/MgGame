@@ -329,7 +329,7 @@ namespace PokeMan
                 // Tager spilleren tilbage til startmenuen, bare en placeholder
                 if (FriendlyPokeMan.SpeedStat >= EnemyPokeMan.SpeedStat)
                 {
-                    PokeManGame.Scenes.Pop();
+                    Close();
                 }
                 else
                 {
@@ -339,5 +339,11 @@ namespace PokeMan
         }
 
         #endregion Stuff
+
+        public override void Close()
+        {
+            MediaPlayer.Stop();
+            base.Close();
+        }
     }
 }

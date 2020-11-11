@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
@@ -33,7 +34,7 @@ namespace PokeMan
 
         private void StartGameButton_Click(object sender, EventArgs e)
         {
-            PokeManGame.Scenes.Pop();
+            Close();
         }
 
         public override void Draw(SpriteBatch spriteBatch)

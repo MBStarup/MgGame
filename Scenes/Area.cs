@@ -27,6 +27,7 @@ namespace PokeMan
         private Camera cam;
         private KeyboardState lastState;
         public Song song;
+
         public Area(string xmlPath)
         {
             Content.RootDirectory = "Content";
@@ -167,8 +168,6 @@ namespace PokeMan
             MediaPlayer.Play(song);
             MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
             // Free soundtrack bip-bop from  https://joshua-mclean.itch.io/free-music-pack-5
-
-
         }
 
         private void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e)
@@ -176,7 +175,6 @@ namespace PokeMan
             // 0.0f is silent, 1.0f is full volume
             MediaPlayer.Volume -= 0.1f;
             MediaPlayer.Play(song);
-
         }
 
         public override void Draw(SpriteBatch spriteBatch)
