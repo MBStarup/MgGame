@@ -255,20 +255,12 @@ namespace PokeMan
 
             EnemyPokeMan.Sprite = LoadedTextures.ToArray();
 
-            this.song = Content.Load<Song>("Assets/Battle/Music/battlemusic");
-            MediaPlayer.Play(song);
-            MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged1;
+          
 
             localLoadAmount = 1f;
         }
 
-        private void MediaPlayer_MediaStateChanged1(object sender, System.EventArgs e)
-        {
-            // 0.0f is silent, 1.0f is full volume
-            MediaPlayer.Volume -= 0.1f;
-            MediaPlayer.Play(song);
-
-        }
+       
 
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -320,6 +312,9 @@ namespace PokeMan
                 spriteBatch.DrawString(font, $"Enemy AttackStat: = {EnemyPokeMan.AttackStat}", new Vector2(50, 150), Color.White);
 
                 spriteBatch.DrawString(font, $"enemy speed : {EnemyPokeMan.SpeedStat}", new Vector2(50, 400), Color.White);
+
+                //spriteBatch.DrawString(font, $"enemy speed : {EnemyPokeMan.SpeedStat}", new Vector2(50, 400), Color.White);
+
 
 
                 foreach (var component in _components)

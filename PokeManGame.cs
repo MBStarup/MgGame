@@ -23,9 +23,6 @@ namespace PokeMan
         public static Texture2D ButtonTexture;
 
         public static (int x, int y) SceenSize;
-        private Song gam;
-
-
 
         public PokeManGame()
         {
@@ -67,14 +64,6 @@ namespace PokeMan
             Scenes.Push(new PickScene("Battle1.xml", a.Player));
             Scenes.Push(new StartMenuScene());
 
-
-            
-            //song
-            //Content.Load<Song>("music/menuSongName");
-            //Content.Load<Song>("music/gameSongName");
-
-
-
         }
 
         private void QuitButton_Click(object sender, System.EventArgs e)
@@ -88,23 +77,6 @@ namespace PokeMan
                 Exit();
 
             Scenes.Peek().Update();
-            
-            
-            //song
-            //Scene tempscene = new Scene;
-            //tempscene = Scenes.Peek(); ;
-
-            //if (isInMenu)
-            //{
-            //    MediaPlayer.Stop(); //Stop the current audio...
-            //    MediaPlayer.Play(battle_song); //...and start playing the next.
-            //}
-            //else
-            //{
-            //    MediaPlayer.Stop(); //Stop the current audio
-            //    MediaPlayer.Play(game_song); //...and start playing the next.
-            //}
-
             base.Update(gameTime);
         }
 

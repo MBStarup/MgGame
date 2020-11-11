@@ -172,13 +172,7 @@ namespace PokeMan
 
         }
 
-        private void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e)
-        {
-            // 0.0f is silent, 1.0f is full volume
-            MediaPlayer.Volume -= 0.1f;
-            MediaPlayer.Play(song);
-
-        }
+       
 
         public override void Draw(SpriteBatch spriteBatch)
         {
