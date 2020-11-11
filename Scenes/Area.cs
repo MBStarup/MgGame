@@ -163,6 +163,7 @@ namespace PokeMan
                 Palettes[i++] = a.ToArray();
                 completedLoadTasks += 1;
             }
+            MediaPlayer.Stop();
             this.song = Content.Load<Song>("Assets/World/Music/bip-bop");
            // MediaPlayer.Play(song);
             MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;

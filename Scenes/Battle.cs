@@ -125,7 +125,7 @@ namespace PokeMan
                                 if (playerDead == false)
                                 {
                                     currentMoveName = move.Name;
-                                    currentMoveElement = move.Element;
+                                   // currentMoveElement = move.Element;
                                     
                                     FriendlyPokeMan.Attack(EnemyPokeMan, move);
 
@@ -172,7 +172,7 @@ namespace PokeMan
                 }
                 void cowardButton_Click(object sender, EventArgs e)
                 {
-                    // Tager spilleren tilbage til startmenuen, bare en placeholder
+                    // Returns the player to area scene if they have higher speed
                     if (FriendlyPokeMan.SpeedStat >= EnemyPokeMan.SpeedStat)
                     {
                         PokeManGame.Scenes.Pop();
