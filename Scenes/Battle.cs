@@ -323,7 +323,6 @@ namespace PokeMan
             // Knappen fight har andre knapper i sig når man klikker på den
             void fightButton_Click(object sender, EventArgs e)
             {
-                chosenmove = new Move();
                 _components = new List<Component>();
                 int i = 0;
                 foreach (Move move in FriendlyPokeMan.moves)
