@@ -33,7 +33,7 @@ namespace PokeMan
         private Rectangle FriendlyShadow;
         private Rectangle EnemyShadow;
         private Move move;
-        private Song song;
+        public Song song;
         private Player p;
 
         private bool playerHasAttacked;
@@ -123,12 +123,15 @@ namespace PokeMan
             // Knappen fight har andre knapper i sig når man klikker på den
             void fightButton_Click(object sender, EventArgs e)
             {
+
+                    Move chosenmove = new Move();
                 _components = new List<Component>();
                 int i = 0;
                 foreach (Move move in FriendlyPokeMan.moves)
                 {
                     if (move != null)
                     {
+                            
                         Button moveButton = new Button(buttonTexture, font, text: move.Name, position: new Point(1100, 850 + (50 * i)));
                         moveButton.Click += (object o, EventArgs e) => FriendlyPokeMan.Attack(EnemyPokeMan, move);
                         _components.Add(moveButton);
@@ -149,7 +152,17 @@ namespace PokeMan
                 void cowardButton_Click(object sender, EventArgs e)
                 {
                     // Tager spilleren tilbage til startmenuen, bare en placeholder
-                    // _game.ChangeState(new StateMenu(_game));
+                    if (FriendlyPokeMan.SpeedStat >= EnemyPokeMan.SpeedStat)
+                    {
+                        PokeManGame.Scenes.Pop();
+
+                    }
+                    else
+                    {
+                            //message cant run
+                    }
+
+
                 }
             }
         }
@@ -273,15 +286,20 @@ namespace PokeMan
 
                spriteBatch.DrawString(font, $"Your Hp: = {hpText}", new Vector2(50, 200), Color.White);
 
-                spriteBatch.DrawString(font, $"Dmg Taken: = {FriendlyPokeMan.tookdmg}", new Vector2(50, 250), Color.Black);
-                spriteBatch.DrawString(font, $"Dmg Taken: = {FriendlyPokeMan.AttackStat}", new Vector2(50, 300), Color.Black);
+                spriteBatch.DrawString(font, $"Dmg Taken: = {FriendlyPokeMan.tookdmg}", new Vector2(50, 250), Color.White);
+                spriteBatch.DrawString(font, $"AttackStat: = {FriendlyPokeMan.AttackStat}", new Vector2(50, 300), Color.White);
+                spriteBatch.DrawString(font, $"speed : {FriendlyPokeMan.SpeedStat}", new Vector2(50, 350), Color.White);
+
+
 
                 spriteBatch.DrawString(font, $"Enemy Hp: = {enemyhpText}", new Vector2(50, 50), Color.White);
 
+                spriteBatch.DrawString(font, $"Dmg Taken: = {EnemyPokeMan.tookdmg}", new Vector2(50, 100), Color.White);
 
-                spriteBatch.DrawString(font, $"Dmg Taken: = {EnemyPokeMan.tookdmg}", new Vector2(50, 100), Color.Black);
+                spriteBatch.DrawString(font, $"Enemy AttackStat: = {EnemyPokeMan.AttackStat}", new Vector2(50, 150), Color.White);
 
-                spriteBatch.DrawString(font, $"Dmg Taken: = {EnemyPokeMan.AttackStat}", new Vector2(50, 150), Color.Black);
+                spriteBatch.DrawString(font, $"enemy speed : {EnemyPokeMan.SpeedStat}", new Vector2(50, 400), Color.White);
+
 
                 foreach (var component in _components)
                 {

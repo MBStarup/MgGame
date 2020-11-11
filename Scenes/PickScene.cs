@@ -119,7 +119,7 @@ namespace PokeMan
             }
             else
             {
-                spriteBatch.Draw(background, new Rectangle(0, 0, PokeManGame.SceenSize.x, PokeManGame.SceenSize.y), Color.Green);
+                spriteBatch.Draw(background, new Rectangle(0, 0, PokeManGame.SceenSize.x, PokeManGame.SceenSize.y), Color.White);
 
                 float buttonSpaceRatio = 0.5f / 1;
                 float buttonWidth = PokeManGame.SceenSize.x / (buttons.Length * (buttonSpaceRatio + 1));

@@ -3,4 +3,5 @@
 <Battle message="DO SOMETHING!!!!" path="Assets/Battle/Background/">
 
 	<Sprite>1</Sprite>
+	<Sprite>2</Sprite>
 </Battle>

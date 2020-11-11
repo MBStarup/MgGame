@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using EnumBuilder;
+using Microsoft.Xna.Framework.Media;
 
 namespace PokeMan
 {
@@ -25,7 +26,7 @@ namespace PokeMan
         public Player Player;
         private Camera cam;
         private KeyboardState lastState;
-
+        public Song song;
         public Area(string xmlPath)
         {
             Content.RootDirectory = "Content";
@@ -162,6 +163,20 @@ namespace PokeMan
                 Palettes[i++] = a.ToArray();
                 completedLoadTasks += 1;
             }
+            this.song = Content.Load<Song>("Assets/World/Music/bip-bop");
+            MediaPlayer.Play(song);
+            MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
+            // Free soundtrack bip-bop from  https://joshua-mclean.itch.io/free-music-pack-5
+
+
+        }
+
+        private void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e)
+        {
+            // 0.0f is silent, 1.0f is full volume
+            MediaPlayer.Volume -= 0.1f;
+            MediaPlayer.Play(song);
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
