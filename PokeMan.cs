@@ -52,9 +52,7 @@ namespace PokeMan
         private XmlDocument doc;
         private XmlDocument movepoolDoc;
 
-        public PokeMan()
-        {
-        }
+        public bool Alive => hp > 0;
 
         public PokeMan(int id, int level)
         {
@@ -96,14 +94,6 @@ namespace PokeMan
         {
             tookdmg = Math.Clamp(dmg, 0, Int32.MaxValue);
             hp = Math.Clamp(hp - dmg, 0, Int32.MaxValue);
-            if (hp == 0)
-                this.Die();
-        }
-
-        private void Die()
-        {
-            //throw new NotImplementedException("Your PokeMan died!");
-            PokeManGame.Scenes.Pop();
         }
 
         public void LevelUp()
