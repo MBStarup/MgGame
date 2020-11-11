@@ -12,58 +12,49 @@ using System.Xml;
 
 namespace PokeMan
 {
-    internal class Battle : Scene
+    internal class loadContent : Scene
     {
         new public float LoadAmount { get => (float)completedLoadTasks / loadTasks + base.LoadAmount / loadTasks; }
 
         private int completedLoadTasks;
         private int loadTasks = 1; //The setup, corresponds to the completedLoadTasks increment at the bottom of the load method
 
-        private PokeMan FriendlyPokeMan;
-        private PokeMan EnemyPokeMan;
-        private Texture2D Background;
-        private Textbox textbox;
+        private PokeMan friendlyPokeMan;
+        private PokeMan enemyPokeMan;
+        private Texture2D background;
 
-        private Rectangle Friendly;
-        private Rectangle Enemy;
-        private List<Component> _components;
-        private string type;
-        private string enemyhpText;
-        private string hpText;
-        private int pos = PokeManGame.SceenSize.x * 2 / 3;
-        private int posE;
-        private Rectangle FriendlyShadow;
-        private Rectangle EnemyShadow;
-        private Move move;
-        public Song song;
+        private List<Button> currentButtons;
+        private List<Button> newButtons;
+        private Song song;
         private Player p;
-        private Move chosenmove;
         private string currentmessage = "";
-        private string effective;
 
+        private Rectangle friendlyRect;
+        private Rectangle enemyRect;
+        private Rectangle textRect;
+        private Rectangle buttonRect;
+        private int pokemanOffset;
 
-        private bool playerHasAttacked;
-        private bool enemyHasAttacked;
+        private Button escapeButton;
+        private Button fightButton;
+        private Button[] moveButtons;
 
-
-        private bool playerDead => FriendlyPokeMan.hp <= 0;
-        private bool enemyDead => EnemyPokeMan.hp <= 0;
-
-        public Battle(string xmlPath, Player player)
+        public loadContent(string xmlPath, Player player)
         {
+            pokemanOffset = PokeManGame.SceenSize.x;
             p = player;
+            textRect = new Rectangle(PokeManGame.SceenSize.x / 100 * 10, PokeManGame.SceenSize.y / 100 * 70, PokeManGame.SceenSize.x / 100 * 80, PokeManGame.SceenSize.y / 100 * 25);
+            buttonRect = new Rectangle(textRect.X, textRect.Y + textRect.Height / 2, textRect.Width, textRect.Height / 3);
 
-            FriendlyPokeMan = p.Party[0];
-            //FriendlyPokeMan.id = 1;
-
-            EnemyPokeMan = new PokeMan(1, 5);
+            friendlyPokeMan = p.Party[0];
+            enemyPokeMan = new PokeMan(new System.Random().Next(1, 3), 5); //Big NO! NO!, hard coded that we have 3 pokemans, should probably be stored in the gameworld data of the area, but so should the path to the sprites probably also, maybe even the textures them self, but we didn't have time for that soooo ¯\_(ツ)_/¯
 
             Content.RootDirectory = "Content";
-            LoadContent(xmlPath);
-            BattleButtons();
+            beginLoad(xmlPath);
+            init();
         }
 
-        public async void LoadContent(string xmlPath)
+        private async void beginLoad(string xmlPath)
         {
             loadTasks += 4;//Manually counted at design-time, no time to add cool way to programatically count this, definetly "nice to have"-feature that could be added
 
@@ -85,7 +76,7 @@ namespace PokeMan
             }
             IEnumerable<Texture2D> LoadedTextures = await LoadAssets<Texture2D>(paths);
             var arr = LoadedTextures.ToArray();
-            Background = arr[0];
+            background = arr[0];
             completedLoadTasks += 1;
 
             //frienly
@@ -93,7 +84,7 @@ namespace PokeMan
             doc.Load("../../../Content/Xml/PocketMan.xml");
             node = doc.DocumentElement.SelectSingleNode("/PokeMans");
 
-            node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == FriendlyPokeMan.id).SelectSingleNode("Animations");
+            node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == friendlyPokeMan.id).SelectSingleNode("Animations");
             node = node.Cast<XmlNode>().First(a => a.Attributes["name"].Value == "Back");
 
             count = node.ChildNodes.Count;
@@ -107,7 +98,7 @@ namespace PokeMan
             }
 
             LoadedTextures = await LoadAssets<Texture2D>(paths);
-            FriendlyPokeMan.Sprite = LoadedTextures.ToArray();
+            friendlyPokeMan.Sprite = LoadedTextures.ToArray();
             completedLoadTasks += 1;
 
             //enemy
@@ -115,7 +106,7 @@ namespace PokeMan
             doc.Load("../../../Content/Xml/PocketMan.xml");
             node = doc.DocumentElement.SelectSingleNode("/PokeMans");
 
-            node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == EnemyPokeMan.id).SelectSingleNode("Animations");
+            node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == enemyPokeMan.id).SelectSingleNode("Animations");
             node = node.Cast<XmlNode>().First(a => a.Attributes["name"].Value == "Front");
 
             count = node.ChildNodes.Count;
@@ -129,80 +120,50 @@ namespace PokeMan
             }
 
             LoadedTextures = await LoadAssets<Texture2D>(paths);
-            EnemyPokeMan.Sprite = LoadedTextures.ToArray();
+            enemyPokeMan.Sprite = LoadedTextures.ToArray();
             completedLoadTasks += 1;
 
             completedLoadTasks += 1; //Setup Done!
         }
 
-        private void DoTurn(Move move)
+        public override void Update()
         {
-            /*
-             DO EPIC STUFF HERE WITH MOVE AND STUFF!!!!
-             */
-            if (!playerDead)
+            if (!(this.LoadAmount < 1))
             {
-                FriendlyPokeMan.Attack(EnemyPokeMan, move);
-                playerHasAttacked = true;
-            currentmessage = $"You used {move} and did {EnemyPokeMan.tookdmg} dmg, it was {effective} effective!";
-            }
-            else
-            {
-            currentmessage = $"You died!";
-                Close();
-            }
-            if (playerHasAttacked && !playerDead && !enemyDead)
-            {
-                EnemyPokeMan.Attack(FriendlyPokeMan, move);
+                newButtons.Clear();
+                newButtons.AddRange(currentButtons);
 
-                playerHasAttacked = false;
-            }
-            else if (playerHasAttacked && enemyDead)
-            {
-                Close();
-                playerHasAttacked = false;
-            }
-            else
-            {
-                BattleButtons();
-                playerHasAttacked = false;
-            }
-            BattleButtons();
-        }
+                if (MediaPlayer.State == MediaState.Stopped) //Start song
+                {
+                    MediaPlayer.Play(song);
+                }
 
-        private void DoTurnEnemyFirst(Move move)
-        {
-            /*
-             DO EPIC STUFF HERE WITH MOVE AND STUFF!!!!
-             */
-            if (!enemyDead)
-            {
-                EnemyPokeMan.Attack(FriendlyPokeMan, move);
-                enemyHasAttacked = true;
-                //currentmessage = $"You used {move} and did {EnemyPokeMan.tookdmg} dmg, it was {effective} effective!";
+                if (pokemanOffset > 0)
+                {
+                    enemyRect = new Rectangle(PokeManGame.SceenSize.x / 100 * 55 - pokemanOffset, PokeManGame.SceenSize.y / 100 * 10, PokeManGame.SceenSize.x / 100 * 33, PokeManGame.SceenSize.y / 100 * 33);
+                    friendlyRect = new Rectangle(PokeManGame.SceenSize.x / 100 * 13 + pokemanOffset, PokeManGame.SceenSize.y / 100 * 40, PokeManGame.SceenSize.x / 100 * 33, PokeManGame.SceenSize.y / 100 * 33);
+                    pokemanOffset -= 100;
+                    currentmessage = $"You've incountered a wild {enemyPokeMan.nickname}";
+                }
+                else
+                {
+                    if (!(friendlyPokeMan.Alive && enemyPokeMan.Alive))
+                    {
+                        currentmessage = friendlyPokeMan.Alive ? $"You won! Congratulations!" : $"You lost...";
+                        newButtons.RemoveRange(1, currentButtons.Count - 1);
+                        newButtons[0] = escapeButton;
+                        newButtons[0].Text = "Click here to continue";
+                    }
+
+                    foreach (Button button in currentButtons) //Update buttons
+                    {
+                        button.Update();
+                    }
+                }
+
+                currentButtons.Clear();
+                currentButtons.AddRange(newButtons);
             }
-            else
-            {
-                currentmessage = $"Enemy died!";
-                Close();
-            }
-            if (enemyHasAttacked && !playerDead && !enemyDead)
-            {
-                FriendlyPokeMan.Attack(EnemyPokeMan, move);
-                //currentmessage = $"You used {move} and did {EnemyPokeMan.tookdmg} dmg, it was {effective} effective!";
-                enemyHasAttacked = false;
-            }
-            else if (enemyHasAttacked && playerDead)
-            {
-                Close();
-                enemyHasAttacked = false;
-            }
-            else
-            {
-                BattleButtons();
-                enemyHasAttacked = false;
-            }
-            BattleButtons();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -213,184 +174,126 @@ namespace PokeMan
             }
             else
             {
+                Rectangle temp;
                 Texture2D shadow = Content.Load<Texture2D>("Assets/Battle/Background/shadow");
 
-                Friendly = new Rectangle(pos, PokeManGame.SceenSize.y * 2 / 3 - 50, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
-                //Enemy = new Rectangle(PokeManGame.SceenSize.x * 2 / 3, PokeManGame.SceenSize.y, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
-                Enemy = new Rectangle(posE, 0, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
+                spriteBatch.Draw(background, new Rectangle(0, 0, PokeManGame.SceenSize.x, PokeManGame.SceenSize.y), Color.White);
 
-                spriteBatch.Draw(Background, new Rectangle(0, 0, PokeManGame.SceenSize.x, PokeManGame.SceenSize.y), Color.White);
+                temp = friendlyRect;
+                temp.Height = (int)(temp.Height * 0.2);
+                temp.Y += friendlyRect.Height - temp.Height;
+                spriteBatch.Draw(shadow, temp, Color.Black);
 
-                FriendlyShadow = new Rectangle(pos, PokeManGame.SceenSize.y * 2 / 3 + 100, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
+                temp = enemyRect;
+                temp.Height = (int)(temp.Height * 0.2);
+                temp.Y += enemyRect.Height - temp.Height;
+                spriteBatch.Draw(shadow, temp, Color.Black);
 
-                EnemyShadow = new Rectangle(posE, 100, PokeManGame.SceenSize.x / 3, PokeManGame.SceenSize.y / 3);
+                spriteBatch.Draw(friendlyPokeMan.Sprite, friendlyRect, Color.White);
+                spriteBatch.Draw(enemyPokeMan.Sprite, enemyRect, Color.White);
 
-                spriteBatch.Draw(shadow, FriendlyShadow, Color.Black);
+                spriteBatch.Draw(background, textRect, Color.Black);
 
-                spriteBatch.Draw(shadow, EnemyShadow, Color.Black);
+                spriteBatch.DrawString(PokeManGame.Font, $"Enemy Hp: = {enemyPokeMan.hp}", enemyRect.Location.ToVector2(), Color.White);
+                spriteBatch.DrawString(PokeManGame.Font, $"Your Hp: = {friendlyPokeMan.hp}", friendlyRect.Location.ToVector2(), Color.White);
 
-                if (pos > 100 && posE < 1200)
+                var textLocation = textRect.Location.ToVector2();
+                textLocation.X += (textRect.Width - PokeManGame.Font.MeasureString(currentmessage).X) / 2;
+                textLocation.Y += (textRect.Height / 3 - PokeManGame.Font.MeasureString(currentmessage).Y) / 2; ;
+                spriteBatch.DrawString(PokeManGame.Font, currentmessage, textLocation, Color.White);
+
+                try
                 {
-                    SlideIn();
+                    int buttonWidth = PokeManGame.SceenSize.x / 5;
+                    int spaceWidth = 0;
+                    if (buttonWidth * currentButtons.Count > buttonRect.Width)
+                    {
+                        buttonWidth = buttonRect.Width / currentButtons.Count;
+                    }
+                    else
+                    {
+                        spaceWidth = buttonRect.Width / currentButtons.Count - buttonWidth;
+                    }
 
-                    spriteBatch.DrawString(PokeManGame.Font, "FIGHT!", new Vector2(540, 500), Color.Black);
+                    int i = 0;
+                    foreach (Button button in currentButtons)
+                    {
+                        button.Rectangle = buttonRect; //Assign y coord and height
+                        button.Rectangle.X += (i++ * (buttonWidth + spaceWidth)) + (spaceWidth / 2); //Assign x coord
+                        button.Rectangle.Width = buttonWidth; //Assign width
+                        button.Draw(spriteBatch);
+                    }
                 }
-
-                spriteBatch.Draw(FriendlyPokeMan.Sprite, Friendly, Color.White);
-                spriteBatch.Draw(EnemyPokeMan.Sprite, Enemy, Color.White);
-
-
-                spriteBatch.DrawString(PokeManGame.Font, $"Enemy Hp: = {enemyhpText}", new Vector2(50, 50), Color.White);
-                spriteBatch.DrawString(PokeManGame.Font, $"Your Hp: = {hpText}", new Vector2(50, 200), Color.White);
-                spriteBatch.DrawString(PokeManGame.Font, currentmessage, new Vector2(50, 450), Color.White);
-
-#if DEBUG
-                
-
-                spriteBatch.DrawString(PokeManGame.Font, $"Dmg Taken: = {FriendlyPokeMan.tookdmg}", new Vector2(50, 250), Color.White);
-                spriteBatch.DrawString(PokeManGame.Font, $"AttackStat: = {FriendlyPokeMan.AttackStat}", new Vector2(50, 300), Color.White);
-                spriteBatch.DrawString(PokeManGame.Font, $"speed : {FriendlyPokeMan.SpeedStat}", new Vector2(50, 350), Color.White);
-
-
-                spriteBatch.DrawString(PokeManGame.Font, $"Dmg Taken: = {EnemyPokeMan.tookdmg}", new Vector2(50, 100), Color.White);
-
-                spriteBatch.DrawString(PokeManGame.Font, $"Enemy AttackStat: = {EnemyPokeMan.AttackStat}", new Vector2(50, 150), Color.White);
-
-                spriteBatch.DrawString(PokeManGame.Font, $"enemy speed : {EnemyPokeMan.SpeedStat}", new Vector2(50, 400), Color.White);
-
-#endif
-                if (EnemyPokeMan.tookdmg > 10)
-                {
-                    effective = "very";
-                       
-                }
-                else
-                {
-                    effective = "not";
-                }
-
-                foreach (var component in _components)
-                {
-                    component.Draw(spriteBatch);
-                }
+                catch (DivideByZeroException e) { } //Doesn't draw if currentButtons.Count == 0
             }
         }
 
-        private void SlideIn()
+        private void doTurn(Move move)
         {
-            pos -= 15;
+            currentmessage = "";
+            (friendlyPokeMan.SpeedStat >= enemyPokeMan.SpeedStat ? (Action)PlayerFirst : EnemyFirst)();
+            newButtons.Clear();
+            newButtons.Add(fightButton);
+            newButtons.Add(escapeButton);
 
-            posE += 15;
-        }
-
-        public override void Update()
-        {
-            if (!(this.LoadAmount < 1))
+            void PlayerFirst()
             {
-                if (MediaPlayer.State == MediaState.Stopped)
+                friendlyPokeMan.Attack(enemyPokeMan, move);
+                if (friendlyPokeMan.Alive && enemyPokeMan.Alive)
                 {
-                    MediaPlayer.Play(song);
+                    currentmessage += $"You used {move} and did {enemyPokeMan.tookdmg} dmg!";
+                    currentmessage += ", and " + Environment.NewLine;
+                    enemyPokeMan.Attack(friendlyPokeMan, enemyPokeMan.moves[0]);
+                    currentmessage += $"Enemy used {enemyPokeMan.moves[0]} and did {friendlyPokeMan.tookdmg} dmg!";
                 }
+            }
 
-                foreach (var component in _components)
+            void EnemyFirst()
+            {
+                enemyPokeMan.Attack(friendlyPokeMan, enemyPokeMan.moves[0]);
+                if (friendlyPokeMan.Alive && enemyPokeMan.Alive)
                 {
-                    component.Update();
+                    currentmessage += $"Enemy used {enemyPokeMan.moves[0]} and did {friendlyPokeMan.tookdmg} dmg!";
+                    currentmessage += ", and " + Environment.NewLine;
+                    friendlyPokeMan.Attack(enemyPokeMan, move);
+                    currentmessage += $"You used {move} and did {enemyPokeMan.tookdmg} dmg!";
                 }
-
-                enemyhpText = EnemyPokeMan.hp.ToString();
-                hpText = FriendlyPokeMan.hp.ToString();
             }
         }
 
-#region Stuff
-
-        private void BattleButtons()
+        private void init()
         {
             // De forskellige knapper som spilleren nok skal kunne bruge i kamp scenen
 
-            Button fightButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: "Fight", position: new Point(1000, 900));
-
-            Button bagButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: "Bag", position: new Point(1100, 900));
-
-            Button pokemanButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: "Pokeman", position: new Point(1000, 950));
-
-            Button cowardButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: "Run", position: new Point(1100, 950));
-
-            //startGameButton.Click += StartGameButton_Click;
-            fightButton.Click += fightButton_Click;
-            bagButton.Click += bagButton_Click;
-            pokemanButton.Click += pokemanButton_Click;
-            cowardButton.Click += cowardButton_Click;
-
-            _components = new List<Component>()
+            fightButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: "Fight"/*, position: new Point(1000, 900)*/);
+            escapeButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: "Run"/*, position: new Point(1100, 950)*/);
+            escapeButton.Click += (object o, EventArgs e) => Close();
+            fightButton.Click += (object sender, EventArgs e) =>
             {
-               // startGameButton,
-                fightButton,
-                bagButton,
-                pokemanButton,
-                cowardButton,
+                newButtons.Clear();
+                foreach (Button b in moveButtons)
+                {
+                    newButtons.Add(b);
+                }
             };
 
-            // Knappen fight har andre knapper i sig når man klikker på den
-            void fightButton_Click(object sender, EventArgs e)
-            {
-                _components = new List<Component>();
-                int i = 0;
-                foreach (Move move in FriendlyPokeMan.moves)
-                {
-                    if (move != null)
-                    {
-                        Button moveButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: move.Name, position: new Point(1100, 850 + (50 * i)));
-                        moveButton.Click += (object o, EventArgs e) =>
-                        {
-                            
-                           // Tjekker hvilken pokeman som har højest speed stat, og lader den med den højeste angribe først.
-                            if (FriendlyPokeMan.SpeedStat > EnemyPokeMan.SpeedStat)
-                            {
-                                Debug.WriteLine("Player faster");
-                                DoTurn(move);
-                                //chosenmove = move;
-                                chosenmove = move;
-                            }
-                            else if (EnemyPokeMan.SpeedStat > FriendlyPokeMan.SpeedStat)
-                            {
-                                Debug.WriteLine("Enemy faster");
-                                DoTurnEnemyFirst(move);
-                                //chosenmove = move;
-                                chosenmove = move;
-                            }
+            newButtons = new List<Button>() { fightButton, escapeButton };
+            currentButtons = new List<Button>(newButtons);
 
-                        };
-                        _components.Add(moveButton);
-                        i++;
-                    }
-                    else
-                        break;
-                }
-            }
-
-            void bagButton_Click(object sender, EventArgs e)
-            {
-            }
-            void pokemanButton_Click(object sender, EventArgs e)
-            {
-                //FriendlyPokeMan = Area.p.party[1];
-            }
-            void cowardButton_Click(object sender, EventArgs e)
-            {
-                // Tager spilleren tilbage til startmenuen, bare en placeholder
-                if (/*FriendlyPokeMan.SpeedStat >= EnemyPokeMan.SpeedStat*/true)
-                {
-                    Close();
-                }
-                else
-                {
-                    //message cant run
-                }
-            }
+            initMoves();
         }
 
-#endregion Stuff
+        private void initMoves() //might need to be called seperate from Init() if we add pokemon switching
+        {
+            var moves = friendlyPokeMan.moves.Where(a => a != null).ToArray();
+            moveButtons = new Button[moves.Count()];
+            for (int i = 0; i < moves.Length; i++)
+            {
+                var currMove = moves[i];
+                moveButtons[i] = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: currMove.Name/*, position: new Point(1100, 850 + (50 * i))*/);
+                moveButtons[i].Click += (object o, EventArgs e) => doTurn(currMove);
+            }
+        }
 
         public override void Close()
         {

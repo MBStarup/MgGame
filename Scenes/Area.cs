@@ -232,7 +232,7 @@ namespace PokeMan
 
         private void StartBattle()
         {
-            PushNewScene(new Battle("Battle1.xml", Player)); //add the player or some shit
+            PushNewScene(new loadContent("Battle1.xml", Player)); //add the player or some shit
         }
 
         private void PushNewScene(Scene scene)
