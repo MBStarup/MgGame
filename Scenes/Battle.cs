@@ -43,6 +43,8 @@ namespace PokeMan
 
 
         private bool playerHasAttacked;
+        private bool enemyHasAttacked;
+
 
         private bool playerDead => FriendlyPokeMan.hp <= 0;
         private bool enemyDead => EnemyPokeMan.hp <= 0;
@@ -57,7 +59,6 @@ namespace PokeMan
             EnemyPokeMan = new PokeMan(1, 5);
 
             Content.RootDirectory = "Content";
-            Checktype();
             LoadContent(xmlPath);
             BattleButtons();
         }
@@ -138,11 +139,7 @@ namespace PokeMan
         {
             /*
              DO EPIC STUFF HERE WITH MOVE AND STUFF!!!!
-            
              */
-
-
-
             if (!playerDead)
             {
                 FriendlyPokeMan.Attack(EnemyPokeMan, move);
@@ -170,7 +167,41 @@ namespace PokeMan
                 BattleButtons();
                 playerHasAttacked = false;
             }
+            BattleButtons();
+        }
 
+        private void DoTurnEnemyFirst(Move move)
+        {
+            /*
+             DO EPIC STUFF HERE WITH MOVE AND STUFF!!!!
+             */
+            if (!enemyDead)
+            {
+                EnemyPokeMan.Attack(FriendlyPokeMan, move);
+                enemyHasAttacked = true;
+                //currentmessage = $"You used {move} and did {EnemyPokeMan.tookdmg} dmg, it was {effective} effective!";
+            }
+            else
+            {
+                currentmessage = $"Enemy died!";
+                Close();
+            }
+            if (enemyHasAttacked && !playerDead && !enemyDead)
+            {
+                FriendlyPokeMan.Attack(EnemyPokeMan, move);
+                //currentmessage = $"You used {move} and did {EnemyPokeMan.tookdmg} dmg, it was {effective} effective!";
+                enemyHasAttacked = false;
+            }
+            else if (enemyHasAttacked && playerDead)
+            {
+                Close();
+                enemyHasAttacked = false;
+            }
+            else
+            {
+                BattleButtons();
+                enemyHasAttacked = false;
+            }
             BattleButtons();
         }
 
@@ -245,26 +276,6 @@ namespace PokeMan
             }
         }
 
-        private void Checktype()
-        {
-            if (FriendlyPokeMan.id == 1)
-            {
-                type = "grass";
-            }
-            else if (FriendlyPokeMan.id == 2)
-            {
-                type = "fire";
-            }
-            else if (FriendlyPokeMan.id == 3)
-            {
-                type = "water";
-            }
-            else
-            {
-                type = "normal";
-            }
-        }
-
         private void SlideIn()
         {
             pos -= 15;
@@ -332,10 +343,23 @@ namespace PokeMan
                         Button moveButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: move.Name, position: new Point(1100, 850 + (50 * i)));
                         moveButton.Click += (object o, EventArgs e) =>
                         {
-                            DoTurn(move);
-                            //chosenmove = move;
-                            chosenmove = move;
                             
+                           // Tjekker hvilken pokeman som har højest speed stat, og lader den med den højeste angribe først.
+                            if (FriendlyPokeMan.SpeedStat > EnemyPokeMan.SpeedStat)
+                            {
+                                Debug.WriteLine("Player faster");
+                                DoTurn(move);
+                                //chosenmove = move;
+                                chosenmove = move;
+                            }
+                            else if (EnemyPokeMan.SpeedStat > FriendlyPokeMan.SpeedStat)
+                            {
+                                Debug.WriteLine("Enemy faster");
+                                DoTurnEnemyFirst(move);
+                                //chosenmove = move;
+                                chosenmove = move;
+                            }
+
                         };
                         _components.Add(moveButton);
                         i++;
