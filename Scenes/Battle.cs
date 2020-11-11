@@ -63,6 +63,8 @@ namespace PokeMan
             var node = doc.DocumentElement.SelectSingleNode("/Battle");
             var path = node.Attributes["path"].Value;
 
+            this.song = Content.Load<Song>("Assets/Battle/Music/battlemusic");
+
             int count = node.ChildNodes.Count;
             string[] paths = new string[count];
 
@@ -122,16 +124,7 @@ namespace PokeMan
 
             EnemyPokeMan.Sprite = LoadedTextures.ToArray();
 
-          
-
             localLoadAmount = 1f;
-        }
-
-        private void MediaPlayer_MediaStateChanged1(object sender, System.EventArgs e)
-        {
-            // 0.0f is silent, 1.0f is full volume
-            MediaPlayer.Volume -= 0.1f;
-            MediaPlayer.Play(song);
         }
 
         private void DoTurn(Move move)
@@ -254,13 +247,21 @@ namespace PokeMan
 
         public override void Update()
         {
-            foreach (var component in _components)
+            if (!(this.LoadAmount < 1))
             {
-                component.Update();
-            }
+                if (MediaPlayer.State == MediaState.Stopped)
+                {
+                    MediaPlayer.Play(song);
+                }
 
-            enemyhpText = EnemyPokeMan.hp.ToString();
-            hpText = FriendlyPokeMan.hp.ToString();
+                foreach (var component in _components)
+                {
+                    component.Update();
+                }
+
+                enemyhpText = EnemyPokeMan.hp.ToString();
+                hpText = FriendlyPokeMan.hp.ToString();
+            }
         }
 
         #region Stuff
@@ -325,7 +326,7 @@ namespace PokeMan
             void cowardButton_Click(object sender, EventArgs e)
             {
                 // Tager spilleren tilbage til startmenuen, bare en placeholder
-                if (FriendlyPokeMan.SpeedStat >= EnemyPokeMan.SpeedStat)
+                if (/*FriendlyPokeMan.SpeedStat >= EnemyPokeMan.SpeedStat*/true)
                 {
                     Close();
                 }
