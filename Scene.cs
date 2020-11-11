@@ -56,7 +56,9 @@ namespace PokeMan
         public override void Update()
         {
         }
-
+        /// <summary>
+        ///  Pops the top scene in the stack Scenes
+        /// </summary>
         public virtual void Close()
         {
             PokeManGame.Scenes.Pop();

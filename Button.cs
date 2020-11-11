@@ -46,6 +46,7 @@ namespace PokeMan
             Texture2D texture, SpriteFont font, Point? position = null, int width = 100, int height = 50, string text = "", Color? penColour = null, Color? spriteColor = null, Color? hoverColor = null)
             : this(texture, font, new Rectangle(position ?? Point.Zero, new Point(width, height)), text, penColour, spriteColor, hoverColor) { }
 
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             // Resets from hover colour
@@ -68,7 +69,6 @@ namespace PokeMan
 
         public override void Update()
         {
-            // ??????????
             _previousMouse = _currentMouse;
             _currentMouse = Mouse.GetState();
 
@@ -81,7 +81,7 @@ namespace PokeMan
             if (mouseRectangle.Intersects(Rectangle))
             {
                 _isHovering = true;
-                // all works somehow, executes the buttons code when pressed, code is in Main private void QuitButton_Click(object sender, System.EventArgs e)
+                //  Executes the buttons code when pressed and checks for click)
                 if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
                 {
                     Click?.Invoke(this, new EventArgs());

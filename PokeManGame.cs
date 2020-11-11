@@ -14,7 +14,6 @@ namespace PokeMan
         public GraphicsDeviceManager Graphics;
         private SpriteBatch _spriteBatch;
         public static Stack<Scene> Scenes = new Stack<Scene>();
-        private Camera cam;
         public static SpriteFont Font;
         public static Texture2D ButtonTexture;
         public static (int x, int y) SceenSize;
@@ -58,6 +57,8 @@ namespace PokeMan
             Font = Content.Load<SpriteFont>("Assets/FontTextBox");
             ButtonTexture = Content.Load<Texture2D>("Assets/EmptyButton");
 
+
+            // adds scenes to stack to preload them
             var a = new Area("Sprites.xml");
             Scenes.Push(a);
             Scenes.Push(new PickScene("Battle1.xml", a.Player));
@@ -65,24 +66,24 @@ namespace PokeMan
 
         }
 
-        private void QuitButton_Click(object sender, System.EventArgs e)
-        {
-            Exit();
-        }
-
+      
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            
             Scenes.Peek().Update();
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            // ??
             GraphicsDevice.Clear(Color.Black);
+            //
 
+            // draws the scene on top of stack
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             {
                 Scenes.Peek().Draw(_spriteBatch);

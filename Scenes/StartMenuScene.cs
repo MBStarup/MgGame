@@ -32,6 +32,12 @@ namespace PokeMan
             };
         }
 
+        /// <summary>
+        /// Starts the game by removing the top layer of stack (this)
+        /// (button)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StartGameButton_Click(object sender, EventArgs e)
         {
             Close();
