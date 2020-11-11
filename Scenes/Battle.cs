@@ -34,6 +34,10 @@ namespace PokeMan
         private Move move;
         public Song song;
         private Player p;
+        private Move chosenmove;
+        private string currentmessage = "";
+        private string effective;
+
 
         private bool playerHasAttacked;
 
@@ -131,17 +135,21 @@ namespace PokeMan
         {
             /*
              DO EPIC STUFF HERE WITH MOVE AND STUFF!!!!
-
+            
              */
+
+
 
             if (!playerDead)
             {
                 FriendlyPokeMan.Attack(EnemyPokeMan, move);
                 playerHasAttacked = true;
+            currentmessage = $"You used {move} and did {EnemyPokeMan.tookdmg} dmg, it was {effective} effective!";
             }
             else
             {
-                throw new NotImplementedException("You dead");
+            currentmessage = $"You died!";
+                Close();
             }
             if (playerHasAttacked && !playerDead && !enemyDead)
             {
@@ -151,7 +159,7 @@ namespace PokeMan
             }
             else if (playerHasAttacked && enemyDead)
             {
-                throw new NotImplementedException("Enemy dead");
+                Close();
                 playerHasAttacked = false;
             }
             else
@@ -197,19 +205,35 @@ namespace PokeMan
                 spriteBatch.Draw(FriendlyPokeMan.Sprite, Friendly, Color.White);
                 spriteBatch.Draw(EnemyPokeMan.Sprite, Enemy, Color.White);
 
+
+                spriteBatch.DrawString(PokeManGame.Font, $"Enemy Hp: = {enemyhpText}", new Vector2(50, 50), Color.White);
                 spriteBatch.DrawString(PokeManGame.Font, $"Your Hp: = {hpText}", new Vector2(50, 200), Color.White);
+                spriteBatch.DrawString(PokeManGame.Font, currentmessage, new Vector2(50, 450), Color.White);
+
+#if DEBUG
+                
 
                 spriteBatch.DrawString(PokeManGame.Font, $"Dmg Taken: = {FriendlyPokeMan.tookdmg}", new Vector2(50, 250), Color.White);
                 spriteBatch.DrawString(PokeManGame.Font, $"AttackStat: = {FriendlyPokeMan.AttackStat}", new Vector2(50, 300), Color.White);
                 spriteBatch.DrawString(PokeManGame.Font, $"speed : {FriendlyPokeMan.SpeedStat}", new Vector2(50, 350), Color.White);
 
-                spriteBatch.DrawString(PokeManGame.Font, $"Enemy Hp: = {enemyhpText}", new Vector2(50, 50), Color.White);
 
                 spriteBatch.DrawString(PokeManGame.Font, $"Dmg Taken: = {EnemyPokeMan.tookdmg}", new Vector2(50, 100), Color.White);
 
                 spriteBatch.DrawString(PokeManGame.Font, $"Enemy AttackStat: = {EnemyPokeMan.AttackStat}", new Vector2(50, 150), Color.White);
 
                 spriteBatch.DrawString(PokeManGame.Font, $"enemy speed : {EnemyPokeMan.SpeedStat}", new Vector2(50, 400), Color.White);
+
+#endif
+                if (EnemyPokeMan.tookdmg > 10)
+                {
+                    effective = "very";
+                       
+                }
+                else
+                {
+                    effective = "not";
+                }
 
                 foreach (var component in _components)
                 {
@@ -264,7 +288,7 @@ namespace PokeMan
             }
         }
 
-        #region Stuff
+#region Stuff
 
         private void BattleButtons()
         {
@@ -296,7 +320,7 @@ namespace PokeMan
             // Knappen fight har andre knapper i sig når man klikker på den
             void fightButton_Click(object sender, EventArgs e)
             {
-                Move chosenmove = new Move();
+                chosenmove = new Move();
                 _components = new List<Component>();
                 int i = 0;
                 foreach (Move move in FriendlyPokeMan.moves)
@@ -307,6 +331,9 @@ namespace PokeMan
                         moveButton.Click += (object o, EventArgs e) =>
                         {
                             DoTurn(move);
+                            //chosenmove = move;
+                            chosenmove = move;
+                            
                         };
                         _components.Add(moveButton);
                         i++;
@@ -337,7 +364,7 @@ namespace PokeMan
             }
         }
 
-        #endregion Stuff
+#endregion Stuff
 
         public override void Close()
         {

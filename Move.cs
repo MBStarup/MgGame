@@ -22,6 +22,7 @@ namespace PokeMan
         private int power;
         private int accuracy;
         private XmlDocument doc = new XmlDocument();
+        public string tempmove;
 
         public SpriteAnimation Animation;
 
@@ -52,6 +53,8 @@ namespace PokeMan
 
 
         }
+
+
 
         public void DoMove(PokeMan user, PokeMan enemy)
         {
@@ -100,6 +103,10 @@ namespace PokeMan
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Animation, Vector2.Zero, Color.White);
+        }
+        public override string ToString()
+        {
+            return this.Name;
         }
     }
 }

@@ -13,15 +13,10 @@ namespace PokeMan
         new public static GameServiceContainer Services;
         public GraphicsDeviceManager Graphics;
         private SpriteBatch _spriteBatch;
-
         public static Stack<Scene> Scenes = new Stack<Scene>();
-
-        //private Player mc;
         private Camera cam;
-
         public static SpriteFont Font;
         public static Texture2D ButtonTexture;
-
         public static (int x, int y) SceenSize;
 
         public PokeManGame()
@@ -29,19 +24,23 @@ namespace PokeMan
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
             Services = base.Services;
         }
 
         protected override void Initialize()
         {
             SceenSize = (GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height);
-            //mc = new Player((0, _graphics.PreferredBackBufferHeight));
 
             // window size
             Graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             Graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            //_graphics.IsFullScreen = true;
+
+            Graphics.IsFullScreen = true;
+
+#if DEBUG
+
+            Graphics.IsFullScreen = false;
+#endif
             Graphics.ApplyChanges();
 
             MediaPlayer.Volume = 0.1f;
