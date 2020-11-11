@@ -38,16 +38,20 @@ namespace PokeMan
 
         public override void Update()
         {
+
+           
             if (MediaPlayer.State == MediaState.Stopped)
             {
                 MediaPlayer.Play(song);
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.B)) //temp
+            // player controls in the overworld
+#if DEBUG
+            if (Keyboard.GetState().IsKeyDown(Keys.B)) 
             {
                 StartBattle();
             }
-
+#endif
             if (Keyboard.GetState().IsKeyDown(Keys.Right) && lastState.IsKeyUp(Keys.Right))
             {
                 ApplyMoveInput(new Vector2(SpriteSize, 0));
@@ -229,12 +233,18 @@ namespace PokeMan
 
             return Tiles[x, y, 0] == 1;
         }
-
+        /// <summary>
+        /// Pushes the scenes Battle to the scenes stack
+        /// </summary>
         private void StartBattle()
         {
             PushNewScene(new Battle("Battle1.xml", Player)); //add the player or some shit
         }
 
+        /// <summary>
+        /// Removes top layer of stack and stops music
+        /// </summary>
+        /// <param name="scene"></param>
         private void PushNewScene(Scene scene)
         {
             MediaPlayer.Stop();

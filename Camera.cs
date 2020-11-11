@@ -27,6 +27,7 @@ namespace PokeMan
             return worldCoords - position - offset / 2;
         }
 
+       
         public Vector2 ScreenToWorld(Vector2 screenCoords)
         {
             return screenCoords + position + offset / 2;

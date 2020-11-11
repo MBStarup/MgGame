@@ -36,18 +36,20 @@ namespace PokeMan
             }
         }
 
+        
+        public Player(int size)
+        {
+            rectangle = new Rectangle(PokeManGame.SceenSize.x / 2, PokeManGame.SceenSize.y / 2, size, size);
+            data.Party = new PokeMan[6];
+        }
+
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Animations[animationIndex], rectangle, Color.White);
 
             if (frameCounter++ >= animationLength)
                 animationIndex = baseAnimationIndex;
-        }
-
-        public Player(int size)
-        {
-            rectangle = new Rectangle(PokeManGame.SceenSize.x / 2, PokeManGame.SceenSize.y / 2, size, size);
-            data.Party = new PokeMan[6];
         }
 
         public void LoadAssets(ContentManager contMan, string xmlPath)
@@ -76,6 +78,7 @@ namespace PokeMan
 
         #region Animation
 
+        
         public void PlaySingleAnimation(int index, bool restart = false)
         {
             frameCounter = 0;
@@ -118,6 +121,11 @@ namespace PokeMan
 
         #endregion Animation
 
+        /// <summary>
+        /// Adds a pokeman to the party (a array)
+        /// </summary>
+        /// <param name="pokeMan"></param>
+        /// <returns></returns>
         public bool AddPokeMan(PokeMan pokeMan)
         {
             for (int i = 0; i < data.Party.Length; i++)

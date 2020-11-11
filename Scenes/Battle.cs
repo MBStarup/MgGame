@@ -22,7 +22,6 @@ namespace PokeMan
         private PokeMan FriendlyPokeMan;
         private PokeMan EnemyPokeMan;
         private Texture2D Background;
-        private Textbox textbox;
 
         private Rectangle Friendly;
         private Rectangle Enemy;

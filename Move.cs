@@ -36,7 +36,12 @@ namespace PokeMan
         }
 
 
-
+        /// <summary>
+        /// Makes an attack against "enemy" pokeman with "user" pokeman
+        /// Calc based on https://bulbapedia.bulbagarden.net/wiki/Damage
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="enemy"></param>
         public void DoMove(PokeMan user, PokeMan enemy)
         {
             //enemy.TakeDmg((int)(power * GetElementMultiplier(user.Element, element, enemy.Element)));
@@ -44,6 +49,13 @@ namespace PokeMan
             enemy.TakeDmg((int)(((((((2 * user.lvl) / 5) + 2) * Power * user.AttackStat / enemy.DefenceStat) / 50) + 2) * GetElementMultiplier(user.Element, element, enemy.Element)));
         }
 
+        /// <summary>
+        /// Calculates the dmg based on the users pokemans "attacking" stat, the "move" number and the "defending" pokemans stats
+        /// </summary>
+        /// <param name="attacking"></param>
+        /// <param name="move"></param>
+        /// <param name="defending"></param>
+        /// <returns></returns>
         private static float GetElementMultiplier(ElementEnum attacking, ElementEnum move, ElementEnum defending)
         {
             float result = 1f;
@@ -85,6 +97,11 @@ namespace PokeMan
         {
             spriteBatch.Draw(Animation, Vector2.Zero, Color.White);
         }
+
+        /// <summary>
+        /// Stores this moves name as a string (to display in battle scene after a move)
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return this.Name;
