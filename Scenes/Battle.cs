@@ -21,6 +21,10 @@ namespace PokeMan
         private Texture2D Background;
         private Textbox textbox;
 
+        private string currentMoveName;
+        private ElementEnum currentMoveElement;
+
+
         private Rectangle Friendly;
         private Rectangle Enemy;
         private List<Component> _components;
@@ -120,7 +124,11 @@ namespace PokeMan
                                 CheckPlayerStatus();
                                 if (playerDead == false)
                                 {
+                                    currentMoveName = move.Name;
+                                    currentMoveElement = move.Element;
+                                    
                                     FriendlyPokeMan.Attack(EnemyPokeMan, move);
+
                                     playerHasAttacked = true;
                                 }
                                 else
