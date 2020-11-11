@@ -38,6 +38,11 @@ namespace PokeMan
 
         public override void Update()
         {
+            if (MediaPlayer.State == MediaState.Stopped)
+            {
+                MediaPlayer.Play(song);
+            }
+
             if (Keyboard.GetState().IsKeyDown(Keys.B)) //temp
             {
                 StartBattle();
@@ -165,16 +170,7 @@ namespace PokeMan
                 completedLoadTasks += 1;
             }
             this.song = Content.Load<Song>("Assets/World/Music/bip-bop");
-            MediaPlayer.Play(song);
-            MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
             // Free soundtrack bip-bop from  https://joshua-mclean.itch.io/free-music-pack-5
-        }
-
-        private void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e)
-        {
-            // 0.0f is silent, 1.0f is full volume
-            MediaPlayer.Volume -= 0.1f;
-            MediaPlayer.Play(song);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -225,7 +221,13 @@ namespace PokeMan
 
         private void StartBattle()
         {
-            PokeManGame.Scenes.Push(new Battle("Battle1.xml", Player)); //add the player or some shit
+            PushNewScene(new Battle("Battle1.xml", Player)); //add the player or some shit
+        }
+
+        private void PushNewScene(Scene scene)
+        {
+            MediaPlayer.Stop();
+            PokeManGame.Scenes.Push(scene);
         }
     }
 }

@@ -45,6 +45,8 @@ namespace PokeMan
             //_graphics.IsFullScreen = true;
             Graphics.ApplyChanges();
 
+            MediaPlayer.Volume = 0.1f;
+
             base.Initialize();
         }
 
