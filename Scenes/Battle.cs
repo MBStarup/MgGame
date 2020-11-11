@@ -73,25 +73,7 @@ namespace PokeMan
                 }
             }
 
-            void EnemyAttack()
-            {
-                if (playerHasAttacked == true && playerDead == false && enemyDead == false)
-                {
-                    EnemyPokeMan.Attack(FriendlyPokeMan, move);
 
-                    playerHasAttacked = false;
-                }
-                else if (playerDead == true || enemyDead == true)
-                {
-                    Debug.WriteLine("PlayerDead");
-                    playerHasAttacked = false;
-                }
-                else
-                {
-                    BattleButtons();
-                    playerHasAttacked = false;
-                }
-            }
 
             void BattleButtons()
             {
@@ -133,7 +115,38 @@ namespace PokeMan
                     {
                             
                         Button moveButton = new Button(buttonTexture, font, text: move.Name, position: new Point(1100, 850 + (50 * i)));
-                        moveButton.Click += (object o, EventArgs e) => FriendlyPokeMan.Attack(EnemyPokeMan, move);
+                            moveButton.Click += (object o, EventArgs e) =>
+                            {
+                                CheckPlayerStatus();
+                                if (playerDead == false)
+                                {
+                                    FriendlyPokeMan.Attack(EnemyPokeMan, move);
+                                    playerHasAttacked = true;
+                                }
+                                else
+                                {
+                                    throw new NotImplementedException("You dead");
+                                }
+                                CheckEnemyStatus();
+                                if (playerHasAttacked == true && playerDead == false && enemyDead == false)
+                                {
+                                    EnemyPokeMan.Attack(FriendlyPokeMan, move);
+
+                                    playerHasAttacked = false;
+                                }
+                                else if (playerHasAttacked == true && enemyDead == true)
+                                    {
+                                        throw new NotImplementedException("Enemy dead");
+                                        playerHasAttacked = false;
+                                    }
+                                    else
+                                    {
+                                        BattleButtons();
+                                        playerHasAttacked = false;
+                                    }
+                                
+                                BattleButtons();
+                            };
                         _components.Add(moveButton);
                         i++;
                     }
