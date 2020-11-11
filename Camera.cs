@@ -22,19 +22,26 @@ namespace PokeMan
             offset = new Vector2(-Width, -Height);
         }
 
+        /// <summary>
+        /// Gives World position to screen
+        /// </summary>
+        /// <param name="worldCoords"></param>
+        /// <returns></returns>
         public Vector2 WorldToScreen(Vector2 worldCoords)
         {
             return worldCoords - position - offset / 2;
         }
 
-       
+       /// <summary>
+       /// Gives screen position to world
+       /// </summary>
+       /// <param name="screenCoords"></param>
+       /// <returns></returns>
         public Vector2 ScreenToWorld(Vector2 screenCoords)
         {
             return screenCoords + position + offset / 2;
         }
 
-        public void Update()
-        {
-        }
+       
     }
 }

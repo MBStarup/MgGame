@@ -213,19 +213,35 @@ namespace PokeMan
             }
         }
 
+        /// <summary>
+        /// Gives world coord to tile
+        /// </summary>
+        /// <param name="worldCoords"></param>
+        /// <returns></returns>
         public (int x, int y) WorldToGrid(Vector2 worldCoords)
         {
             return ((int)Math.Round(worldCoords.X / SpriteSize, MidpointRounding.AwayFromZero), (int)Math.Round(worldCoords.Y / SpriteSize, MidpointRounding.AwayFromZero));
         }
 
+        /// <summary>
+        /// gives tile coord to world 
+        /// </summary>
+        /// <param name="gridCoords"></param>
+        /// <returns></returns>
         public Vector2 GridToWorld((int x, int y) gridCoords)
         {
             return new Vector2((gridCoords.x) * SpriteSize - SpriteSize / 2, (gridCoords.y) * SpriteSize - SpriteSize / 2);
         }
 
+        /// <summary>
+        /// Starts a battle if player collides with a tile
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public bool WillColide(int x, int y)
         {
-            if (Tiles[x, y, 0] == 3) //using the vlaue 3 to indicate it's  a battle spot
+            if (Tiles[x, y, 0] == 3) //using the value 3 to indicate it's  a battle spot
             {
                 StartBattle();
                 return false;

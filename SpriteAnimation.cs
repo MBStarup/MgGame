@@ -43,6 +43,10 @@ namespace PokeMan
             return new SpriteAnimation(t);
         }
 
+        /// <summary>
+        /// Gets next frame
+        /// </summary>
+        /// <returns></returns>
         public Texture2D GetNextFrame()
         {
             return Frames[(++currIndex % ((ulong)Frames.Length * InverseSpeed)) / InverseSpeed];

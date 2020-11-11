@@ -80,9 +80,7 @@ namespace PokeMan
 
         protected override void Draw(GameTime gameTime)
         {
-            // ??
             GraphicsDevice.Clear(Color.Black);
-            //
 
             // draws the scene on top of stack
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);

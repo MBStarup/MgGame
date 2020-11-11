@@ -45,7 +45,6 @@ namespace PokeMan
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            // spriteBatch.Begin();
 
             spriteBatch.Draw(background, Vector2.Zero, new Rectangle(0, 0, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.1f);
 
@@ -55,7 +54,6 @@ namespace PokeMan
             {
                 component.Draw(spriteBatch);
             }
-            //spriteBatch.End();
         }
 
         

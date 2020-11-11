@@ -53,7 +53,10 @@ namespace PokeMan
             beginLoad(xmlPath);
             init();
         }
-
+        /// <summary>
+        /// Loads content and shows load time
+        /// </summary>
+        /// <param name="xmlPath"></param>
         private async void beginLoad(string xmlPath)
         {
             loadTasks += 4;//Manually counted at design-time, no time to add cool way to programatically count this, definetly "nice to have"-feature that could be added
@@ -137,7 +140,7 @@ namespace PokeMan
                 {
                     MediaPlayer.Play(song);
                 }
-
+                // moves pokemans into battle 
                 if (pokemanOffset > 0)
                 {
                     enemyRect = new Rectangle(PokeManGame.SceenSize.x / 100 * 55 - pokemanOffset, PokeManGame.SceenSize.y / 100 * 10, PokeManGame.SceenSize.x / 100 * 33, PokeManGame.SceenSize.y / 100 * 33);
@@ -228,6 +231,10 @@ namespace PokeMan
             }
         }
 
+        /// <summary>
+        /// Sets who goes first in battle,what is written and battle logic 
+        /// </summary>
+        /// <param name="move"></param>
         private void doTurn(Move move)
         {
             currentmessage = "";
@@ -263,12 +270,14 @@ namespace PokeMan
             }
         }
 
+        /// <summary>
+        /// Sets the buttons available in battle
+        /// </summary>
         private void init()
         {
-            // De forskellige knapper som spilleren nok skal kunne bruge i kamp scenen
 
-            fightButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: "Fight"/*, position: new Point(1000, 900)*/);
-            escapeButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: "Run"/*, position: new Point(1100, 950)*/);
+            fightButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: "Fight");
+            escapeButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: "Run");
             escapeButton.Click += (object o, EventArgs e) => Close();
             fightButton.Click += (object sender, EventArgs e) =>
             {
@@ -285,6 +294,9 @@ namespace PokeMan
             initMoves();
         }
 
+        /// <summary>
+        /// Loads and creates moves buttons
+        /// </summary>
         private void initMoves() //might need to be called seperate from Init() if we add pokemon switching
         {
             var moves = friendlyPokeMan.moves.Where(a => a != null).ToArray();
@@ -296,7 +308,9 @@ namespace PokeMan
                 moveButtons[i].Click += (object o, EventArgs e) => doTurn(currMove);
             }
         }
-
+        /// <summary>
+        ///  Removes top layer of stack and stops music
+        /// </summary>
         public override void Close()
         {
             MediaPlayer.Stop();
