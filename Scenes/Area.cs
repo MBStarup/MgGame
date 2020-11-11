@@ -164,7 +164,7 @@ namespace PokeMan
                 completedLoadTasks += 1;
             }
             this.song = Content.Load<Song>("Assets/World/Music/bip-bop");
-            MediaPlayer.Play(song);
+           // MediaPlayer.Play(song);
             MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
             // Free soundtrack bip-bop from  https://joshua-mclean.itch.io/free-music-pack-5
 
