@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EnumBuilder;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using System;
@@ -18,6 +19,11 @@ namespace PokeMan
 
         private int completedLoadTasks;
         private int loadTasks = 1; //The setup, corresponds to the completedLoadTasks increment at the bottom of the load method
+
+        private delegate void ToDraw(SpriteBatch spriteBatch);
+
+        private ToDraw toDraw;
+        private int frameCounter;
 
         private PokeMan friendlyPokeMan;
         private PokeMan enemyPokeMan;
@@ -50,16 +56,17 @@ namespace PokeMan
             enemyPokeMan = new PokeMan(new System.Random().Next(1, 4), 5); //Big NO! NO!, hard coded that we have 3 pokemans, should probably be stored in the gameworld data of the area, but so should the path to the sprites probably also, maybe even the textures them self, but we didn't have time for that soooo ¯\_(ツ)_/¯
 
             Content.RootDirectory = "Content";
-            beginLoad(xmlPath);
             init();
+            beginLoad(xmlPath);
         }
+
         /// <summary>
         /// Loads content and shows load time
         /// </summary>
         /// <param name="xmlPath"></param>
         private async void beginLoad(string xmlPath)
         {
-            loadTasks += 4;//Manually counted at design-time, no time to add cool way to programatically count this, definetly "nice to have"-feature that could be added
+            loadTasks += 4 + friendlyPokeMan.moves.Where(a => a != null).Count() + enemyPokeMan.moves.Where(a => a != null).Count();//Manually counted at design-time, no time to add cool way to programatically count this, definetly "nice to have"-feature that could be added
 
             this.song = Content.Load<Song>("Assets/Battle/Music/battlemusic");
             completedLoadTasks += 1;
@@ -124,7 +131,24 @@ namespace PokeMan
 
             LoadedTextures = await LoadAssets<Texture2D>(paths);
             enemyPokeMan.Sprite = LoadedTextures.ToArray();
+
+            var que = new Queue<(SpriteAnimation, Rectangle)>();
+            que.Enqueue((enemyPokeMan.Sprite, new Rectangle(0, 0, PokeManGame.SceenSize.x, PokeManGame.SceenSize.y)));
+            playAnimations(que);
+
             completedLoadTasks += 1;
+
+            foreach (Move m in friendlyPokeMan.moves.Where(a => a != null))
+            {
+                m.LoadAssets(Content);
+                completedLoadTasks += 1;
+            }
+
+            foreach (Move m in enemyPokeMan.moves.Where(a => a != null))
+            {
+                m.LoadAssets(Content);
+                completedLoadTasks += 1;
+            }
 
             completedLoadTasks += 1; //Setup Done!
         }
@@ -140,7 +164,7 @@ namespace PokeMan
                 {
                     MediaPlayer.Play(song);
                 }
-                // moves pokemans into battle 
+                // moves pokemans into battle
                 if (pokemanOffset > 0)
                 {
                     enemyRect = new Rectangle(PokeManGame.SceenSize.x / 100 * 55 - pokemanOffset, PokeManGame.SceenSize.y / 100 * 10, PokeManGame.SceenSize.x / 100 * 33, PokeManGame.SceenSize.y / 100 * 33);
@@ -177,10 +201,11 @@ namespace PokeMan
             }
             else
             {
-                Rectangle temp;
                 Texture2D shadow = Content.Load<Texture2D>("Assets/Battle/Background/shadow");
 
                 spriteBatch.Draw(background, new Rectangle(0, 0, PokeManGame.SceenSize.x, PokeManGame.SceenSize.y), Color.White);
+
+                Rectangle temp;
 
                 temp = friendlyRect;
                 temp.Height = (int)(temp.Height * 0.2);
@@ -228,17 +253,21 @@ namespace PokeMan
                     }
                 }
                 catch (DivideByZeroException e) { } //Doesn't draw if currentButtons.Count == 0
+
+                toDraw(spriteBatch);
             }
         }
 
         /// <summary>
-        /// Sets who goes first in battle,what is written and battle logic 
+        /// Sets who goes first in battle,what is written and battle logic
         /// </summary>
         /// <param name="move"></param>
         private void doTurn(Move move)
         {
             currentmessage = "";
+            var que = new Queue<(SpriteAnimation, Rectangle)>();
             (friendlyPokeMan.SpeedStat >= enemyPokeMan.SpeedStat ? (Action)PlayerFirst : EnemyFirst)();
+            playAnimations(que);
             newButtons.Clear();
             newButtons.Add(fightButton);
             newButtons.Add(escapeButton);
@@ -246,12 +275,14 @@ namespace PokeMan
             void PlayerFirst()
             {
                 friendlyPokeMan.Attack(enemyPokeMan, move);
+                que.Enqueue((move.Animation, enemyRect));
                 if (friendlyPokeMan.Alive && enemyPokeMan.Alive)
                 {
                     currentmessage += $"You used {move} and did {enemyPokeMan.tookdmg} dmg";
                     currentmessage += ", and " + Environment.NewLine;
                     int moveIndex = new System.Random().Next(enemyPokeMan.moves.Where(a => a != null).Count());
                     enemyPokeMan.Attack(friendlyPokeMan, enemyPokeMan.moves[moveIndex]);
+                    que.Enqueue((enemyPokeMan.moves[moveIndex].Animation, friendlyRect));
                     currentmessage += $"Enemy used {enemyPokeMan.moves[moveIndex]} and did {friendlyPokeMan.tookdmg} dmg";
                 }
             }
@@ -260,12 +291,14 @@ namespace PokeMan
             {
                 int moveIndex = new System.Random().Next(enemyPokeMan.moves.Where(a => a != null).Count());
                 enemyPokeMan.Attack(friendlyPokeMan, enemyPokeMan.moves[moveIndex]);
+                que.Enqueue((enemyPokeMan.moves[moveIndex].Animation, friendlyRect));
                 if (friendlyPokeMan.Alive && enemyPokeMan.Alive)
                 {
                     currentmessage += $"Enemy used {enemyPokeMan.moves[moveIndex]} and did {friendlyPokeMan.tookdmg} dmg";
                     currentmessage += ", and " + Environment.NewLine;
                     friendlyPokeMan.Attack(enemyPokeMan, move);
                     currentmessage += $"You used {move} and did {enemyPokeMan.tookdmg} dmg";
+                    que.Enqueue((move.Animation, enemyRect));
                 }
             }
         }
@@ -275,7 +308,6 @@ namespace PokeMan
         /// </summary>
         private void init()
         {
-
             fightButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: "Fight");
             escapeButton = new Button(PokeManGame.ButtonTexture, PokeManGame.Font, text: "Run");
             escapeButton.Click += (object o, EventArgs e) => Close();
@@ -308,6 +340,7 @@ namespace PokeMan
                 moveButtons[i].Click += (object o, EventArgs e) => doTurn(currMove);
             }
         }
+
         /// <summary>
         ///  Removes top layer of stack and stops music
         /// </summary>
@@ -315,6 +348,35 @@ namespace PokeMan
         {
             MediaPlayer.Stop();
             base.Close();
+        }
+
+        private void playAnimations(Queue<(SpriteAnimation, Rectangle)> AnimationDestinationTupleQue)
+        {
+            toDraw = _animDone;
+            void playAnimation(SpriteAnimation animation, Rectangle destination)
+            {
+                frameCounter = 0;
+                animation.Restart();
+                var animationLength = animation.Length * animation.InverseSpeed;
+                toDraw = _animLoop;
+
+                void _animLoop(SpriteBatch spriteBatch)
+                {
+                    spriteBatch.Draw(animation, destination, Color.White);
+
+                    if (frameCounter++ >= animationLength)
+                        toDraw = _animDone;
+                }
+            }
+
+            void _animDone(SpriteBatch spriteBatch)
+            {
+                if (AnimationDestinationTupleQue.Count() > 0)
+                {
+                    var a = AnimationDestinationTupleQue.Dequeue();
+                    playAnimation(a.Item1, a.Item2);
+                }
+            }
         }
     }
 }

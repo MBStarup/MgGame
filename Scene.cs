@@ -13,8 +13,6 @@ namespace PokeMan
 {
     public class Scene : Component
     {
-        protected string xmlPath;
-        protected PokeManGame _game;
         public virtual float LoadAmount { get { return loadAmount; } } //should be atomic, so no need to lock https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/variables#atomicity-of-variable-references
 
         private float loadAmount;
@@ -56,6 +54,7 @@ namespace PokeMan
         public override void Update()
         {
         }
+
         /// <summary>
         ///  Pops the top scene in the stack Scenes
         /// </summary>

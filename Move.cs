@@ -4,18 +4,20 @@ using System;
 using System.Linq;
 using System.Xml;
 using EnumBuilder;
+using Microsoft.Xna.Framework.Content;
 
 namespace PokeMan
 {
     [Serializable]
     public class Move : IDisplayable
     {
+        public int LoadAmount = 0;
+
         private ElementEnum element;
         private string name;
         private int power;
         private int accuracy;
-        private XmlDocument doc = new XmlDocument();
-        public string tempmove;
+        private int id;
 
         public SpriteAnimation Animation;
 
@@ -25,6 +27,8 @@ namespace PokeMan
 
         public Move(int id)
         {
+            this.id = id;
+            XmlDocument doc = new XmlDocument();
             doc.Load("../../../Content/Xml/Moves.xml");
             var node = doc.DocumentElement.SelectSingleNode("/Moves");
             node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == id);
@@ -35,6 +39,27 @@ namespace PokeMan
             element = (ElementEnum)Enum.Parse(typeof(ElementEnum), node.Attributes["element"].Value);
         }
 
+        public void LoadAssets(ContentManager contMan)
+        {
+            //Loads animation sprites based off xml doc
+            XmlDocument doc = new XmlDocument();
+            doc.Load("../../../Content/Xml/Moves.xml");
+
+            var node = doc.DocumentElement.SelectSingleNode("/Moves");
+            node = node.Cast<XmlNode>().First(a => int.Parse(a.Attributes["id"].Value) == id);
+            node = node.SelectSingleNode("Animation");
+
+            int j = 0;
+            var t = new Texture2D[node.ChildNodes.Count];
+
+            foreach (XmlNode m in node.SelectNodes("Frame"))
+            {
+                t[j++] = contMan.Load<Texture2D>($"{node.Attributes["path"].Value}{m.InnerText}");
+            }
+            Animation = new SpriteAnimation(t, uint.Parse(node.Attributes["inverseSpeed"].Value));
+
+            LoadAmount = 1;
+        }
 
         /// <summary>
         /// Makes an attack against "enemy" pokeman with "user" pokeman
