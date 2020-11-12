@@ -13,7 +13,7 @@ using System.Xml;
 
 namespace PokeMan
 {
-    internal class loadContent : Scene
+    internal class Battle : Scene
     {
         new public float LoadAmount { get => (float)completedLoadTasks / loadTasks + base.LoadAmount / loadTasks; }
 
@@ -44,7 +44,7 @@ namespace PokeMan
         private Button fightButton;
         private Button[] moveButtons;
 
-        public loadContent(string xmlPath, Player player)
+        public Battle(string xmlPath, Player player)
         {
             pokemanOffset = PokeManGame.SceenSize.x;
             p = player;

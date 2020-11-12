@@ -41,11 +41,9 @@
 	</ItemGroup>
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
 		<Exec Command="mgcb_builder ./Content/Content.mgcb ./Content/Assets DesktopGL" />
-	</Target>
-	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+
 		<Exec Command="EnumBuilder.exe PlayerAnimationEnums Content/Xml/MainChar.xml /Character/Animations/Animation name" />
-	</Target>
-	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+
 		<Exec Command="EnumBuilder.exe ElementEnum Content/Xml/Elements.xml /Elements/Element name" />
 	</Target>
 </Project>

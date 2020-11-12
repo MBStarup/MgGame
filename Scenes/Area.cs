@@ -38,8 +38,7 @@ namespace PokeMan
 
         public override void Update()
         {
-
-           // plays a song
+            // plays a song
             if (MediaPlayer.State == MediaState.Stopped)
             {
                 MediaPlayer.Play(song);
@@ -47,7 +46,7 @@ namespace PokeMan
 
             // player controls in the overworld
 #if DEBUG
-            if (Keyboard.GetState().IsKeyDown(Keys.B)) 
+            if (Keyboard.GetState().IsKeyDown(Keys.B))
             {
                 StartBattle();
             }
@@ -222,7 +221,7 @@ namespace PokeMan
         }
 
         /// <summary>
-        /// gives tile coord to world 
+        /// gives tile coord to world
         /// </summary>
         /// <param name="gridCoords"></param>
         /// <returns></returns>
@@ -247,12 +246,13 @@ namespace PokeMan
 
             return Tiles[x, y, 0] == 1;
         }
+
         /// <summary>
         /// Pushes the scenes Battle to the scenes stack
         /// </summary>
         private void StartBattle()
         {
-            PushNewScene(new loadContent("Battle1.xml", Player)); //add the player or some shit
+            PushNewScene(new Battle("Battle1.xml", Player)); //add the player or some shit
         }
 
         /// <summary>
