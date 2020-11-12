@@ -24,7 +24,10 @@ namespace PokeMan
         public string Name { get => name; private set => name = value; }
         public int Power { get => power; private set => power = value; }
         public int Accuracy { get => accuracy; private set => accuracy = value; }
-
+        /// <summary>
+        /// Creates a new move for use in battle, using the Moves.XML file
+        /// </summary>
+        /// <param name="id">ID: identifies the specific move that the user wants to use</param>
         public Move(int id)
         {
             this.id = id;
