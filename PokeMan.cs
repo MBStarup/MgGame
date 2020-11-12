@@ -53,7 +53,11 @@ namespace PokeMan
         private XmlDocument movepoolDoc;
 
         public bool Alive => hp > 0;
-
+        /// <summary>
+        /// Generates a new PokeMan, and calculates their stats and moveset
+        /// </summary>
+        /// <param name="id">Id: is used to identify the kind of PokeMan the new PokeMan should be, by finding it in the XML file</param>
+        /// <param name="level">level: Specifies the level of the new Pokeman</param>
         public PokeMan(int id, int level)
         {
             this.id = id;
