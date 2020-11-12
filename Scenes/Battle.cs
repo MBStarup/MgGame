@@ -23,7 +23,6 @@ namespace PokeMan
         private delegate void ToDraw(SpriteBatch spriteBatch);
 
         private ToDraw toDraw;
-        private int frameCounter;
 
         private PokeMan friendlyPokeMan;
         private PokeMan enemyPokeMan;
@@ -355,7 +354,7 @@ namespace PokeMan
             toDraw = _animDone;
             void playAnimation(SpriteAnimation animation, Rectangle destination)
             {
-                frameCounter = 0;
+                int frameCounter = 0;
                 animation.Restart();
                 var animationLength = animation.Length * animation.InverseSpeed;
                 toDraw = _animLoop;
